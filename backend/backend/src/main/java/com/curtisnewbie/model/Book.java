@@ -2,12 +2,16 @@ package com.curtisnewbie.model;
 
 import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
+@Entity
 /** Representation of Book */
 public class Book {
 
+    @Id
     @NotNull
     @Pattern(regexp = "[a-zA-Z\\-]{1,}")
     private String id;
