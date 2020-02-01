@@ -2,6 +2,8 @@ package com.curtisnewbie.util;
 
 import java.util.List;
 
+import javax.annotation.Resource;
+import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -19,9 +21,17 @@ public class BookRepository {
     @PersistenceContext(unitName = "bookStoreDB")
     EntityManager em;
 
+    @Resource
+    private SessionContext sessionCtx;
+
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public void createBook(@NotNull Book book) {
-        em.persist(book);
+        try {
+            em.persist(book);
+        } catch (Exception e) {
+            sessionCtx.setRollbackOnly();
+            throw e;
+        }
     }
 
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
