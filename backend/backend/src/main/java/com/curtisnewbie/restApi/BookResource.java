@@ -45,9 +45,8 @@ public class BookResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createBook(Book book) {
-        // for testing
-        String id;
-        if ((id = book.getId()) != null && !id.isEmpty()) {
+        String id = book.getId();
+        if (id != null && !id.isEmpty()) {
             dbConn.createBook(book);
             return Response.created(
                     UriBuilder.fromPath("http://localhost:8080/api/book/").queryParam("id", book.getId()).build())
