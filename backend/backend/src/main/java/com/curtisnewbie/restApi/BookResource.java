@@ -27,13 +27,19 @@ public class BookResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getBookById(@QueryParam("id") String id) {
-        var book = new Book();
-        book.setTitle("Curtis");
-        book.setId("123-456");
-        if (id.equals(book.getId()))
+        var book = dbConn.getBookById(id);
+        if (book != null)
             return Response.ok(book).build();
         else
             return Response.noContent().build();
+    }
+
+    @GET
+    @Path("all")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAllBooks() {
+        var books = dbConn.getBooks();
+        return Response.ok(books).build();
     }
 
     @POST
@@ -75,11 +81,4 @@ public class BookResource {
             return Response.noContent().build();
     }
 
-    @GET
-    @Path("all")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getAllBooks() {
-        var books = dbConn.getBooks();
-        return Response.ok(books).build();
-    }
 }
