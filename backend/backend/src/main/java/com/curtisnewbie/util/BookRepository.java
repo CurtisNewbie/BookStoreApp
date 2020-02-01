@@ -24,7 +24,7 @@ public class BookRepository {
         em.persist(book);
     }
 
-    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public List<Book> getBooks() {
         TypedQuery<Book> query = em.createQuery("SELECT b FROM Book b", Book.class);
         return query.getResultList();
@@ -37,6 +37,7 @@ public class BookRepository {
      * @return {@code NULL} if not found, else the Book object that contains this
      *         id.
      */
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public Book getBookById(String id) {
         TypedQuery<Book> query = em.createQuery("SELECT b FROM Book b WHERE b.id = :id", Book.class);
         query.setParameter("id", id);
