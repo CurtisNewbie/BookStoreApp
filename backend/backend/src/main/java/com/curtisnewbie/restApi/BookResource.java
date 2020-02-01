@@ -73,8 +73,7 @@ public class BookResource {
     @DELETE
     @Produces(MediaType.TEXT_PLAIN)
     public Response deleteBook(@QueryParam("id") String id) {
-        // for testing
-        if (id != null && !id.isEmpty())
+        if (id != null && !id.isEmpty() && dbConn.removeBookById(id))
             return Response.ok("Book id:" + id + " deleted").build();
         else
             return Response.noContent().build();
