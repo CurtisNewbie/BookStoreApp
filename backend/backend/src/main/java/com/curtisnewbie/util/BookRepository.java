@@ -40,6 +40,19 @@ public class BookRepository {
         return query.getResultList();
     }
 
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public boolean removeBookById(String id) {
+        boolean res;
+        var b = em.find(Book.class, id);
+        if (b != null) {
+            em.remove(b);
+            res = true;
+        } else {
+            res = false;
+        }
+        return res;
+    }
+
     /**
      * Get Book By Id
      * 
