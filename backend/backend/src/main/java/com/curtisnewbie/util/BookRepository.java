@@ -19,7 +19,7 @@ import com.curtisnewbie.model.Book;
 public class BookRepository {
 
     @PersistenceContext(unitName = "bookStoreDB")
-    EntityManager em;
+    private EntityManager em;
 
     @Resource
     private SessionContext sessionCtx;
