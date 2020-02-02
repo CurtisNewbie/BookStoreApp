@@ -21,13 +21,13 @@ import com.curtisnewbie.util.*;
 public class BookResource {
 
     @EJB
-    BookRepository dbConn;
+    BookRepository bookRepo;
 
     // http://localhost:8080/api/book?id=123-456
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getBookById(@QueryParam("id") String id) {
-        var book = dbConn.getBookById(id);
+        var book = bookRepo.getBookById(id);
         if (book != null)
             return Response.ok(book).build();
         else
@@ -38,7 +38,7 @@ public class BookResource {
     @Path("all")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllBooks() {
-        var books = dbConn.getBooks();
+        var books = bookRepo.getBooks();
         return Response.ok(books).build();
     }
 
@@ -47,7 +47,7 @@ public class BookResource {
     public Response createBook(Book book) {
         String id = book.getId();
         if (id != null && !id.isEmpty()) {
-            dbConn.createBook(book);
+            bookRepo.createBook(book);
             return Response.created(
                     UriBuilder.fromPath("http://localhost:8080/api/book/").queryParam("id", book.getId()).build())
                     .build();
@@ -73,7 +73,7 @@ public class BookResource {
     @DELETE
     @Produces(MediaType.TEXT_PLAIN)
     public Response deleteBook(@QueryParam("id") String id) {
-        if (id != null && !id.isEmpty() && dbConn.removeBookById(id))
+        if (id != null && !id.isEmpty() && bookRepo.removeBookById(id))
             return Response.ok("Book id:" + id + " deleted").build();
         else
             return Response.noContent().build();
