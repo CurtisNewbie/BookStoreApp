@@ -8,6 +8,9 @@ import com.curtisnewbie.model.Address;
 import com.curtisnewbie.model.Book;
 import com.curtisnewbie.model.Order;
 
+/**
+ * Data Transfer Object for Order class
+ */
 public class OrderDTO {
 
     private Long orderId;

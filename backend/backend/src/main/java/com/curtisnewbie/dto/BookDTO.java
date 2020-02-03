@@ -4,6 +4,9 @@ import java.util.Date;
 
 import com.curtisnewbie.model.Book;
 
+/**
+ * Data Transfer Object for Book class
+ */
 public class BookDTO {
 
     private String id;
