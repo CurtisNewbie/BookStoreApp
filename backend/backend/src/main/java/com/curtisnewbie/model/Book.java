@@ -2,8 +2,6 @@ package com.curtisnewbie.model;
 
 import java.util.Date;
 import java.util.List;
-
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
