@@ -35,6 +35,7 @@ public class OrderRepository {
             em.persist(order);
         } catch (Exception e) {
             sessionCtx.setRollbackOnly();
+            throw e;
         }
     }
 
