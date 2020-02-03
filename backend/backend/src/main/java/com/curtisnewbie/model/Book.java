@@ -3,10 +3,13 @@ package com.curtisnewbie.model;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotNull;
+
+import com.curtisnewbie.dto.BookDTO;
 
 @Entity
 /** Representation of Book */
@@ -25,6 +28,18 @@ public class Book {
     // Order is the owner of this relationship
     @ManyToMany(mappedBy = "booksOnOrder")
     private List<Order> orders;
+
+    public Book() {
+
+    }
+
+    public Book(BookDTO bookDTO) {
+        this.id = bookDTO.getId();
+        this.title = bookDTO.getTitle();
+        this.author = bookDTO.getAuthor();
+        this.date = bookDTO.getDate();
+        this.content = bookDTO.getContent();
+    }
 
     /**
      * @return the title
