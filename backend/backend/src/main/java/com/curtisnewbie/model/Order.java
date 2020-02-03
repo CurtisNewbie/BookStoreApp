@@ -1,11 +1,15 @@
 package com.curtisnewbie.model;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -30,6 +34,11 @@ public class Order {
     @NotNull
     @Embedded
     private Address address;
+
+    // Order is the owner of the relationship
+    @ManyToMany
+    @JoinTable(name = "book_order", joinColumns = @JoinColumn(name = "order_fk"), inverseJoinColumns = @JoinColumn(name = "book_fk"))
+    private List<Book> booksOnOrder;
 
     /*
      * 
@@ -111,6 +120,20 @@ public class Order {
      */
     public void setAddress(Address address) {
         this.address = address;
+    }
+
+    /**
+     * @return the booksOnOrder
+     */
+    public List<Book> getBooksOnOrder() {
+        return booksOnOrder;
+    }
+
+    /**
+     * @param booksOnOrder the booksOnOrder to set
+     */
+    public void setBooksOnOrder(List<Book> booksOnOrder) {
+        this.booksOnOrder = booksOnOrder;
     }
 
 }

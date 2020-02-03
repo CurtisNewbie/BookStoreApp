@@ -1,9 +1,11 @@
 package com.curtisnewbie.model;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -19,6 +21,10 @@ public class Book {
     private String author;
     private Date date;
     private String content;
+
+    // Order is the owner of this relationship
+    @ManyToMany(mappedBy = "booksOnOrder")
+    private List<Order> orders;
 
     /**
      * @return the title
@@ -88,6 +94,20 @@ public class Book {
      */
     public void setContent(String content) {
         this.content = content;
+    }
+
+    /**
+     * @return the orders
+     */
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    /**
+     * @param orders the orders to set
+     */
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 
 }
