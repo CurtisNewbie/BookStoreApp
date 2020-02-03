@@ -65,23 +65,15 @@ public class BookResource {
         }
     }
 
-    /*
-     * -------------------------------------
-     * 
-     * Not Implemented
-     * 
-     * -------------------------------------
-     */
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response updateBook(BookDTO bookDTO) {
         Book book = new Book(bookDTO);
-        // for testing
-        String id;
-        if ((id = book.getId()) != null && id.equals("123-456")) {
-            book.setTitle("put updated");
-            return Response.ok(book).build();
+        String id = book.getId();
+        if (id != null && !id.isEmpty()) {
+            book = bookRepo.updateBook(book);
+            return Response.ok(new BookDTO(book)).build();
         } else {
             return Response.noContent().build();
         }

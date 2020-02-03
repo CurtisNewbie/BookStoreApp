@@ -64,4 +64,21 @@ public class BookRepository {
     public Book getBookById(String id) {
         return em.find(Book.class, id);
     }
+
+    /**
+     * Update Book in database
+     * 
+     * @param book
+     * @return
+     */
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public Book updateBook(Book book) {
+        try {
+            em.merge(book);
+            return book;
+        } catch (Exception e) {
+            sessionCtx.setRollbackOnly();
+            throw e;
+        }
+    }
 }
