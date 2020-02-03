@@ -1,11 +1,12 @@
 package com.curtisnewbie.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -14,6 +15,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.curtisnewbie.dto.BookDTO;
 import com.curtisnewbie.dto.OrderDTO;
 
 /** Representation of Order */
@@ -52,7 +54,12 @@ public class Order {
         this.lastName = orderDTO.getLastName();
         this.date = orderDTO.getDate();
         this.address = orderDTO.getAddress();
-        this.booksOnOrder = orderDTO.getBooksOnOrder();
+
+        var l = orderDTO.getBooksOnOrder();
+        this.booksOnOrder = new ArrayList<>();
+        for (BookDTO b : l) {
+            this.booksOnOrder.add(new Book(b));
+        }
     }
 
     /*

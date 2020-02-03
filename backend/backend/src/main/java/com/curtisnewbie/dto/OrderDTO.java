@@ -1,5 +1,6 @@
 package com.curtisnewbie.dto;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -14,7 +15,7 @@ public class OrderDTO {
     private String lastName;
     private Date date;
     private Address address;
-    private List<Book> booksOnOrder;
+    private List<BookDTO> booksOnOrder;
 
     public OrderDTO() {
 
@@ -26,7 +27,12 @@ public class OrderDTO {
         this.lastName = order.getLastName();
         this.date = order.getDate();
         this.address = order.getAddress();
-        this.booksOnOrder = order.getBooksOnOrder();
+
+        var l = order.getBooksOnOrder();
+        this.booksOnOrder = new ArrayList<>();
+        for (Book b : l) {
+            this.booksOnOrder.add(new BookDTO(b));
+        }
     }
 
     /**
@@ -102,14 +108,14 @@ public class OrderDTO {
     /**
      * @return the booksOnOrder
      */
-    public List<Book> getBooksOnOrder() {
+    public List<BookDTO> getBooksOnOrder() {
         return booksOnOrder;
     }
 
     /**
      * @param booksOnOrder the booksOnOrder to set
      */
-    public void setBooksOnOrder(List<Book> booksOnOrder) {
+    public void setBooksOnOrder(List<BookDTO> booksOnOrder) {
         this.booksOnOrder = booksOnOrder;
     }
 
