@@ -41,8 +41,8 @@ public class Order {
     private Address address;
 
     // Order is the owner of the relationship
-    @ManyToMany
-    @JoinTable(name = "book_order", joinColumns = @JoinColumn(name = "order_fk"), inverseJoinColumns = @JoinColumn(name = "book_fk"))
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "book_order", joinColumns = @JoinColumn(name = "order_fk", referencedColumnName = "orderId"), inverseJoinColumns = @JoinColumn(name = "book_fk", referencedColumnName = "id"))
     private List<Book> booksOnOrder;
 
     public Order() {
