@@ -62,12 +62,6 @@ public class BookRepository {
      */
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public Book getBookById(String id) {
-        TypedQuery<Book> query = em.createQuery("SELECT b FROM Book b WHERE b.id = :id", Book.class);
-        query.setParameter("id", id);
-        var resList = query.getResultList();
-        Book res = null;
-        if (resList.size() > 0)
-            res = resList.get(0);
-        return res;
+        return em.find(Book.class, id);
     }
 }
