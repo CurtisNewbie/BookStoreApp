@@ -1,6 +1,8 @@
 package com.curtisnewbie.restApi;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
@@ -14,7 +16,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 
+import com.curtisnewbie.dto.OrderDTO;
 import com.curtisnewbie.model.Address;
+import com.curtisnewbie.model.Book;
 import com.curtisnewbie.model.Order;
 import com.curtisnewbie.util.OrderRepository;
 
@@ -22,12 +26,13 @@ import com.curtisnewbie.util.OrderRepository;
 public class OrderResource {
 
     @EJB
-    OrderRepository orderRepo;
+    private OrderRepository orderRepo;
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createOrder(Order order) {
+    public Response createOrder(OrderDTO orderDTO) {
+        Order order = new Order(orderDTO);
         // overwrite date
         order.setDate(new Date());
         orderRepo.createOrder(order);
@@ -41,7 +46,7 @@ public class OrderResource {
     public Response getOrderById(@QueryParam("id") long orderId) {
         var order = orderRepo.getOrderById(orderId);
         if (order != null)
-            return Response.ok(order).build();
+            return Response.ok(new OrderDTO(order)).build();
         else
             return Response.noContent().build();
     }
@@ -49,6 +54,8 @@ public class OrderResource {
     /*
      * ---------------------------------------
      *
+     * dummy data:
+     * 
      * Should be destroyed after front end is implemented
      * 
      * ---------------------------------------
@@ -57,16 +64,20 @@ public class OrderResource {
     @GET
     @Path("dummy")
     public void getDummyOrder() {
-        Order order = new Order();
-        order.setFirstName("Curtis");
-        order.setLastName("Newbie");
-        order.setDate(new Date());
+        Order o = new Order();
+        o.setFirstName("Curtis");
+        o.setLastName("Newbie");
+        o.setDate(new Date());
         Address add = new Address();
         add.setCity("Bourne");
         add.setCounty("county");
         add.setFirstLine("3rd st");
-        order.setAddress(add);
-        orderRepo.createOrder(order);
+        o.setAddress(add);
+        Book book = new Book();
+        book.setId("123-456");
+        o.setBooksOnOrder(new ArrayList<Book>());
+        o.getBooksOnOrder().add(book);
+        orderRepo.createOrder(o);
     }
 
     @GET
@@ -75,7 +86,11 @@ public class OrderResource {
 
     public Response getAllOrders() {
         var list = orderRepo.getAllOrders();
-        return Response.ok(list).build();
+        List<OrderDTO> dtoList = new ArrayList<>();
+        for (Order o : list) {
+            dtoList.add(new OrderDTO(o));
+        }
+        return Response.ok(dtoList).build();
     }
 
     @DELETE
