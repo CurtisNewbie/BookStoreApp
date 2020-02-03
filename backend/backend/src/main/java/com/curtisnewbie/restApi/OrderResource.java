@@ -33,12 +33,17 @@ public class OrderResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response createOrder(OrderDTO orderDTO) {
         Order order = new Order(orderDTO);
-        // overwrite date
-        order.setDate(new Date());
-        orderRepo.createOrder(order);
-        return Response.created(
-                UriBuilder.fromPath("http://localhost:8080/api/order").queryParam("id", order.getOrderId()).build())
-                .build();
+        // has books in order
+        if (order.getBooksOnOrder().size() > 0) {
+            // overwrite date
+            order.setDate(new Date());
+            order = orderRepo.createOrder(order);
+            return Response.created(
+                    UriBuilder.fromPath("http://localhost:8080/api/order").queryParam("id", order.getOrderId()).build())
+                    .build();
+        } else {
+            return Response.noContent().build();
+        }
     }
 
     @GET

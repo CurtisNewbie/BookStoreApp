@@ -30,9 +30,10 @@ public class OrderRepository {
      * @param order
      */
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public void createOrder(@NotNull Order order) {
+    public Order createOrder(@NotNull Order order) {
         try {
             em.persist(order);
+            return order;
         } catch (Exception e) {
             sessionCtx.setRollbackOnly();
             throw e;
