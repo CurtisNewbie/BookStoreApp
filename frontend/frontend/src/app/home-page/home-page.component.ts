@@ -30,7 +30,7 @@ export class HomePageComponent implements OnInit {
         new Date()
       ),
       new HomeNew(
-        "Welcome To the most loved Bookstore ever",
+        "Welcome",
         "Look around and don't buy anything!!!!Look around and don't buy anything!!!!Look around and don't buy anything!!!!Look around and don't buy anything!!!!Look around and don't buy anything!!!!Look around and don't buy anything!!!!Look around and don't buy anything!!!!Look around and don't buy anything!!!!Look around and don't buy anything!!!!Look around and don't buy anything!!!!Look around and don't buy anything!!!!Look around and don't buy anything!!!!Look around and don't buy anything!!!!Look around and don't buy anything!!!!Look around and don't buy anything!!!!Look around and don't buy anything!!!!Look around and don't buy anything!!!!Look around and don't buy anything!!!!",
         new Date()
       )
