@@ -13,7 +13,7 @@ export class CheckoutComponent implements OnInit {
   constructor(private checkoutService: CheckoutService) {}
 
   ngOnInit() {
-    this.busket = this.checkoutService.getBusket();
+    this.getBusket();
   }
 
   /**
@@ -33,5 +33,15 @@ export class CheckoutComponent implements OnInit {
    */
   removeFromBusket(id: string) {
     this.checkoutService.removeFromBusket(id);
+  }
+
+  checkout(): void {
+    alert("You have successfully checkouted");
+    this.checkoutService.clear();
+    this.getBusket();
+  }
+
+  getBusket(): void {
+    this.busket = this.checkoutService.getBusket();
   }
 }

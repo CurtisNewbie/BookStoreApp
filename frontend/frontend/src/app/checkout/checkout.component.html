@@ -5,18 +5,17 @@
 </div>
 
 <div class="container-fluid p-5">
-    <div *ngIf="busket">
-        <h2 class="text-primary">Your Busket: </h2>
-        <div *ngFor="let book of busket; let i = index" class="media">
-            <div class="shadow media-body p-2 m-3">
-                <h2 class="text-info ">{{i + 1}}. "{{book.title}}"</h2>
-                <p class="font-weight-bolder lead"><i>Price:</i>
-                    {{book.price}}</p>
-                <button class="btn btn-primary" (click)="removeFromBusket(book.id)">Remove From Busket</button>
-            </div>
+    <h2 class="text-primary">Your Busket: </h2>
+    <div *ngFor="let book of busket; let i = index" class="media">
+        <div class="shadow media-body p-2 m-3">
+            <h2 class="text-info ">{{i + 1}}. "{{book.title}}"</h2>
+            <p class="font-weight-bolder lead"><i>Price:</i>
+                {{book.price}}</p>
+            <button class="btn btn-primary" (click)="removeFromBusket(book.id)">Remove From Busket</button>
         </div>
-        <div class="container p-4 m-4">
-            <h2 class="text-primary text-right">Total: {{getTotal() | currency: '£'}}</h2>
-        </div>
+    </div>
+    <div class="container p-4 m-4 text-right">
+        <h2 class="text-primary">Total: {{getTotal() | currency: '£'}}</h2>
+        <button class="btn btn-primary" *ngIf="busket.length" (click)="checkout()">Checkout</button>
     </div>
 </div>
