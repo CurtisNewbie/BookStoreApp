@@ -12,6 +12,7 @@
                 <h2 class="text-info ">{{i + 1}}. "{{book.title}}"</h2>
                 <p class="font-weight-bolder lead"><i>Price:</i>
                     {{book.price}}</p>
+                <button class="btn btn-primary" (click)="removeFromBusket(book.id)">Remove From Busket</button>
             </div>
         </div>
         <div class="container p-4 m-4">

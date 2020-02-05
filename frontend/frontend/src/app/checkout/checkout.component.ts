@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Book } from "../model/book";
+import { CheckoutService } from "../checkout.service";
 
 @Component({
   selector: "app-checkout",
@@ -7,28 +8,13 @@ import { Book } from "../model/book";
   styleUrls: ["./checkout.component.css"]
 })
 export class CheckoutComponent implements OnInit {
-  busket: Book[] = [
-    new Book(
-      "123-456",
-      "Learning JavaEE In 10mins",
-      "Somebody",
-      "it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, ",
-      14.5,
-      new Date()
-    ),
-    new Book(
-      "456-123",
-      "Learning JS In 10mins",
-      "NoBody",
-      "it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, ",
-      22.12,
-      new Date()
-    )
-  ];
+  busket: Book[];
 
-  constructor() {}
+  constructor(private checkoutService: CheckoutService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.busket = this.checkoutService.getBusket();
+  }
 
   /**
    * get total price of all Book displayed on current webpage.
@@ -39,5 +25,13 @@ export class CheckoutComponent implements OnInit {
       sum += b.price;
     }
     return sum;
+  }
+
+  /**
+   * Remove book from busket by its id
+   * @param id
+   */
+  removeFromBusket(id: string) {
+    this.checkoutService.removeFromBusket(id);
   }
 }

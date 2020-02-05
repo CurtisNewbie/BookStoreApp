@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Book } from "../model/book";
+import { CheckoutService } from "../checkout.service";
 
 @Component({
   selector: "app-book-detail",
@@ -8,7 +9,7 @@ import { Book } from "../model/book";
 })
 export class BookDetailComponent implements OnInit {
   book: Book;
-  constructor() {}
+  constructor(private checkoutService: CheckoutService) {}
 
   ngOnInit() {
     this.fetchHero();
@@ -23,5 +24,9 @@ export class BookDetailComponent implements OnInit {
       14.5,
       new Date()
     );
+  }
+
+  addToBusket() {
+    this.checkoutService.addToBusket(this.book);
   }
 }
