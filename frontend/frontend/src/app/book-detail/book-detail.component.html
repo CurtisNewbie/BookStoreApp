@@ -13,6 +13,8 @@
                     {{book.author}}</p>
                 <p class="font-weight-bolder lead"><i>Date of Publication:</i>
                     {{book.date.toDateString() | date}}</p>
+                <p class="font-weight-bolder lead"><i>Price:</i>
+                    {{book.price | currency: '£'}}</p>
                 <p class="font-weight-bolder lead"><i>Content Preview:</i></p>
                 <p *ngIf="book.content" class="font-weight-normal">{{book.content}}</p>
                 <button class="btn btn-primary">Add To Bucket</button>
