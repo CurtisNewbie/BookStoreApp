@@ -36,4 +36,11 @@ export class CheckoutService {
   getBusket(): Book[] {
     return this.busket;
   }
+
+  /**
+   * Clear busket
+   */
+  clear(): void {
+    this.busket = [];
+  }
 }
