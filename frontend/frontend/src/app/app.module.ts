@@ -6,9 +6,10 @@ import { NavBarComponent } from "./nav-bar/nav-bar.component";
 import { HomePageComponent } from "./home-page/home-page.component";
 import { BookListComponent } from './book-list/book-list.component';
 import { BookDetailComponent } from './book-detail/book-detail.component';
+import { CheckoutComponent } from './checkout/checkout.component';
 
 @NgModule({
-  declarations: [AppComponent, NavBarComponent, HomePageComponent, BookListComponent, BookDetailComponent],
+  declarations: [AppComponent, NavBarComponent, HomePageComponent, BookListComponent, BookDetailComponent, CheckoutComponent],
   imports: [BrowserModule],
   providers: [],
   bootstrap: [AppComponent]
