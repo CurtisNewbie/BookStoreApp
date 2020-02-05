@@ -8,12 +8,12 @@ import { CheckoutService } from "../checkout.service";
   styleUrls: ["./checkout.component.css"]
 })
 export class CheckoutComponent implements OnInit {
-  busket: Book[];
+  cart: Book[];
 
   constructor(private checkoutService: CheckoutService) {}
 
   ngOnInit() {
-    this.getBusket();
+    this.getCart();
   }
 
   /**
@@ -21,27 +21,27 @@ export class CheckoutComponent implements OnInit {
    */
   getTotal(): number {
     let sum: number = 0;
-    for (let b of this.busket) {
+    for (let b of this.cart) {
       sum += b.price;
     }
     return sum;
   }
 
   /**
-   * Remove book from busket by its id
+   * Remove book from cart by its id
    * @param id
    */
-  removeFromBusket(id: string) {
-    this.checkoutService.removeFromBusket(id);
+  removeFromCart(id: string) {
+    this.checkoutService.removeFromCart(id);
   }
 
   checkout(): void {
     alert("You have successfully checkouted");
     this.checkoutService.clear();
-    this.getBusket();
+    this.getCart();
   }
 
-  getBusket(): void {
-    this.busket = this.checkoutService.getBusket();
+  getCart(): void {
+    this.cart = this.checkoutService.getCart();
   }
 }

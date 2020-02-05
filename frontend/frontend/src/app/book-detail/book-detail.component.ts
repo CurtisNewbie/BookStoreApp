@@ -26,7 +26,7 @@ export class BookDetailComponent implements OnInit {
     );
   }
 
-  addToBusket() {
-    this.checkoutService.addToBusket(this.book);
+  addToCart() {
+    this.checkoutService.addToCart(this.book);
   }
 }
