@@ -8,7 +8,8 @@
     <div *ngIf="books">
         <div *ngFor="let b of books" class="media">
             <div class="shadow media-body p-3 m-5">
-                <h2 class="display-4 text-primary">"{{b.title}}"</h2>
+                <h2 class="display-4 text-primary"><a routerLink="/detail" [queryParams]="{id: b.id}">"{{b.title}}"</a>
+                </h2>
                 <span class="p-3">
                     <p class="font-weight-bolder lead"><i>Author:</i>
                         {{b.author}}</p>

@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { Book } from "../model/book";
 import { CheckoutService } from "../checkout.service";
 import { FetchBookService } from "../fetch-book.service";
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: "app-book-detail",
@@ -12,7 +13,8 @@ export class BookDetailComponent implements OnInit {
   book: Book;
   constructor(
     private checkoutService: CheckoutService,
-    private fetchBookService: FetchBookService
+    private fetchBookService: FetchBookService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
@@ -20,7 +22,8 @@ export class BookDetailComponent implements OnInit {
   }
 
   fetchBook() {
-    this.book = this.fetchBookService.getBookById("123-456");
+    const id: string = this.route.snapshot.queryParamMap.get("id");
+    if (id !== null) this.book = this.fetchBookService.getBookById(id);
   }
 
   addToCart() {
