@@ -6,6 +6,16 @@
 
 <div class="container-fluid p-5">
     <h2 class="text-primary">Your Cart: </h2>
+
+    <div *ngIf="cart.length else emptyNotifi"></div>
+    <ng-template #emptyNotifi>
+        <br>
+        <div class="alert alert-info">
+            <p class="text-center display-4">Oops Your cart is empty, go pick one! :D</p>
+        </div>
+        <br>
+    </ng-template>
+
     <div *ngFor="let book of cart; let i = index" class="media">
         <div class="shadow media-body p-2 m-3">
             <h2 class="text-info ">{{i + 1}}. "{{book.title}}"</h2>
