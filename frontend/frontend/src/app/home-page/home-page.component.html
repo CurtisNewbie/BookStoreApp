@@ -1,0 +1,19 @@
+<div class="jumbotron">
+    <div class="container-fluid">
+        <h1>Home Page - News</h1>
+    </div>
+</div>
+
+<div class="container-fluid p-5">
+    <div *ngIf="news">
+        <div *ngFor="let n of news" class="media">
+            <div class="shadow media-body p-3 m-5">
+                <h2 class="display-4 text-primary">{{n.title}} <span
+                        class="badge badge-secondary">{{n.date.toDateString()}}</span></h2>
+                <span class="p-3">
+                    <p>{{n.content}}</p>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>

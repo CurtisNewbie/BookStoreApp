@@ -1,0 +1,24 @@
+<div class="jumbotron">
+    <div class="container-fluid">
+        <h1>Book Details</h1>
+    </div>
+</div>
+
+<div class="container-fluid p-5">
+    <div class="media">
+        <div class="shadow media-body p-3 m-5">
+            <h2 class="display-4 text-primary">"{{book.title}}"</h2>
+            <span class="p-3">
+                <p class="font-weight-bolder lead"><i>Author:</i>
+                    {{book.author}}</p>
+                <p class="font-weight-bolder lead"><i>Date of Publication:</i>
+                    {{book.date.toDateString() | date}}</p>
+                <p class="font-weight-bolder lead"><i>Price:</i>
+                    {{book.price | currency: '£'}}</p>
+                <p class="font-weight-bolder lead"><i>Content Preview:</i></p>
+                <p *ngIf="book.content" class="font-weight-normal">{{book.content}}</p>
+                <button class="btn btn-primary" (click)="addToCart()">Add To Cart</button>
+            </span>
+        </div>
+    </div>
+</div>
