@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Book } from "../model/book";
 import { CheckoutService } from "../checkout.service";
+import { FetchBookService } from "../fetch-book.service";
 
 @Component({
   selector: "app-book-detail",
@@ -9,21 +10,17 @@ import { CheckoutService } from "../checkout.service";
 })
 export class BookDetailComponent implements OnInit {
   book: Book;
-  constructor(private checkoutService: CheckoutService) {}
+  constructor(
+    private checkoutService: CheckoutService,
+    private fetchBookService: FetchBookService
+  ) {}
 
   ngOnInit() {
     this.fetchBook();
   }
 
   fetchBook() {
-    this.book = new Book(
-      "123-456",
-      "Learning JavaEE In 10mins",
-      "Somebody",
-      "it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, ",
-      14.5,
-      new Date()
-    );
+    this.book = this.fetchBookService.getBookById("123-456");
   }
 
   addToCart() {

@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Book } from "../model/book";
+import { FetchBookService } from "../fetch-book.service";
 
 @Component({
   selector: "app-book-list",
@@ -9,30 +10,13 @@ import { Book } from "../model/book";
 export class BookListComponent implements OnInit {
   books: Book[];
 
-  constructor() {}
+  constructor(private fetchBookService: FetchBookService) {}
 
   ngOnInit() {
     this.fetchBooks();
   }
 
   fetchBooks() {
-    this.books = [
-      new Book(
-        "123-456",
-        "Learning JavaEE In 10mins",
-        "Somebody",
-        "it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, ",
-        14.5,
-        new Date()
-      ),
-      new Book(
-        "456-123",
-        "Learning JS In 10mins",
-        "NoBody",
-        "it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, it is just impossible to learn anything in 10 minutes, ",
-        22.12,
-        new Date()
-      )
-    ];
+    this.books = this.fetchBookService.getAllBooks();
   }
 }
