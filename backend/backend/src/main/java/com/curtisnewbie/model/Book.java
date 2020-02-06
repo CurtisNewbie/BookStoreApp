@@ -2,12 +2,12 @@ package com.curtisnewbie.model;
 
 import java.util.Date;
 import java.util.List;
+
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotNull;
-
-import com.curtisnewbie.dto.BookDTO;
 
 @Entity
 /** Representation of Book */
@@ -25,18 +25,11 @@ public class Book {
 
     // Order is the owner of this relationship
     @ManyToMany(mappedBy = "booksOnOrder")
+    @JsonbTransient
     private List<Order> orders;
 
     public Book() {
 
-    }
-
-    public Book(BookDTO bookDTO) {
-        this.id = bookDTO.getId();
-        this.title = bookDTO.getTitle();
-        this.author = bookDTO.getAuthor();
-        this.date = bookDTO.getDate();
-        this.content = bookDTO.getContent();
     }
 
     /**

@@ -2,7 +2,6 @@ package com.curtisnewbie.restApi;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
@@ -16,7 +15,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 
-import com.curtisnewbie.dto.OrderDTO;
 import com.curtisnewbie.model.Address;
 import com.curtisnewbie.model.Book;
 import com.curtisnewbie.model.Order;
@@ -31,8 +29,7 @@ public class OrderResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createOrder(OrderDTO orderDTO) {
-        Order order = new Order(orderDTO);
+    public Response createOrder(Order order) {
         // has books in order
         if (order.getBooksOnOrder().size() > 0) {
             // overwrite date
@@ -51,7 +48,7 @@ public class OrderResource {
     public Response getOrderById(@QueryParam("id") long orderId) {
         var order = orderRepo.getOrderById(orderId);
         if (order != null)
-            return Response.ok(new OrderDTO(order)).build();
+            return Response.ok(order).build();
         else
             return Response.noContent().build();
     }
@@ -91,11 +88,7 @@ public class OrderResource {
 
     public Response getAllOrders() {
         var list = orderRepo.getAllOrders();
-        List<OrderDTO> dtoList = new ArrayList<>();
-        for (Order o : list) {
-            dtoList.add(new OrderDTO(o));
-        }
-        return Response.ok(dtoList).build();
+        return Response.ok(list).build();
     }
 
     @DELETE

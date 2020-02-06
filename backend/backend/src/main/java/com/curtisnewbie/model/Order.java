@@ -1,6 +1,5 @@
 package com.curtisnewbie.model;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -14,9 +13,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-
-import com.curtisnewbie.dto.BookDTO;
-import com.curtisnewbie.dto.OrderDTO;
 
 /** Representation of Order */
 @Entity
@@ -46,20 +42,6 @@ public class Order {
     private List<Book> booksOnOrder;
 
     public Order() {
-    }
-
-    public Order(OrderDTO orderDTO) {
-        this.orderId = orderDTO.getOrderId();
-        this.firstName = orderDTO.getFirstName();
-        this.lastName = orderDTO.getLastName();
-        this.date = orderDTO.getDate();
-        this.address = orderDTO.getAddress();
-
-        var l = orderDTO.getBooksOnOrder();
-        this.booksOnOrder = new ArrayList<>();
-        for (BookDTO b : l) {
-            this.booksOnOrder.add(new Book(b));
-        }
     }
 
     /**
