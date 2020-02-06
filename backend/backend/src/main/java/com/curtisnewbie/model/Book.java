@@ -15,11 +15,11 @@ public class Book {
 
     @Id
     private String id;
-
     @NotNull
     private String title;
-
     private String author;
+    @NotNull
+    private double price;
     private Date date;
     private String content;
 
@@ -116,4 +116,17 @@ public class Book {
         this.orders = orders;
     }
 
+    /**
+     * @return the price
+     */
+    public double getPrice() {
+        return price;
+    }
+
+    /**
+     * @param price the price to set
+     */
+    public void setPrice(double price) {
+        this.price = price;
+    }
 }
