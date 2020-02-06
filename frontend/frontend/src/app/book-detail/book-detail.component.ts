@@ -12,10 +12,10 @@ export class BookDetailComponent implements OnInit {
   constructor(private checkoutService: CheckoutService) {}
 
   ngOnInit() {
-    this.fetchHero();
+    this.fetchBook();
   }
 
-  fetchHero() {
+  fetchBook() {
     this.book = new Book(
       "123-456",
       "Learning JavaEE In 10mins",
