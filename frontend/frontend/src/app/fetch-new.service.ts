@@ -8,11 +8,13 @@ export class FetchNewService {
   // dummy data
   readonly NEWS_DEMO = [
     new HomeNew(
+      1,
       "Sale!!!!",
       "Today is a good day, we are gonna provide 100% discount, everything is for free!!!!!!! Pog!!!!Today is a good day, we are gonna provide 100% discount, everything is for free!!!!!!! Pog!!!!Today is a good day, we are gonna provide 100% discount, everything is for free!!!!!!! Pog!!!!Today is a good day, we are gonna provide 100% discount, everything is for free!!!!!!! Pog!!!!Today is a good day, we are gonna provide 100% discount, everything is for free!!!!!!! Pog!!!!Today is a good day, we are gonna provide 100% discount, everything is for free!!!!!!! Pog!!!!Today is a good day, we are gonna provide 100% discount, everything is for free!!!!!!! Pog!!!!Today is a good day, we are gonna provide 100% discount, everything is for free!!!!!!! Pog!!!!Today is a good day, we are gonna provide 100% discount, everything is for free!!!!!!! Pog!!!!",
       new Date()
     ),
     new HomeNew(
+      2,
       "Welcome",
       "Look around and don't buy anything!!!!Look around and don't buy anything!!!!Look around and don't buy anything!!!!Look around and don't buy anything!!!!Look around and don't buy anything!!!!Look around and don't buy anything!!!!Look around and don't buy anything!!!!Look around and don't buy anything!!!!Look around and don't buy anything!!!!Look around and don't buy anything!!!!Look around and don't buy anything!!!!Look around and don't buy anything!!!!Look around and don't buy anything!!!!Look around and don't buy anything!!!!Look around and don't buy anything!!!!Look around and don't buy anything!!!!Look around and don't buy anything!!!!Look around and don't buy anything!!!!",
       new Date()
