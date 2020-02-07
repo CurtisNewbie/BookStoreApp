@@ -1,7 +1,8 @@
 package com.curtisnewbie.model;
 
-import java.util.Date;
+import java.time.LocalDate;
 
+import javax.json.bind.annotation.JsonbDateFormat;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
@@ -19,7 +20,8 @@ public class HomeNew {
     private String content;
 
     @NotNull
-    private Date date;
+    @JsonbDateFormat(value = "yyyy-MM-dd")
+    private LocalDate date;
 
     /**
     * 
@@ -72,14 +74,14 @@ public class HomeNew {
     /**
      * @return the date
      */
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
     /**
      * @param date the date to set
      */
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 }
