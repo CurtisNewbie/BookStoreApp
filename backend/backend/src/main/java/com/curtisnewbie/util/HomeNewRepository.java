@@ -36,7 +36,7 @@ public class HomeNewRepository {
 
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public List<HomeNew> getHomeNews() {
-        TypedQuery<HomeNew> query = em.createQuery("SELECT h FRON HomeNew h", HomeNew.class);
+        TypedQuery<HomeNew> query = em.createQuery("SELECT h FROM HomeNew h", HomeNew.class);
         return query.getResultList();
     }
 
