@@ -1,8 +1,9 @@
 package com.curtisnewbie.model;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
+import javax.json.bind.annotation.JsonbDateFormat;
 import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -20,7 +21,8 @@ public class Book {
     private String author;
     @NotNull
     private double price;
-    private Date date;
+    @JsonbDateFormat(value = "yyyy-MM-dd")
+    private LocalDate date;
     private String content;
 
     // Order is the owner of this relationship
@@ -77,14 +79,14 @@ public class Book {
     /**
      * @return the date
      */
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
     /**
      * @param date the date to set
      */
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
