@@ -20,11 +20,7 @@ export class CheckoutComponent implements OnInit {
    * get total price of all Book displayed on current webpage.
    */
   getTotal(): number {
-    let sum: number = 0;
-    for (let b of this.cart) {
-      sum += b.price;
-    }
-    return sum;
+    return this.checkoutService.getTotal();
   }
 
   /**

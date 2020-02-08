@@ -43,4 +43,15 @@ export class CheckoutService {
   clear(): void {
     this.cart = [];
   }
+
+  /**
+   * Get total price of the cart
+   */
+  getTotal(): number {
+    let sum: number = 0;
+    for (let b of this.cart) {
+      sum += b.price;
+    }
+    return sum;
+  }
 }
