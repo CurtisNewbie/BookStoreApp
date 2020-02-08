@@ -18,7 +18,7 @@ export class FetchBookService {
   }
 
   fetchBook() {
-    console.log("FetchBook Service...fetching...");
+    console.log("[fetch-book.service] - fetching books...");
     let obs = this.http.get(this.GET_ALL_BOOKS_URL);
     obs.subscribe(
       (books: BEBook[]) => {
