@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from "@angular/core";
 import { CheckoutService } from "../checkout.service";
 import { Book } from "../model/book";
 import { Router } from "@angular/router";
+import { Delivery } from "../model/delivery";
 
 @Component({
   selector: "app-order-confirm",
@@ -20,9 +21,17 @@ export class OrderConfirmComponent implements OnInit {
   readonly THREE_TO_FIVE_DAYS = 3;
   readonly ONE_WEEK = 2.2;
 
-  deliveryPrice: number;
   booksPrice: number;
+  deliveryPrice: number;
   cart: Book[];
+  deliveryAdd: Delivery = {
+    city: "",
+    county: "",
+    firstLine: "",
+    secondLine: "",
+    postcode: ""
+  };
+
   constructor(
     private checkoutService: CheckoutService,
     private router: Router
@@ -39,6 +48,7 @@ export class OrderConfirmComponent implements OnInit {
     send order to backend via rest
      */
     alert("Done! your order has been sent to the server");
+    console.log(this.deliveryAdd);
     // redirect to the home-page component
     this.router.navigateByUrl("/home");
   }

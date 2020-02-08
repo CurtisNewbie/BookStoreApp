@@ -39,10 +39,41 @@
             </div>
         </div>
     </div>
+
+    <div class="pt-3">
+        <h2 class="text-primary">Address:</h2>
+
+        <div class="form-group">
+            <label for="addOne">Address 1</label>
+            <input type="text" class="form-control" placeholder="Enter first line address" id="addOne"
+                [(ngModel)]="deliveryAdd.firstLine">
+        </div>
+        <div class="form-group">
+            <label for="addTwo">Address 2</label>
+            <input type="text" class="form-control" placeholder="Enter second line address" id="addTwo"
+                [(ngModel)]="deliveryAdd.secondLine">
+        </div>
+        <div class="form-group">
+            <label for="city">City</label>
+            <input type="text" class="form-control" placeholder="Enter city" id="city" [(ngModel)]="deliveryAdd.city">
+        </div>
+        <div class="form-group">
+            <label for="county">County</label>
+            <input type="text" class="form-control" placeholder="Enter county" id="county"
+                [(ngModel)]="deliveryAdd.county">
+        </div>
+        <div class="form-group">
+            <label for="postcode">Postcode</label>
+            <input type="text" class="form-control" placeholder="Enter postcode" id="postcode"
+                [(ngModel)]="deliveryAdd.postcode">
+        </div>
+    </div>
     <div class=" container p-4 m-4 text-right">
         <h2 class="text-primary">Total:
             {{deliveryPrice !== undefined ? deliveryPrice + booksPrice : booksPrice | currency: '£'}}
         </h2>
-        <button class="btn btn-primary" *ngIf="cart.length && deliveryPrice" (click)="confirmOrder()">Confirm</button>
+        <button class="btn btn-primary"
+            *ngIf="cart.length && deliveryPrice && deliveryAdd.firstLine && deliveryAdd.city && deliveryAdd.county && deliveryAdd.postcode"
+            (click)="confirmOrder()">Confirm</button>
     </div>
 </div>
