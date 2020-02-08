@@ -41,7 +41,6 @@ export class FetchNewService {
             )
           );
         }
-        console.log(homeNews);
       },
       (error: HttpErrorResponse) => {
         // log error msg in console
