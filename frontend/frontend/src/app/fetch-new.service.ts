@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HomeNew } from "./model/home-new";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 
 @Injectable({
   providedIn: "root"
@@ -24,23 +24,30 @@ export class FetchNewService {
    */
   fetchNews() {
     console.log("[fetch-new.service] - fetching news...");
-    let obs = this.http.get<BEHomeNew[]>(this.GET_ALL_NEWS_URL);
-    obs.subscribe(homeNews => {
-      for (let o of homeNews) {
-        let hn = new HomeNew(
-          o.id,
-          o.title,
-          o.content,
-          new Date(
-            parseInt(o.date.substring(0, 4)),
-            parseInt(o.date.substring(5, 7)),
-            parseInt(o.date.substring(8))
-          )
-        );
-        this.news.push(hn);
+    let obs = this.http.get(this.GET_ALL_NEWS_URL);
+    obs.subscribe(
+      (homeNews: BEHomeNew[]) => {
+        for (let o of homeNews) {
+          this.news.push(
+            new HomeNew(
+              o.id,
+              o.title,
+              o.content,
+              new Date(
+                parseInt(o.date.substring(0, 4)),
+                parseInt(o.date.substring(5, 7)),
+                parseInt(o.date.substring(8))
+              )
+            )
+          );
+        }
+        console.log(homeNews);
+      },
+      (error: HttpErrorResponse) => {
+        // log error msg in console
+        console.error(error);
       }
-      console.log(homeNews);
-    });
+    );
   }
 
   /**
@@ -52,7 +59,7 @@ export class FetchNewService {
 }
 
 /**
- * Modelling the JSON object fetched from backend
+ * Modelling the HomeNew JSON object fetched from backend
  */
 interface BEHomeNew {
   content: string;
