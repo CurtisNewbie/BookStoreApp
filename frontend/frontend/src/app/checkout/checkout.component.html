@@ -25,7 +25,7 @@
         </div>
     </div>
     <div class="container p-4 m-4 text-right">
-        <h2 class="text-primary">Total: {{getTotal() | currency: '£'}}</h2>
-        <button class="btn btn-primary" *ngIf="cart.length" (click)="checkout()">Checkout</button>
+        <h2 class="text-primary" *ngIf="cart.length">Total: {{getTotal() | currency: '£'}} (excl. delivery)</h2>
+        <button class="btn btn-primary" *ngIf="cart.length" routerLink="/order">Checkout</button>
     </div>
 </div>

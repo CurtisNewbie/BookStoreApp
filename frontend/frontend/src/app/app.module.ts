@@ -9,6 +9,7 @@ import { BookListComponent } from "./book-list/book-list.component";
 import { BookDetailComponent } from "./book-detail/book-detail.component";
 import { CheckoutComponent } from "./checkout/checkout.component";
 import { AppRoutingModule } from "./app-routing.module";
+import { OrderConfirmComponent } from "./order-confirm/order-confirm.component";
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { AppRoutingModule } from "./app-routing.module";
     HomePageComponent,
     BookListComponent,
     BookDetailComponent,
-    CheckoutComponent
+    CheckoutComponent,
+    OrderConfirmComponent
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule],
   providers: [],

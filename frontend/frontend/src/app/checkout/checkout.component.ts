@@ -31,12 +31,6 @@ export class CheckoutComponent implements OnInit {
     this.checkoutService.removeFromCart(id);
   }
 
-  checkout(): void {
-    alert("You have successfully checkouted");
-    this.checkoutService.clear();
-    this.getCart();
-  }
-
   getCart(): void {
     this.cart = this.checkoutService.getCart();
   }

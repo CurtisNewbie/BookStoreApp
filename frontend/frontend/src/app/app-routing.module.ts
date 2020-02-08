@@ -4,6 +4,7 @@ import { HomePageComponent } from "./home-page/home-page.component";
 import { BookListComponent } from "./book-list/book-list.component";
 import { BookDetailComponent } from "./book-detail/book-detail.component";
 import { CheckoutComponent } from "./checkout/checkout.component";
+import { OrderConfirmComponent } from "./order-confirm/order-confirm.component";
 
 const routes: Routes = [
   { path: "", redirectTo: "home", pathMatch: "full" },
@@ -11,7 +12,8 @@ const routes: Routes = [
   { path: "list", component: BookListComponent },
   // for detail,  query param : "id"
   { path: "detail", component: BookDetailComponent },
-  { path: "checkout", component: CheckoutComponent }
+  { path: "checkout", component: CheckoutComponent },
+  { path: "order", component: OrderConfirmComponent }
 ];
 
 @NgModule({
