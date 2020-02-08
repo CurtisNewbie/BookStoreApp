@@ -1,6 +1,6 @@
 package com.curtisnewbie.model;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.Embedded;
@@ -30,7 +30,7 @@ public class Order {
     private String lastName;
 
     @NotNull
-    private Date date;
+    private LocalDate date;
 
     @NotNull
     @Embedded
@@ -89,14 +89,14 @@ public class Order {
     /**
      * @return the date
      */
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
     /**
      * @param date the date to set
      */
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 

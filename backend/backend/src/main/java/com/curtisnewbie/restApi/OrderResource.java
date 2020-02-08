@@ -1,7 +1,7 @@
 package com.curtisnewbie.restApi;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
@@ -33,7 +33,7 @@ public class OrderResource {
         // has books in order
         if (order.getBooksOnOrder().size() > 0) {
             // overwrite date
-            order.setDate(new Date());
+            order.setDate(LocalDate.now());
             order = orderRepo.createOrder(order);
             return Response.created(
                     UriBuilder.fromPath("http://localhost:8080/api/order").queryParam("id", order.getOrderId()).build())
@@ -69,7 +69,7 @@ public class OrderResource {
         Order o = new Order();
         o.setFirstName("Curtis");
         o.setLastName("Newbie");
-        o.setDate(new Date());
+        o.setDate(LocalDate.now());
         Address add = new Address();
         add.setCity("Bourne");
         add.setCounty("county");
