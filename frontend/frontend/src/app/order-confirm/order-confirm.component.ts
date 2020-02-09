@@ -4,6 +4,7 @@ import { Book } from "../model/book";
 import { Router } from "@angular/router";
 import { Address } from "../model/address";
 import { Contact } from "../model/contact";
+import { OrderService } from "../order.service";
 
 @Component({
   selector: "app-order-confirm",
@@ -39,7 +40,8 @@ export class OrderConfirmComponent implements OnInit {
 
   constructor(
     private checkoutService: CheckoutService,
-    private router: Router
+    private router: Router,
+    private orderService: OrderService
   ) {}
 
   ngOnInit() {
@@ -47,13 +49,20 @@ export class OrderConfirmComponent implements OnInit {
     this.booksPrice = this.checkoutService.getTotal();
   }
 
-  confirmOrder() {
+  sendOrder() {
     this.checkoutService.clear();
-    /*
-    send order to backend via rest
-     */
-    alert("Done! your order has been sent to the server");
-    console.log(this.deliveryAdd, this.contact);
+    // remove unneeded information
+    let idOfBooks: { id: string }[] = [];
+    for (let b of this.cart) {
+      idOfBooks.push({ id: b.id });
+    }
+    //send order to backend via rest
+    this.orderService.sendOrder({
+      address: this.deliveryAdd,
+      booksOnOrder: idOfBooks,
+      firstName: this.contact.firstName,
+      lastName: this.contact.lastName
+    });
     // redirect to the home-page component
     this.router.navigateByUrl("/home");
   }
