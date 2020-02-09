@@ -66,4 +66,20 @@ export class OrderConfirmComponent implements OnInit {
   selectRadioButton(n: number): void {
     this.deliveryPrice = n;
   }
+
+  /** Check whether all requred inputs are completed properly */
+  isComplete(): boolean {
+    if (
+      this.cart.length &&
+      this.deliveryPrice &&
+      this.deliveryAdd.firstLine &&
+      this.deliveryAdd.city &&
+      this.deliveryAdd.county &&
+      this.deliveryAdd.postcode &&
+      this.contact.firstName &&
+      this.contact.lastName
+    )
+      return true;
+    else return false;
+  }
 }

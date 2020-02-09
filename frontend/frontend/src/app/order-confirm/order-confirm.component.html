@@ -85,8 +85,6 @@
         <h2 class="text-primary">Total:
             {{deliveryPrice !== undefined ? deliveryPrice + booksPrice : booksPrice | currency: '£'}}
         </h2>
-        <button class="btn btn-primary"
-            *ngIf="cart.length && deliveryPrice && deliveryAdd.firstLine && deliveryAdd.city && deliveryAdd.county && deliveryAdd.postcode"
-            (click)="confirmOrder()">Confirm</button>
+        <button class="btn btn-primary" *ngIf="isComplete()" (click)="confirmOrder()">Confirm</button>
     </div>
 </div>
