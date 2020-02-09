@@ -17,6 +17,7 @@ import javax.ws.rs.core.UriBuilder;
 
 import com.curtisnewbie.model.Address;
 import com.curtisnewbie.model.Book;
+import com.curtisnewbie.model.BookOrder;
 import com.curtisnewbie.model.Order;
 import com.curtisnewbie.util.OrderRepository;
 
@@ -74,10 +75,32 @@ public class OrderResource {
         add.setCounty("county");
         add.setFirstLine("3rd st");
         o.setAddress(add);
-        Book book = new Book();
-        book.setId("123-456");
-        o.setBooksOnOrder(new ArrayList<Book>());
-        o.getBooksOnOrder().add(book);
+        Book bkOne = new Book();
+        bkOne.setId("1");
+        Book bkTwo = new Book();
+        bkTwo.setId("2");
+
+        BookOrder bookOrder = new BookOrder();
+        bookOrder.setAmount(2);
+        bookOrder.setBook(bkOne);
+        bookOrder.setOrder(o);
+
+        BookOrder bookOrderTwo = new BookOrder();
+        bookOrderTwo.setAmount(100);
+        bookOrderTwo.setBook(bkTwo);
+        bookOrderTwo.setOrder(o);
+
+        var ol = new ArrayList<BookOrder>();
+        ol.add(bookOrderTwo);
+        ol.add(bookOrder);
+        o.setBooksOnOrder(ol);
+
+        var l1 = new ArrayList<BookOrder>();
+        l1.add(bookOrder);
+        bkOne.setOrders(l1);
+        var l2 = new ArrayList<BookOrder>();
+        l2.add(bookOrder);
+        bkTwo.setOrders(l2);
         orderRepo.createOrder(o);
     }
 

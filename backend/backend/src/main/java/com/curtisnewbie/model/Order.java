@@ -3,14 +3,13 @@ package com.curtisnewbie.model;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -36,10 +35,8 @@ public class Order {
     @Embedded
     private Address address;
 
-    // Order is the owner of the relationship
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "book_order", joinColumns = @JoinColumn(name = "order_fk", referencedColumnName = "orderId"), inverseJoinColumns = @JoinColumn(name = "book_fk", referencedColumnName = "id"))
-    private List<Book> booksOnOrder;
+    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<BookOrder> booksOnOrder;
 
     public Order() {
     }
@@ -117,14 +114,14 @@ public class Order {
     /**
      * @return the booksOnOrder
      */
-    public List<Book> getBooksOnOrder() {
+    public List<BookOrder> getBooksOnOrder() {
         return booksOnOrder;
     }
 
     /**
      * @param booksOnOrder the booksOnOrder to set
      */
-    public void setBooksOnOrder(List<Book> booksOnOrder) {
+    public void setBooksOnOrder(List<BookOrder> booksOnOrder) {
         this.booksOnOrder = booksOnOrder;
     }
 

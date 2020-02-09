@@ -6,8 +6,9 @@ import java.util.List;
 import javax.json.bind.annotation.JsonbDateFormat;
 import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -25,10 +26,9 @@ public class Book {
     private LocalDate date;
     private String content;
 
-    // Order is the owner of this relationship
-    @ManyToMany(mappedBy = "booksOnOrder")
+    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY)
     @JsonbTransient
-    private List<Order> orders;
+    private List<BookOrder> orders;
 
     public Book() {
 
@@ -107,14 +107,14 @@ public class Book {
     /**
      * @return the orders
      */
-    public List<Order> getOrders() {
+    public List<BookOrder> getOrders() {
         return orders;
     }
 
     /**
      * @param orders the orders to set
      */
-    public void setOrders(List<Order> orders) {
+    public void setOrders(List<BookOrder> orders) {
         this.orders = orders;
     }
 
