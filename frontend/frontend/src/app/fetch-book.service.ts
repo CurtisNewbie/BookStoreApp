@@ -34,7 +34,7 @@ export class FetchBookService {
                 ? new Date(
                     parseInt(b.date.substring(0, 4)),
                     parseInt(b.date.substring(5, 7)) - 1,
-                    parseInt(b.date.substring(8))
+                    parseInt(b.date.substring(8, 10))
                   )
                 : null
             )
