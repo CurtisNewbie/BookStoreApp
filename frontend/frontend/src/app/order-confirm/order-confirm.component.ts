@@ -3,6 +3,7 @@ import { CheckoutService } from "../checkout.service";
 import { Book } from "../model/book";
 import { Router } from "@angular/router";
 import { Address } from "../model/address";
+import { Contact } from "../model/contact";
 
 @Component({
   selector: "app-order-confirm",
@@ -31,6 +32,10 @@ export class OrderConfirmComponent implements OnInit {
     secondLine: "",
     postcode: ""
   };
+  contact: Contact = {
+    firstName: "",
+    lastName: ""
+  };
 
   constructor(
     private checkoutService: CheckoutService,
@@ -48,7 +53,7 @@ export class OrderConfirmComponent implements OnInit {
     send order to backend via rest
      */
     alert("Done! your order has been sent to the server");
-    console.log(this.deliveryAdd);
+    console.log(this.deliveryAdd, this.contact);
     // redirect to the home-page component
     this.router.navigateByUrl("/home");
   }
