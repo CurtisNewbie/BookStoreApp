@@ -23,13 +23,14 @@ export class FetchBookService {
     obs.subscribe(
       (books: BEBook[]) => {
         for (let b of books) {
-          this.books.push(
-            new Book(
-              b.id,
-              b.title,
-              b.author,
-              b.content,
-              b.price,
+          // push Book object
+          this.books.push({
+            id: b.id,
+            title: b.title,
+            author: b.author,
+            content: b.content,
+            price: b.price,
+            date:
               b.date !== undefined
                 ? new Date(
                     parseInt(b.date.substring(0, 4)),
@@ -37,8 +38,7 @@ export class FetchBookService {
                     parseInt(b.date.substring(8, 10))
                   )
                 : null
-            )
-          );
+          });
         }
       },
       (error: HttpErrorResponse) => {
