@@ -41,9 +41,10 @@
     </div>
 
     <div class="pt-3">
-        <h2 class="text-primary">Address:</h2>
+        <h2 class="text-primary">Address: <span style="font-size: 50%">(<span style="color: brown;">*</span>
+                required)</span></h2>
         <div class="form-group">
-            <label for="addOne">Address 1</label>
+            <label for="addOne"><span style="color: brown;">*</span> Address 1</label>
             <input type="text" class="form-control" placeholder="Enter first line address" id="addOne"
                 [(ngModel)]="deliveryAdd.firstLine">
         </div>
@@ -53,30 +54,31 @@
                 [(ngModel)]="deliveryAdd.secondLine">
         </div>
         <div class="form-group">
-            <label for="city">City</label>
+            <label for="city"><span style="color: brown;">*</span> City</label>
             <input type="text" class="form-control" placeholder="Enter city" id="city" [(ngModel)]="deliveryAdd.city">
         </div>
         <div class="form-group">
-            <label for="county">County</label>
+            <label for="county"><span style="color: brown;">*</span> County</label>
             <input type="text" class="form-control" placeholder="Enter county" id="county"
                 [(ngModel)]="deliveryAdd.county">
         </div>
         <div class="form-group">
-            <label for="postcode">Postcode</label>
+            <label for="postcode"><span style="color: brown;">*</span> Postcode</label>
             <input type="text" class="form-control" placeholder="Enter postcode" id="postcode"
                 [(ngModel)]="deliveryAdd.postcode">
         </div>
     </div>
 
     <div class="pt-3">
-        <h2 class="text-primary">Contact:</h2>
+        <h2 class="text-primary">Contact: <span style="font-size: 50%">(<span style="color: brown;">*</span>
+                required)</span></h2>
         <div class="form-group">
-            <label for="firstName">firstName</label>
+            <label for="firstName"><span style="color: brown;">*</span> First Name</label>
             <input type="text" class="form-control" placeholder="Enter first name" id="firstName"
                 [(ngModel)]="contact.firstName">
         </div>
         <div class="form-group">
-            <label for="lastName">lastName</label>
+            <label for="lastName"><span style="color: brown;">*</span> Last Name</label>
             <input type="text" class="form-control" placeholder="Enter last name" id="lastName"
                 [(ngModel)]="contact.lastName">
         </div>
