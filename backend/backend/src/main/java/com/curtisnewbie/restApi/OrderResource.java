@@ -28,7 +28,6 @@ public class OrderResource {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
     public Response createOrder(Order order) {
         // has books in order
         if (order.getBooksOnOrder().size() > 0) {
