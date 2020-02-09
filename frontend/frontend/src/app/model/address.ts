@@ -1,4 +1,4 @@
-export interface Delivery {
+export interface Address {
   firstLine: string;
   secondLine: string;
   city: string;

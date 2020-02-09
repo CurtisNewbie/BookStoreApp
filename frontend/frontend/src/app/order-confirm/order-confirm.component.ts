@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from "@angular/core";
 import { CheckoutService } from "../checkout.service";
 import { Book } from "../model/book";
 import { Router } from "@angular/router";
-import { Delivery } from "../model/delivery";
+import { Address } from "../model/address";
 
 @Component({
   selector: "app-order-confirm",
@@ -24,7 +24,7 @@ export class OrderConfirmComponent implements OnInit {
   booksPrice: number;
   deliveryPrice: number;
   cart: Book[];
-  deliveryAdd: Delivery = {
+  deliveryAdd: Address = {
     city: "",
     county: "",
     firstLine: "",
