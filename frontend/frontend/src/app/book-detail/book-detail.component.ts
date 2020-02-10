@@ -19,6 +19,9 @@ export class BookDetailComponent implements OnInit {
 
   ngOnInit() {
     this.fetchBook();
+    // // demo data
+    // this.book.img =
+    //   "https://images-na.ssl-images-amazon.com/images/I/51vJRPD1sxL._SX385_BO1,204,203,200_.jpg";
   }
 
   fetchBook() {

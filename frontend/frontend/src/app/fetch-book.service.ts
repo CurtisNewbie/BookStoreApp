@@ -37,7 +37,8 @@ export class FetchBookService {
                     parseInt(b.date.substring(5, 7)) - 1,
                     parseInt(b.date.substring(8, 10))
                   )
-                : null
+                : null,
+            img: b.img !== undefined ? b.img : null
           });
         }
       },
@@ -77,4 +78,5 @@ interface BEBook {
   content: string;
   price: number;
   date: string;
+  img: string;
 }

@@ -9,6 +9,7 @@
         <div class="shadow media-body p-3 m-5">
             <h2 class="display-4 text-primary">"{{book.title}}"</h2>
             <span class="p-3">
+                <img *ngIf="book.img" [src]="book.img" alt="" class="rounded float-right">
                 <p class="font-weight-bolder lead">
                     <i>Author:</i>
                     {{book.author}}
