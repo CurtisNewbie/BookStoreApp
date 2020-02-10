@@ -19,14 +19,19 @@ public class Book {
 
     @Id
     private String id;
+
     @NotNull
     private String title;
-    private String author;
+
     @NotNull
     private double price;
+
     @JsonbDateFormat(value = "yyyy-MM-dd")
     private LocalDate date;
+
+    private String author;
     private String content;
+    private String img;
 
     @OneToMany(mappedBy = "book", fetch = FetchType.LAZY)
     @JsonbTransient
@@ -137,4 +142,19 @@ public class Book {
     public void setPrice(double price) {
         this.price = price;
     }
+
+    /**
+     * @return the img
+     */
+    public String getImg() {
+        return img;
+    }
+
+    /**
+     * @param img the img to set
+     */
+    public void setImg(String img) {
+        this.img = img;
+    }
+
 }
