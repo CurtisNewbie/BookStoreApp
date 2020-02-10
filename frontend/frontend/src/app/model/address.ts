@@ -3,5 +3,5 @@ export interface Address {
   secondLine: string;
   city: string;
   county: string;
-  postcode: string;
+  postCode: string;
 }

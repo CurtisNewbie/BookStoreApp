@@ -31,7 +31,7 @@ export class OrderConfirmComponent implements OnInit {
     county: "",
     firstLine: "",
     secondLine: "",
-    postcode: ""
+    postCode: ""
   };
   contact: Contact = {
     firstName: "",
@@ -85,7 +85,7 @@ export class OrderConfirmComponent implements OnInit {
       this.deliveryAdd.firstLine &&
       this.deliveryAdd.city &&
       this.deliveryAdd.county &&
-      this.deliveryAdd.postcode &&
+      this.deliveryAdd.postCode &&
       this.contact.firstName &&
       this.contact.lastName
     )
