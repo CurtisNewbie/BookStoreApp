@@ -25,7 +25,7 @@ export class OrderConfirmComponent implements OnInit {
 
   booksPrice: number;
   deliveryPrice: number;
-  cart: Book[];
+  cart: Map<string, { book: Book; amount: number }>;
   deliveryAdd: Address = {
     city: "",
     county: "",
@@ -50,20 +50,21 @@ export class OrderConfirmComponent implements OnInit {
   }
 
   sendOrder() {
-    this.checkoutService.clear();
     // remove unneeded information
-    let idOfBooks: { id: string }[] = [];
-    for (let b of this.cart) {
-      idOfBooks.push({ id: b.id });
+    let list: { book: { id: string }; amount: number }[] = [];
+    for (let pair of this.cart) {
+      list.push({ book: { id: pair[0] }, amount: pair[1].amount });
     }
+    console.log("list", list);
     //send order to backend via rest
     this.orderService.sendOrder({
       address: this.deliveryAdd,
-      booksOnOrder: idOfBooks,
+      booksOnOrder: list,
       firstName: this.contact.firstName,
       lastName: this.contact.lastName
     });
     // redirect to the home-page component
+    this.checkoutService.clear();
     this.router.navigateByUrl("/home");
   }
 
@@ -79,7 +80,7 @@ export class OrderConfirmComponent implements OnInit {
   /** Check whether all requred inputs are completed properly */
   isComplete(): boolean {
     if (
-      this.cart.length &&
+      this.cart.size &&
       this.deliveryPrice &&
       this.deliveryAdd.firstLine &&
       this.deliveryAdd.city &&

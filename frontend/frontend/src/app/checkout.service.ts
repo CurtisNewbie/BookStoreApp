@@ -5,7 +5,7 @@ import { Book } from "./model/book";
   providedIn: "root"
 })
 export class CheckoutService {
-  cart: Book[] = [];
+  cart: Map<string, { book: Book; amount: number }> = new Map();
 
   constructor() {}
 
@@ -13,27 +13,38 @@ export class CheckoutService {
    * Add Book to cart
    * @param book
    */
-  addToCart(book: Book): void {
-    if (book != undefined) this.cart.push(book);
-  }
-
-  /**
-   * Remove book by Book.id from cart. If there are multiple books with the same id (the same book), it only removes the first one.
-   * @param id
-   */
-  removeFromCart(id: string): void {
-    for (let i = 0; i < this.cart.length; i++) {
-      if (this.cart[i].id === id) {
-        this.cart.splice(i, 1);
-        return;
+  addToCart(b: Book): void {
+    if (b != undefined) {
+      // update if exists
+      if (this.cart.has(b.id)) {
+        let prev = this.cart.get(b.id);
+        this.cart.set(b.id, { book: prev.book, amount: prev.amount + 1 });
+      } else {
+        // put one in the cart if not exists
+        this.cart.set(b.id, { book: b, amount: 1 });
       }
     }
   }
 
   /**
-   * Get the cart (shallow copy, i.e., the object ref is returned).
+   * Remove one selected book by Book.id from cart.
+   * @param id
    */
-  getCart(): Book[] {
+  removeFromCart(id: string): void {
+    if (this.cart.has(id)) {
+      let prev = this.cart.get(id);
+      if (prev.amount <= 1) {
+        this.cart.delete(id);
+      } else {
+        this.cart.set(id, { book: prev.book, amount: prev.amount - 1 });
+      }
+    }
+  }
+
+  /**
+   * Get the cart. (shallow copy)
+   */
+  getCart(): Map<string, { book: Book; amount: number }> {
     return this.cart;
   }
 
@@ -41,7 +52,7 @@ export class CheckoutService {
    * Clear cart
    */
   clear(): void {
-    this.cart = [];
+    this.cart.clear();
   }
 
   /**
@@ -50,7 +61,7 @@ export class CheckoutService {
   getTotal(): number {
     let sum: number = 0;
     for (let b of this.cart) {
-      sum += b.price;
+      sum += b[1].book.price * b[1].amount;
     }
     return sum;
   }

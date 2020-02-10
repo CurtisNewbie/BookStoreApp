@@ -6,11 +6,11 @@
 
 <div class="container-fluid p-5">
     <h2 class="text-primary">Your Order:</h2>
-    <div *ngFor="let book of cart; let i = index" class="media">
+    <div *ngFor="let each of cart | keyvalue; let i = index" class="media">
         <div class="shadow media-body p-2 m-3">
-            <h2 class="text-info ">{{i + 1}}. "{{book.title}}"</h2>
+            <h2 class="text-info ">{{i + 1}}. "{{each.value.book.title}}"</h2>
             <p class="font-weight-bolder lead"><i>Price:</i>
-                {{book.price}}</p>
+                {{each.value.book.price}} * {{each.value.amount}}</p>
         </div>
     </div>
     <div class="pt-3">
@@ -85,7 +85,7 @@
     </div>
     <div class=" container p-4 m-4 text-right">
         <h2 class="text-primary">Total:
-            {{deliveryPrice !== undefined ? deliveryPrice + booksPrice : booksPrice | currency: '£'}}
+            {{(deliveryPrice !== undefined ? deliveryPrice + booksPrice : booksPrice) | currency: '£'}}
         </h2>
         <button class="btn btn-primary" *ngIf="isComplete()" (click)="sendOrder()">Confirm</button>
     </div>

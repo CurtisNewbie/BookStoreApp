@@ -8,7 +8,7 @@ import { CheckoutService } from "../checkout.service";
   styleUrls: ["./checkout.component.css"]
 })
 export class CheckoutComponent implements OnInit {
-  cart: Book[];
+  cart: Map<string, { book: Book; amount: number }>;
 
   constructor(private checkoutService: CheckoutService) {}
 
