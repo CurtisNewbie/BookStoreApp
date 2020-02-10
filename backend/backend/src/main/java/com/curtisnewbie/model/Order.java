@@ -15,7 +15,7 @@ import javax.validation.constraints.NotNull;
 
 /** Representation of Order */
 @Entity
-@Table(name = "BookStore_Order")
+@Table(name = "BS_Order")
 public class Order {
 
     @Id

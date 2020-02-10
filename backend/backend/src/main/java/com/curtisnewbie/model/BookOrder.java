@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 /** This acts as a join table between Book and Order */
 @Entity
-@Table(name = "Book_Order")
+@Table(name = "BS_Book_Order")
 public class BookOrder {
 
     @Id
