@@ -34,6 +34,11 @@ public class OrderResource {
         if (order.getBooksOnOrder().size() > 0) {
             // overwrite date
             order.setDate(LocalDate.now());
+            // set up JPA relationship
+            var booksOnOrder = order.getBooksOnOrder();
+            for (var b : booksOnOrder) {
+                b.setOrder(order);
+            }
             order = orderRepo.createOrder(order);
             return Response.created(
                     UriBuilder.fromPath("http://localhost:8080/api/order").queryParam("id", order.getOrderId()).build())
