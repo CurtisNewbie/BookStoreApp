@@ -41,6 +41,10 @@ public class Order {
     public Order() {
     }
 
+    public void addBookOrder(BookOrder b) {
+        this.booksOnOrder.add(b);
+    }
+
     /**
      * @return the orderId
      */
@@ -124,5 +128,4 @@ public class Order {
     public void setBooksOnOrder(List<BookOrder> booksOnOrder) {
         this.booksOnOrder = booksOnOrder;
     }
-
 }

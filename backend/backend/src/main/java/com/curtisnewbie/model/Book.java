@@ -34,6 +34,10 @@ public class Book {
 
     }
 
+    public void addBookOrder(BookOrder o) {
+        this.orders.add(o);
+    }
+
     /**
      * @return the title
      */
