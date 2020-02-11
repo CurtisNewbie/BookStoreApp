@@ -1,5 +1,7 @@
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
+import { FormsModule } from "@angular/forms";
+import { HttpClientModule } from "@angular/common/http";
 
 import { AppComponent } from "./app.component";
 import { NavBarComponent } from "./nav-bar/nav-bar.component";
@@ -8,6 +10,7 @@ import { BookListComponent } from "./book-list/book-list.component";
 import { BookDetailComponent } from "./book-detail/book-detail.component";
 import { CheckoutComponent } from "./checkout/checkout.component";
 import { AppRoutingModule } from "./app-routing.module";
+import { OrderConfirmComponent } from "./order-confirm/order-confirm.component";
 
 @NgModule({
   declarations: [
@@ -16,9 +19,10 @@ import { AppRoutingModule } from "./app-routing.module";
     HomePageComponent,
     BookListComponent,
     BookDetailComponent,
-    CheckoutComponent
+    CheckoutComponent,
+    OrderConfirmComponent
   ],
-  imports: [BrowserModule, AppRoutingModule],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
   providers: [],
   bootstrap: [AppComponent]
 })

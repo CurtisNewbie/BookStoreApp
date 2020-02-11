@@ -1,0 +1,92 @@
+<div class="jumbotron">
+    <div class="container-fluid">
+        <h1>Order Confirmation</h1>
+    </div>
+</div>
+
+<div class="container-fluid p-5">
+    <h2 class="text-primary">Your Order:</h2>
+    <div *ngFor="let each of cart | keyvalue; let i = index" class="media">
+        <div class="shadow media-body p-2 m-3">
+            <h2 class="text-info ">{{i + 1}}. "{{each.value.book.title}}"</h2>
+            <p class="font-weight-bolder lead"><i>Price:</i>
+                {{each.value.book.price}} * {{each.value.amount}}</p>
+        </div>
+    </div>
+    <div class="pt-3">
+        <h2 class="text-primary">Delivery:</h2>
+        <div style="font-size: 150%">
+            <div class="form-check p-2 m-3">
+                <label class="form-check-label">
+                    <input type="radio" class="form-check-input" name="deliveryRdBtn"
+                        (change)="selectRadioButton(SAME_DAY)">
+                    Same day - {{SAME_DAY | currency : '£'}}
+                </label>
+            </div>
+            <div class="form-check p-2 m-3">
+                <label class="form-check-label">
+                    <input type="radio" class="form-check-input" name="deliveryRdBtn"
+                        (change)="selectRadioButton(THREE_TO_FIVE_DAYS)">
+                    3-5 days - {{THREE_TO_FIVE_DAYS | currency : '£'}}
+                </label>
+            </div>
+            <div class="form-check p-2 m-3">
+                <label class="form-check-label">
+                    <input type="radio" class="form-check-input" name="deliveryRdBtn"
+                        (change)="selectRadioButton(ONE_WEEK)">
+                    One week - {{ONE_WEEK | currency : '£'}}
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="pt-3">
+        <h2 class="text-primary">Address: <span style="font-size: 50%">(<span style="color: brown;">*</span>
+                required)</span></h2>
+        <div class="form-group">
+            <label for="addOne"><span style="color: brown;">*</span> Address 1</label>
+            <input type="text" class="form-control" placeholder="Enter first line address" id="addOne"
+                [(ngModel)]="deliveryAdd.firstLine">
+        </div>
+        <div class="form-group">
+            <label for="addTwo">Address 2</label>
+            <input type="text" class="form-control" placeholder="Enter second line address" id="addTwo"
+                [(ngModel)]="deliveryAdd.secondLine">
+        </div>
+        <div class="form-group">
+            <label for="city"><span style="color: brown;">*</span> City</label>
+            <input type="text" class="form-control" placeholder="Enter city" id="city" [(ngModel)]="deliveryAdd.city">
+        </div>
+        <div class="form-group">
+            <label for="county"><span style="color: brown;">*</span> County</label>
+            <input type="text" class="form-control" placeholder="Enter county" id="county"
+                [(ngModel)]="deliveryAdd.county">
+        </div>
+        <div class="form-group">
+            <label for="postcode"><span style="color: brown;">*</span> Postcode</label>
+            <input type="text" class="form-control" placeholder="Enter postcode" id="postcode"
+                [(ngModel)]="deliveryAdd.postCode">
+        </div>
+    </div>
+
+    <div class="pt-3">
+        <h2 class="text-primary">Contact: <span style="font-size: 50%">(<span style="color: brown;">*</span>
+                required)</span></h2>
+        <div class="form-group">
+            <label for="firstName"><span style="color: brown;">*</span> First Name</label>
+            <input type="text" class="form-control" placeholder="Enter first name" id="firstName"
+                [(ngModel)]="contact.firstName">
+        </div>
+        <div class="form-group">
+            <label for="lastName"><span style="color: brown;">*</span> Last Name</label>
+            <input type="text" class="form-control" placeholder="Enter last name" id="lastName"
+                [(ngModel)]="contact.lastName">
+        </div>
+    </div>
+    <div class=" container p-4 m-4 text-right">
+        <h2 class="text-primary">Total:
+            {{(deliveryPrice !== undefined ? deliveryPrice + booksPrice : booksPrice) | currency: '£'}}
+        </h2>
+        <button class="btn btn-primary" *ngIf="isComplete()" (click)="sendOrder()">Confirm</button>
+    </div>
+</div>

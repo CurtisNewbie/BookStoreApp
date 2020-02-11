@@ -1,13 +1,12 @@
 /**
  * Represents a Book
  */
-export class Book {
-  constructor(
-    readonly id: string,
-    public title: string,
-    public author: string,
-    public content: string,
-    public price: number,
-    public date?: Date
-  ) {}
+export interface Book {
+  readonly id: string;
+  title: string;
+  author: string;
+  content: string;
+  price: number;
+  date?: Date;
+  img?: string;
 }

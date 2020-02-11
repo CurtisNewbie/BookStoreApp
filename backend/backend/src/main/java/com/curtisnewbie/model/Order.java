@@ -1,26 +1,22 @@
 package com.curtisnewbie.model;
 
-import java.util.ArrayList;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-
-import com.curtisnewbie.dto.BookDTO;
-import com.curtisnewbie.dto.OrderDTO;
 
 /** Representation of Order */
 @Entity
-@Table(name = "BookStore_Order")
+@Table(name = "BS_Order")
 public class Order {
 
     @Id
@@ -34,32 +30,21 @@ public class Order {
     private String lastName;
 
     @NotNull
-    private Date date;
+    private LocalDate date;
 
     @NotNull
     @Embedded
+    @Valid
     private Address address;
 
-    // Order is the owner of the relationship
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "book_order", joinColumns = @JoinColumn(name = "order_fk", referencedColumnName = "orderId"), inverseJoinColumns = @JoinColumn(name = "book_fk", referencedColumnName = "id"))
-    private List<Book> booksOnOrder;
+    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<BookOrder> booksOnOrder;
 
     public Order() {
     }
 
-    public Order(OrderDTO orderDTO) {
-        this.orderId = orderDTO.getOrderId();
-        this.firstName = orderDTO.getFirstName();
-        this.lastName = orderDTO.getLastName();
-        this.date = orderDTO.getDate();
-        this.address = orderDTO.getAddress();
-
-        var l = orderDTO.getBooksOnOrder();
-        this.booksOnOrder = new ArrayList<>();
-        for (BookDTO b : l) {
-            this.booksOnOrder.add(new Book(b));
-        }
+    public void addBookOrder(BookOrder b) {
+        this.booksOnOrder.add(b);
     }
 
     /**
@@ -107,14 +92,14 @@ public class Order {
     /**
      * @return the date
      */
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
     /**
      * @param date the date to set
      */
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
@@ -135,15 +120,14 @@ public class Order {
     /**
      * @return the booksOnOrder
      */
-    public List<Book> getBooksOnOrder() {
+    public List<BookOrder> getBooksOnOrder() {
         return booksOnOrder;
     }
 
     /**
      * @param booksOnOrder the booksOnOrder to set
      */
-    public void setBooksOnOrder(List<Book> booksOnOrder) {
+    public void setBooksOnOrder(List<BookOrder> booksOnOrder) {
         this.booksOnOrder = booksOnOrder;
     }
-
 }

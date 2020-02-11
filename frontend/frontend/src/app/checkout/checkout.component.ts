@@ -8,7 +8,7 @@ import { CheckoutService } from "../checkout.service";
   styleUrls: ["./checkout.component.css"]
 })
 export class CheckoutComponent implements OnInit {
-  cart: Book[];
+  cart: Map<string, { book: Book; amount: number }>;
 
   constructor(private checkoutService: CheckoutService) {}
 
@@ -20,11 +20,7 @@ export class CheckoutComponent implements OnInit {
    * get total price of all Book displayed on current webpage.
    */
   getTotal(): number {
-    let sum: number = 0;
-    for (let b of this.cart) {
-      sum += b.price;
-    }
-    return sum;
+    return this.checkoutService.getTotal();
   }
 
   /**
@@ -33,12 +29,6 @@ export class CheckoutComponent implements OnInit {
    */
   removeFromCart(id: string) {
     this.checkoutService.removeFromCart(id);
-  }
-
-  checkout(): void {
-    alert("You have successfully checkouted");
-    this.checkoutService.clear();
-    this.getCart();
   }
 
   getCart(): void {

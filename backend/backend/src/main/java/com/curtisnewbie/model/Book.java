@@ -1,15 +1,19 @@
 package com.curtisnewbie.model;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
+
+import javax.json.bind.annotation.JsonbDateFormat;
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import com.curtisnewbie.dto.BookDTO;
-
 @Entity
+@Table(name = "BS_Book")
 /** Representation of Book */
 public class Book {
 
@@ -19,24 +23,26 @@ public class Book {
     @NotNull
     private String title;
 
-    private String author;
-    private Date date;
-    private String content;
+    @NotNull
+    private double price;
 
-    // Order is the owner of this relationship
-    @ManyToMany(mappedBy = "booksOnOrder")
-    private List<Order> orders;
+    @JsonbDateFormat(value = "yyyy-MM-dd")
+    private LocalDate date;
+
+    private String author;
+    private String content;
+    private String img;
+
+    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY)
+    @JsonbTransient
+    private List<BookOrder> orders;
 
     public Book() {
 
     }
 
-    public Book(BookDTO bookDTO) {
-        this.id = bookDTO.getId();
-        this.title = bookDTO.getTitle();
-        this.author = bookDTO.getAuthor();
-        this.date = bookDTO.getDate();
-        this.content = bookDTO.getContent();
+    public void addBookOrder(BookOrder o) {
+        this.orders.add(o);
     }
 
     /**
@@ -84,14 +90,14 @@ public class Book {
     /**
      * @return the date
      */
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
     /**
      * @param date the date to set
      */
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
@@ -112,15 +118,43 @@ public class Book {
     /**
      * @return the orders
      */
-    public List<Order> getOrders() {
+    public List<BookOrder> getOrders() {
         return orders;
     }
 
     /**
      * @param orders the orders to set
      */
-    public void setOrders(List<Order> orders) {
+    public void setOrders(List<BookOrder> orders) {
         this.orders = orders;
+    }
+
+    /**
+     * @return the price
+     */
+    public double getPrice() {
+        return price;
+    }
+
+    /**
+     * @param price the price to set
+     */
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    /**
+     * @return the img
+     */
+    public String getImg() {
+        return img;
+    }
+
+    /**
+     * @param img the img to set
+     */
+    public void setImg(String img) {
+        this.img = img;
     }
 
 }
