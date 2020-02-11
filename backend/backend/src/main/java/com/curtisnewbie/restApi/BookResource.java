@@ -1,6 +1,8 @@
 package com.curtisnewbie.restApi;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
+import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -13,11 +15,13 @@ import javax.ws.rs.core.*;
 
 import com.curtisnewbie.model.*;
 import com.curtisnewbie.util.*;
+import com.curtisnewbie.security.*;
 
 /**
  * RESTful api for Book Resources
  */
 @Path("book")
+@RequestScoped
 public class BookResource {
 
     @EJB
@@ -41,6 +45,7 @@ public class BookResource {
         return Response.ok(books).build();
     }
 
+    @RolesAllowed(SecurityRole.ADMIN)
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createBook(Book book) {
@@ -55,6 +60,7 @@ public class BookResource {
         }
     }
 
+    @RolesAllowed(SecurityRole.ADMIN)
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -68,6 +74,7 @@ public class BookResource {
         }
     }
 
+    @RolesAllowed(SecurityRole.ADMIN)
     @DELETE
     @Produces(MediaType.TEXT_PLAIN)
     public Response deleteBook(@QueryParam("id") String id) {

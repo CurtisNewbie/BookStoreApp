@@ -1,5 +1,7 @@
 package com.curtisnewbie.restApi;
 
+import javax.annotation.security.RolesAllowed;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.Consumes;
@@ -16,8 +18,10 @@ import javax.ws.rs.core.UriBuilder;
 
 import com.curtisnewbie.model.HomeNew;
 import com.curtisnewbie.util.HomeNewRepository;
+import com.curtisnewbie.security.*;
 
 @Path("new")
+@RequestScoped
 public class HomeNewResource {
 
     @Inject
@@ -41,6 +45,7 @@ public class HomeNewResource {
             return Response.noContent().build();
     }
 
+    @RolesAllowed(SecurityRole.ADMIN)
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -51,6 +56,7 @@ public class HomeNewResource {
             return Response.noContent().build();
     }
 
+    @RolesAllowed(SecurityRole.ADMIN)
     @DELETE
     @Produces(MediaType.TEXT_PLAIN)
     public Response deleteHomeNewById(@QueryParam("id") long id) {
@@ -60,6 +66,7 @@ public class HomeNewResource {
             return Response.noContent().build();
     }
 
+    @RolesAllowed(SecurityRole.ADMIN)
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)

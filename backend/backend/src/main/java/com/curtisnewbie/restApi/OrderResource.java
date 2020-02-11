@@ -1,9 +1,10 @@
 package com.curtisnewbie.restApi;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
+import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -16,9 +17,11 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 
 import com.curtisnewbie.model.Order;
+import com.curtisnewbie.security.SecurityRole;
 import com.curtisnewbie.util.OrderRepository;
 
 @Path("order")
+@RequestScoped
 public class OrderResource {
 
     @EJB
@@ -58,13 +61,14 @@ public class OrderResource {
     @GET
     @Path("all")
     @Produces(MediaType.APPLICATION_JSON)
-
+    @RolesAllowed(SecurityRole.ADMIN)
     public Response getAllOrders() {
         var list = orderRepo.getAllOrders();
         return Response.ok(list).build();
     }
 
     @DELETE
+    @RolesAllowed(SecurityRole.ADMIN)
     public Response deleteOrderById(@QueryParam("id") long id) {
         if (orderRepo.deleteOrderById(id))
             return Response.ok().build();
