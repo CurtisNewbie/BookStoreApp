@@ -38,11 +38,30 @@ POST or PUT http://localhost:8080/api/new
         "date": "2020-02-08"
     }
 
+## Create or Update DeliveryOption
+
+POST or PUT http://localhost:8080/api/delivery/option
+
+    {
+        "name": "Next Day Delivery (Order before 2pm)",
+        "price": 5
+    }
+
+    {
+        "name": "3 - 5 Days Delivery",
+        "price": 3.2
+    }
+
+    {
+        "name": "One Week Delivery",
+        "price": 2.6
+    }
+
 ## Create or Update Order
 
 POST or PUT http://localhost:8080/api/order
 
-Make sure the book with id=1 is created before sending this request.
+Make sure the `book with id = 1` is created before sending this request, and change the `"id"` in `"deliveryOption"` to one that exists in the database.
 
     {
         "address": {
@@ -55,11 +74,14 @@ Make sure the book with id=1 is created before sending this request.
         "booksOnOrder": [
             {
             "amount": 10,
-            "book": {
-                "id": 1
-            }
+                "book": {
+                    "id": 1
+                }
             }
         ],
         "firstName": "CurtisNewbie",
-        "lastName": "Z"
+        "lastName": "Z",
+        "deliveryOption": {
+            "id" : 1
+        }
     }
