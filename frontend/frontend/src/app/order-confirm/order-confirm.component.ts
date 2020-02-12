@@ -4,6 +4,7 @@ import { Book } from "../model/book";
 import { Router } from "@angular/router";
 import { Address } from "../model/address";
 import { OrderService } from "../order.service";
+import { DeliveryOption } from "../model/deliveryOption";
 
 @Component({
   selector: "app-order-confirm",
@@ -11,20 +12,10 @@ import { OrderService } from "../order.service";
   styleUrls: ["./order-confirm.component.css"]
 })
 export class OrderConfirmComponent implements OnInit {
-  /* 
-  --------------------------------------------
-  
-  Consider fetching these schemes from backend 
-
-  --------------------------------------------
-  */
-  readonly SAME_DAY = 5;
-  readonly THREE_TO_FIVE_DAYS = 3;
-  readonly ONE_WEEK = 2.2;
-
+  delivOpts: DeliveryOption[];
+  selectedDelivOption: DeliveryOption;
   cart: Map<string, { book: Book; amount: number }>;
   booksPrice: number;
-  deliveryPrice: number;
   firstName: string;
   lastName: string;
   deliveryAdd: Address = {
@@ -44,6 +35,7 @@ export class OrderConfirmComponent implements OnInit {
   ngOnInit() {
     this.cart = this.checkoutService.getCart();
     this.booksPrice = this.checkoutService.getTotal();
+    this.fetchDeliveryOptions();
   }
 
   sendOrder() {
@@ -56,7 +48,8 @@ export class OrderConfirmComponent implements OnInit {
       address: this.deliveryAdd,
       booksOnOrder: list,
       firstName: this.firstName,
-      lastName: this.lastName
+      lastName: this.lastName,
+      deliveryOption: { id: this.selectedDelivOption.id }
     });
 
     // redirect to the home-page component
@@ -65,19 +58,21 @@ export class OrderConfirmComponent implements OnInit {
   }
 
   /**
-   * Select one of the radio button
+   * Select one of the radio button (delivery option)
    *
-   * @param n price of selected delivery schema
+   * @param n index of the selected delivery option
    */
-  selectRadioButton(n: number): void {
-    this.deliveryPrice = n;
+  selectRadioButton(index: number): void {
+    if (index >= 0 && index < this.delivOpts.length)
+      this.selectedDelivOption = this.delivOpts[index];
+    console.log(this.selectedDelivOption);
   }
 
   /** Check whether all requred inputs are completed properly */
   isComplete(): boolean {
     if (
       this.cart.size &&
-      this.deliveryPrice &&
+      this.selectedDelivOption &&
       this.deliveryAdd.firstLine &&
       this.deliveryAdd.city &&
       this.deliveryAdd.county &&
@@ -87,5 +82,17 @@ export class OrderConfirmComponent implements OnInit {
     )
       return true;
     else return false;
+  }
+
+  /** Fetch all delivery options from backend */
+  fetchDeliveryOptions(): void {
+    this.orderService.fetchDeliveryOptions().subscribe({
+      next: options => {
+        this.delivOpts = options;
+      },
+      error: err => {
+        console.log(err);
+      }
+    });
   }
 }

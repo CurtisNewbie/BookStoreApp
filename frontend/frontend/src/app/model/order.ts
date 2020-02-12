@@ -6,4 +6,6 @@ export interface Order {
   booksOnOrder: { amount: number; book: { id: string } }[];
   firstName: string;
   lastName: string;
+  // id of each DeliveryOption object
+  deliveryOption: { id: number };
 }
