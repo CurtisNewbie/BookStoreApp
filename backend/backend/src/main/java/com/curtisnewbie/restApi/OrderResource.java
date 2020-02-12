@@ -1,7 +1,6 @@
 package com.curtisnewbie.restApi;
 
 import java.time.LocalDate;
-
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
@@ -31,7 +30,7 @@ public class OrderResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createOrder(Order order) {
         // has books in order
-        if (order.getBooksOnOrder().size() > 0) {
+        if (order.getBooksOnOrder().size() > 0 && order.getDeliveryOption() != null) {
             // overwrite date
             order.setDate(LocalDate.now());
             // set up JPA relationship
@@ -39,6 +38,7 @@ public class OrderResource {
             for (var b : booksOnOrder) {
                 b.setOrder(order);
             }
+            // persist order
             order = orderRepo.createOrder(order);
             return Response.created(
                     UriBuilder.fromPath("http://localhost:8080/api/order").queryParam("id", order.getOrderId()).build())

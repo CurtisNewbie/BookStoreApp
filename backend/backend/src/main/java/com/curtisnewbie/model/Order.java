@@ -42,6 +42,7 @@ public class Order {
     private List<BookOrder> booksOnOrder;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @NotNull
     private DeliveryOption deliveryOption;
 
     public Order() {
