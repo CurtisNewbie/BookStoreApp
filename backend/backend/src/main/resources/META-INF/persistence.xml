@@ -7,6 +7,7 @@ http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd" version="2.1">
         <class>com.curtisnewbie.model.Order</class>
         <class>com.curtisnewbie.model.Address</class>
         <class>com.curtisnewbie.model.HomeNew</class>
+        <class>com.curtisnewbie.model.DeliveryOption</class>
         <jta-data-source>java:/MySqlDS</jta-data-source>
         <properties>
             <property name="javax.persistence.schema-generation.database.action" value="create"/>
