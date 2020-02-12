@@ -55,12 +55,14 @@ export class OrderConfirmComponent implements OnInit {
       })
       .subscribe(
         (resp: HttpResponse<any>) => {
-          let msg =
-            'Done! your order has been successfully created on the server. \nThe URI to Order: \n"' +
-            resp.headers.get("location") +
-            '"';
-          alert(msg);
-          console.log(msg);
+          alert(
+            `Done! your order has been successfully created on the server. The URI to Order: "${resp.headers.get(
+              "location"
+            )}"`
+          );
+          console.log(
+            `Order can be checked in URL: ${resp.headers.get("location")}`
+          );
         },
         error => {
           alert(
@@ -84,7 +86,6 @@ export class OrderConfirmComponent implements OnInit {
   selectRadioButton(index: number): void {
     if (index >= 0 && index < this.delivOpts.length)
       this.selectedDelivOption = this.delivOpts[index];
-    console.log(this.selectedDelivOption);
   }
 
   /** Check whether all requred inputs are completed properly */

@@ -28,7 +28,6 @@ export class OrderService {
 
   /** Send the order via the POST method to the backend server */
   sendOrder(order: Order): Observable<any> {
-    console.log("Sending Order", order);
     return this.http.post(this.POST_ORDER_URL, order, this.httpOptions);
   }
 

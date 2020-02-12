@@ -19,6 +19,7 @@ export class HomePageComponent implements OnInit {
   fetchNews() {
     this.fetchNewService.fetchNews().subscribe(
       (homeNews: BEHomeNew[]) => {
+        console.log(`Fetched ${homeNews.length} news in home page`);
         for (let o of homeNews) {
           this.news.push(
             new HomeNew(

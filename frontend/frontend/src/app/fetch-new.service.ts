@@ -20,7 +20,6 @@ export class FetchNewService {
    * fetch a list of HomeNew from backend server
    */
   fetchNews(): Observable<BEHomeNew[]> {
-    console.log("[fetch-new.service] - fetching news...");
     return this.http.get<BEHomeNew[]>(this.GET_ALL_NEWS_URL);
   }
 }

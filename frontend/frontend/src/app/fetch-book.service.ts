@@ -17,7 +17,6 @@ export class FetchBookService {
 
   /** Fetch all books from backend by its id */
   fetchBooks(): Observable<BEBook[]> {
-    console.log("[fetch-book.service] - fetching books...");
     return this.http.get<BEBook[]>(this.GET_ALL_BOOKS_URL);
   }
 

@@ -26,6 +26,7 @@ export class BookDetailComponent implements OnInit {
     const id: string = this.route.snapshot.queryParamMap.get("id");
     if (id !== null) {
       this.fetchBookService.fetchBookById(id).subscribe((b: BEBook) => {
+        console.log("Fetched book id: ", b.id);
         this.book = {
           id: b.id,
           title: b.title,

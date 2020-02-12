@@ -21,6 +21,7 @@ export class BookListComponent implements OnInit {
   fetchBooks() {
     this.fetchBookService.fetchBooks().subscribe(
       (books: BEBook[]) => {
+        console.log(`Fetched ${books.length} books in total`);
         for (let b of books) {
           // push Book object
           this.books.push({
