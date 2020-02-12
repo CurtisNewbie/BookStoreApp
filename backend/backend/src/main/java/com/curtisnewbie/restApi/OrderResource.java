@@ -29,7 +29,7 @@ public class OrderResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createOrder(Order order) {
-        // has books in order
+        // has books and delivery option selected in order
         if (order.getBooksOnOrder().size() > 0 && order.getDeliveryOption() != null) {
             // overwrite date
             order.setDate(LocalDate.now());
