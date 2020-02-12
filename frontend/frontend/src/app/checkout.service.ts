@@ -65,4 +65,18 @@ export class CheckoutService {
     }
     return sum;
   }
+
+  /**
+   * Convert the cart (Map) to a list, where each element in the list is an object
+   * that contains the book (only with its id) and the amount for this book. The
+   * id of each book is enough for the backend to recognise which book it is.
+   */
+  cartToList(): { book: { id: string }; amount: number }[] {
+    // remove unneeded information
+    let list: { book: { id: string }; amount: number }[] = [];
+    for (let pair of this.cart) {
+      list.push({ book: { id: pair[0] }, amount: pair[1].amount });
+    }
+    return list;
+  }
 }

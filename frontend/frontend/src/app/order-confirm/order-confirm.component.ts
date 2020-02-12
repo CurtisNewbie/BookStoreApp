@@ -3,7 +3,6 @@ import { CheckoutService } from "../checkout.service";
 import { Book } from "../model/book";
 import { Router } from "@angular/router";
 import { Address } from "../model/address";
-import { Contact } from "../model/contact";
 import { OrderService } from "../order.service";
 
 @Component({
@@ -23,19 +22,17 @@ export class OrderConfirmComponent implements OnInit {
   readonly THREE_TO_FIVE_DAYS = 3;
   readonly ONE_WEEK = 2.2;
 
+  cart: Map<string, { book: Book; amount: number }>;
   booksPrice: number;
   deliveryPrice: number;
-  cart: Map<string, { book: Book; amount: number }>;
+  firstName: string;
+  lastName: string;
   deliveryAdd: Address = {
     city: "",
     county: "",
     firstLine: "",
     secondLine: "",
     postCode: ""
-  };
-  contact: Contact = {
-    firstName: "",
-    lastName: ""
   };
 
   constructor(
@@ -50,19 +47,18 @@ export class OrderConfirmComponent implements OnInit {
   }
 
   sendOrder() {
-    // remove unneeded information
-    let list: { book: { id: string }; amount: number }[] = [];
-    for (let pair of this.cart) {
-      list.push({ book: { id: pair[0] }, amount: pair[1].amount });
-    }
-    console.log("list", list);
+    // get the list of book and amount in cart, and
+    // remove unnecessary information in an order
+    let list = this.checkoutService.cartToList();
+
     //send order to backend via rest
     this.orderService.sendOrder({
       address: this.deliveryAdd,
       booksOnOrder: list,
-      firstName: this.contact.firstName,
-      lastName: this.contact.lastName
+      firstName: this.firstName,
+      lastName: this.lastName
     });
+
     // redirect to the home-page component
     this.checkoutService.clear();
     this.router.navigateByUrl("/home");
@@ -86,8 +82,8 @@ export class OrderConfirmComponent implements OnInit {
       this.deliveryAdd.city &&
       this.deliveryAdd.county &&
       this.deliveryAdd.postCode &&
-      this.contact.firstName &&
-      this.contact.lastName
+      this.firstName &&
+      this.lastName
     )
       return true;
     else return false;
