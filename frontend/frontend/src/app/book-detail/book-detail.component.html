@@ -5,7 +5,7 @@
 </div>
 
 <div class="container-fluid p-5">
-    <div class="media">
+    <div *ngIf="book" class="media">
         <div class="shadow media-body p-3 m-5">
             <h2 class="display-4 text-primary">"{{book.title}}"</h2>
             <span class="p-3">

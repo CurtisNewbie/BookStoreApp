@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { Book } from "../model/book";
+import { Book, BEBook } from "../model/book";
 import { CheckoutService } from "../checkout.service";
 import { FetchBookService } from "../fetch-book.service";
 import { ActivatedRoute } from "@angular/router";
@@ -19,14 +19,31 @@ export class BookDetailComponent implements OnInit {
 
   ngOnInit() {
     this.fetchBook();
-    // // demo data
-    // this.book.img =
-    //   "https://images-na.ssl-images-amazon.com/images/I/51vJRPD1sxL._SX385_BO1,204,203,200_.jpg";
   }
 
+  /** Fetch book from backend based on the query parameter "id" in URL */
   fetchBook() {
     const id: string = this.route.snapshot.queryParamMap.get("id");
-    if (id !== null) this.book = this.fetchBookService.getBookById(id);
+    if (id !== null) {
+      this.fetchBookService.fetchBookById(id).subscribe((b: BEBook) => {
+        this.book = {
+          id: b.id,
+          title: b.title,
+          author: b.author,
+          content: b.content,
+          price: b.price,
+          date:
+            b.date !== undefined
+              ? new Date(
+                  parseInt(b.date.substring(0, 4)),
+                  parseInt(b.date.substring(5, 7)) - 1,
+                  parseInt(b.date.substring(8, 10))
+                )
+              : null,
+          img: b.img !== undefined ? b.img : null
+        };
+      });
+    }
   }
 
   addToCart() {

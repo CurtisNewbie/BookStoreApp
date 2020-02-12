@@ -1,5 +1,10 @@
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpHeaders, HttpResponse } from "@angular/common/http";
+import {
+  HttpClient,
+  HttpHeaders,
+  HttpResponse,
+  HttpEvent
+} from "@angular/common/http";
 import { Order } from "./model/order";
 import { DeliveryOption } from "./model/deliveryOption";
 import { Observable } from "rxjs";
@@ -22,24 +27,9 @@ export class OrderService {
   }
 
   /** Send the order via the POST method to the backend server */
-  sendOrder(order: Order) {
+  sendOrder(order: Order): Observable<any> {
     console.log("Sending Order", order);
-    this.http.post(this.POST_ORDER_URL, order, this.httpOptions).subscribe(
-      (resp: HttpResponse<any>) => {
-        let msg =
-          'Done! your order has been successfully created on the server. \nThe URI to Order: \n"' +
-          resp.headers.get("location") +
-          '"';
-        alert(msg);
-        console.log(msg);
-      },
-      error => {
-        alert(
-          "Your order cannot be sent to the server. Error code: " + error.status
-        );
-        console.log("POST Order, error :", error);
-      }
-    );
+    return this.http.post(this.POST_ORDER_URL, order, this.httpOptions);
   }
 
   /** Fetch list of delivery Option */

@@ -5,6 +5,7 @@ import { Router } from "@angular/router";
 import { Address } from "../model/address";
 import { OrderService } from "../order.service";
 import { DeliveryOption } from "../model/deliveryOption";
+import { HttpResponse } from "@angular/common/http";
 
 @Component({
   selector: "app-order-confirm",
@@ -43,17 +44,35 @@ export class OrderConfirmComponent implements OnInit {
     // remove unnecessary information in an order
     let list = this.checkoutService.cartToList();
 
-    //send order to backend via rest
-    this.orderService.sendOrder({
-      address: this.deliveryAdd,
-      booksOnOrder: list,
-      firstName: this.firstName,
-      lastName: this.lastName,
-      deliveryOption: { id: this.selectedDelivOption.id }
-    });
-
-    // redirect to the home-page component
+    //send order to backend via POST method
+    this.orderService
+      .sendOrder({
+        address: this.deliveryAdd,
+        booksOnOrder: list,
+        firstName: this.firstName,
+        lastName: this.lastName,
+        deliveryOption: { id: this.selectedDelivOption.id }
+      })
+      .subscribe(
+        (resp: HttpResponse<any>) => {
+          let msg =
+            'Done! your order has been successfully created on the server. \nThe URI to Order: \n"' +
+            resp.headers.get("location") +
+            '"';
+          alert(msg);
+          console.log(msg);
+        },
+        error => {
+          alert(
+            "Your order cannot be sent to the server. Error code: " +
+              error.status
+          );
+          console.log("POST Order, error :", error);
+        }
+      );
+    // clear cart
     this.checkoutService.clear();
+    // redirect to the home-page component
     this.router.navigateByUrl("/home");
   }
 
