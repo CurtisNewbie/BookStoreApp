@@ -1,6 +1,8 @@
 package com.curtisnewbie.restApi;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
+import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -14,9 +16,11 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 
 import com.curtisnewbie.model.DeliveryOption;
+import com.curtisnewbie.security.SecurityRole;
 import com.curtisnewbie.util.DeliveryOptionRepository;
 
 @Path("delivery/option")
+@RequestScoped
 public class DeliveryResource {
 
     @EJB
@@ -39,6 +43,7 @@ public class DeliveryResource {
             return Response.noContent().build();
     }
 
+    @RolesAllowed(SecurityRole.ADMIN)
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createDelivOpt(DeliveryOption opt) {
@@ -48,6 +53,7 @@ public class DeliveryResource {
                 .build();
     }
 
+    @RolesAllowed(SecurityRole.ADMIN)
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -56,6 +62,7 @@ public class DeliveryResource {
         return Response.ok(opt).build();
     }
 
+    @RolesAllowed(SecurityRole.ADMIN)
     @DELETE
     @Produces(MediaType.TEXT_PLAIN)
     public Response deleteDelivOptById(@QueryParam("id") int id) {
