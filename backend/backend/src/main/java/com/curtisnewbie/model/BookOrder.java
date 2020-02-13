@@ -15,6 +15,7 @@ public class BookOrder {
 
     @Id
     @GeneratedValue
+    @JsonbTransient
     private long id;
     /** Amount of this book in this order */
     private int amount;

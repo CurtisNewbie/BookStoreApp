@@ -13,7 +13,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriBuilder;
+// import javax.ws.rs.core.UriBuilder;
 
 import com.curtisnewbie.model.Order;
 import com.curtisnewbie.security.SecurityRole;
@@ -28,6 +28,7 @@ public class OrderResource {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response createOrder(Order order) {
         // has books and delivery option selected in order
         if (order.getBooksOnOrder().size() > 0 && order.getDeliveryOption() != null) {
@@ -40,9 +41,23 @@ public class OrderResource {
             }
             // persist order
             order = orderRepo.createOrder(order);
-            return Response.created(
-                    UriBuilder.fromPath("http://localhost:8080/api/order").queryParam("id", order.getOrderId()).build())
-                    .build();
+            /*
+             * ---------------------------------------------
+             * 
+             * May be only the admin should be able to get the order by id, thus returning
+             * the URI path doesn't really make sense. The client will be the one to create
+             * order, say after they successfully make the payment. They then should only be
+             * able to review the order they created or belong to them. Thus returning the
+             * created order in a JSON format which is then displayed on their browser, may
+             * be a better approach.
+             * 
+             * ---------------------------------------------
+             */
+            // return Response.created(
+            // UriBuilder.fromPath("http://localhost:8080/api/order").queryParam("id",
+            // order.getOrderId()).build())
+            // .build();
+            return Response.ok(order).build();
         } else {
             return Response.noContent().build();
         }
