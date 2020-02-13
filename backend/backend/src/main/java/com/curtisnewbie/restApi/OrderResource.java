@@ -57,7 +57,7 @@ public class OrderResource {
             // UriBuilder.fromPath("http://localhost:8080/api/order").queryParam("id",
             // order.getOrderId()).build())
             // .build();
-            return Response.ok(order).build();
+            return Response.ok(orderRepo.getOrderById(order.getOrderId())).build();
         } else {
             return Response.noContent().build();
         }
