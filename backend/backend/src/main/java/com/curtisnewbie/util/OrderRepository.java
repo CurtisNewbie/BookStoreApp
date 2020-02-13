@@ -12,6 +12,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.validation.constraints.NotNull;
 
+import com.curtisnewbie.model.Book;
+import com.curtisnewbie.model.DeliveryOption;
 import com.curtisnewbie.model.Order;
 
 // Class that manages interaction with database for Order resources
@@ -32,6 +34,14 @@ public class OrderRepository {
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public Order createOrder(@NotNull Order order) {
         try {
+            // calculate price before persistence
+            double sum = 0;
+            var list = order.getBooksOnOrder();
+            for (var b : list) {
+                sum += (em.find(Book.class, b.getBook().getId()).getPrice() * b.getAmount());
+            }
+            sum += (em.find(DeliveryOption.class, order.getDeliveryOption().getId()).getPrice());
+            order.setPrice(sum);
             em.persist(order);
             return order;
         } catch (Exception e) {

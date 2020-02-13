@@ -38,6 +38,9 @@ public class Order {
     @Valid
     private Address address;
 
+    @NotNull
+    private double price;
+
     @OneToMany(mappedBy = "order", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<BookOrder> booksOnOrder;
 
@@ -150,4 +153,17 @@ public class Order {
         this.deliveryOption = deliveryOption;
     }
 
+    /**
+     * @return the price
+     */
+    public double getPrice() {
+        return price;
+    }
+
+    /**
+     * @param price the price to set
+     */
+    public void setPrice(double price) {
+        this.price = price;
+    }
 }
