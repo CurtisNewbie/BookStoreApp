@@ -1,4 +1,6 @@
 import { Address } from "./address";
+import { BEBook } from "./book";
+import { DeliveryOption } from "./deliveryOption";
 
 export interface Order {
   address: Address;
@@ -8,4 +10,18 @@ export interface Order {
   lastName: string;
   // id of each DeliveryOption object
   deliveryOption: { id: number };
+}
+
+/** Model the Order JSON object received from Backend */
+export interface BEOrder extends Order {
+  // override
+  booksOnOrder: {
+    amount: number;
+    book: BEBook;
+  }[];
+  deliveryOption: DeliveryOption;
+  // extra
+  orderId: number;
+  date: string;
+  price: number;
 }

@@ -1,11 +1,13 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { CheckoutService } from "../checkout.service";
-import { Book } from "../model/book";
-import { Router } from "@angular/router";
+import { Book, BEBook } from "../model/book";
 import { Address } from "../model/address";
 import { OrderService } from "../order.service";
 import { DeliveryOption } from "../model/deliveryOption";
 import { HttpResponse } from "@angular/common/http";
+import { OrderReviewService } from "../order-review.service";
+import { BEOrder } from "../model/order";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-order-confirm",
@@ -29,8 +31,9 @@ export class OrderConfirmComponent implements OnInit {
 
   constructor(
     private checkoutService: CheckoutService,
-    private router: Router,
-    private orderService: OrderService
+    private orderService: OrderService,
+    private orderRevewService: OrderReviewService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -44,6 +47,7 @@ export class OrderConfirmComponent implements OnInit {
     // remove unnecessary information in an order
     let list = this.checkoutService.cartToList();
 
+    let orderSent: BEOrder;
     //send order to backend via POST method
     this.orderService
       .sendOrder({
@@ -54,28 +58,37 @@ export class OrderConfirmComponent implements OnInit {
         deliveryOption: { id: this.selectedDelivOption.id }
       })
       .subscribe(
-        (resp: HttpResponse<any>) => {
+        (resp: HttpResponse<BEOrder>) => {
           alert(
-            `Done! your order has been successfully created on the server. The URI to Order: "${resp.headers.get(
-              "location"
-            )}"`
+            "Done! your order has been successfully created on the server."
           );
-          console.log(
-            `Order can be checked in URL: ${resp.headers.get("location")}`
-          );
+          let o: BEOrder = resp.body;
+          // map response to orderSent object
+          orderSent = {
+            address: o.address,
+            booksOnOrder: o.booksOnOrder,
+            date: o.date,
+            deliveryOption: o.deliveryOption,
+            firstName: o.firstName,
+            lastName: o.lastName,
+            orderId: o.orderId,
+            price: o.price
+          };
+
+          // if the POST request is successful, show the component to review the order that is successfully created.
+          this.orderRevewService.showOrderSentComponent(orderSent);
         },
         error => {
           alert(
             "Your order cannot be sent to the server. Error code: " +
               error.status
           );
-          console.log("POST Order, error :", error);
+          console.log("Failed to POST Order, error :", error);
+          this.router.navigateByUrl("/home");
         }
       );
     // clear cart
     this.checkoutService.clear();
-    // redirect to the home-page component
-    this.router.navigateByUrl("/home");
   }
 
   /**

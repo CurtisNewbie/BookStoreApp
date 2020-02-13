@@ -11,6 +11,7 @@ import { BookDetailComponent } from "./book-detail/book-detail.component";
 import { CheckoutComponent } from "./checkout/checkout.component";
 import { AppRoutingModule } from "./app-routing.module";
 import { OrderConfirmComponent } from "./order-confirm/order-confirm.component";
+import { OrderSentComponent } from "./order-sent/order-sent.component";
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { OrderConfirmComponent } from "./order-confirm/order-confirm.component";
     BookListComponent,
     BookDetailComponent,
     CheckoutComponent,
-    OrderConfirmComponent
+    OrderConfirmComponent,
+    OrderSentComponent
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
   providers: [],
