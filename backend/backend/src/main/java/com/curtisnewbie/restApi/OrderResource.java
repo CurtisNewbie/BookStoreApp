@@ -65,6 +65,7 @@ public class OrderResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
+    @RolesAllowed(SecurityRole.ADMIN)
     public Response getOrderById(@QueryParam("id") long orderId) {
         var order = orderRepo.getOrderById(orderId);
         if (order != null)
