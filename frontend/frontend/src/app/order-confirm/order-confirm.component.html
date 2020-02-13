@@ -15,26 +15,11 @@
     </div>
     <div class="pt-3">
         <h2 class="text-primary">Delivery:</h2>
-        <div style="font-size: 150%">
+        <div style="font-size: 150%" *ngFor="let opt of delivOpts; let i = index">
             <div class="form-check p-2 m-3">
                 <label class="form-check-label">
-                    <input type="radio" class="form-check-input" name="deliveryRdBtn"
-                        (change)="selectRadioButton(SAME_DAY)">
-                    Same day - {{SAME_DAY | currency : '£'}}
-                </label>
-            </div>
-            <div class="form-check p-2 m-3">
-                <label class="form-check-label">
-                    <input type="radio" class="form-check-input" name="deliveryRdBtn"
-                        (change)="selectRadioButton(THREE_TO_FIVE_DAYS)">
-                    3-5 days - {{THREE_TO_FIVE_DAYS | currency : '£'}}
-                </label>
-            </div>
-            <div class="form-check p-2 m-3">
-                <label class="form-check-label">
-                    <input type="radio" class="form-check-input" name="deliveryRdBtn"
-                        (change)="selectRadioButton(ONE_WEEK)">
-                    One week - {{ONE_WEEK | currency : '£'}}
+                    <input type="radio" class="form-check-input" name="deliveryRdBtn" (change)="selectRadioButton(i)">
+                    {{opt.name}} - {{opt.price | currency : '£'}}
                 </label>
             </div>
         </div>
@@ -75,17 +60,16 @@
         <div class="form-group">
             <label for="firstName"><span style="color: brown;">*</span> First Name</label>
             <input type="text" class="form-control" placeholder="Enter first name" id="firstName"
-                [(ngModel)]="contact.firstName">
+                [(ngModel)]="firstName">
         </div>
         <div class="form-group">
             <label for="lastName"><span style="color: brown;">*</span> Last Name</label>
-            <input type="text" class="form-control" placeholder="Enter last name" id="lastName"
-                [(ngModel)]="contact.lastName">
+            <input type="text" class="form-control" placeholder="Enter last name" id="lastName" [(ngModel)]="lastName">
         </div>
     </div>
     <div class=" container p-4 m-4 text-right">
         <h2 class="text-primary">Total:
-            {{(deliveryPrice !== undefined ? deliveryPrice + booksPrice : booksPrice) | currency: '£'}}
+            {{(selectedDelivOption !== undefined ? selectedDelivOption.price + booksPrice : booksPrice) | currency: '£'}}
         </h2>
         <button class="btn btn-primary" *ngIf="isComplete()" (click)="sendOrder()">Confirm</button>
     </div>

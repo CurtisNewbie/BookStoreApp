@@ -1,9 +1,9 @@
 package com.curtisnewbie.restApi;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
+import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -13,15 +13,14 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriBuilder;
+// import javax.ws.rs.core.UriBuilder;
 
-import com.curtisnewbie.model.Address;
-import com.curtisnewbie.model.Book;
-import com.curtisnewbie.model.BookOrder;
 import com.curtisnewbie.model.Order;
+import com.curtisnewbie.security.SecurityRole;
 import com.curtisnewbie.util.OrderRepository;
 
 @Path("order")
+@RequestScoped
 public class OrderResource {
 
     @EJB
@@ -29,9 +28,10 @@ public class OrderResource {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response createOrder(Order order) {
-        // has books in order
-        if (order.getBooksOnOrder().size() > 0) {
+        // has books and delivery option selected in order
+        if (order.getBooksOnOrder().size() > 0 && order.getDeliveryOption() != null) {
             // overwrite date
             order.setDate(LocalDate.now());
             // set up JPA relationship
@@ -39,10 +39,25 @@ public class OrderResource {
             for (var b : booksOnOrder) {
                 b.setOrder(order);
             }
+            // persist order
             order = orderRepo.createOrder(order);
-            return Response.created(
-                    UriBuilder.fromPath("http://localhost:8080/api/order").queryParam("id", order.getOrderId()).build())
-                    .build();
+            /*
+             * ---------------------------------------------
+             * 
+             * May be only the admin should be able to get the order by id, thus returning
+             * the URI path doesn't really make sense. The client will be the one to create
+             * order, say after they successfully make the payment. They then should only be
+             * able to review the order they created or belong to them. Thus returning the
+             * created order in a JSON format which is then displayed on their browser, may
+             * be a better approach.
+             * 
+             * ---------------------------------------------
+             */
+            // return Response.created(
+            // UriBuilder.fromPath("http://localhost:8080/api/order").queryParam("id",
+            // order.getOrderId()).build())
+            // .build();
+            return Response.ok(orderRepo.getOrderById(order.getOrderId())).build();
         } else {
             return Response.noContent().build();
         }
@@ -50,6 +65,7 @@ public class OrderResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
+    @RolesAllowed(SecurityRole.ADMIN)
     public Response getOrderById(@QueryParam("id") long orderId) {
         var order = orderRepo.getOrderById(orderId);
         if (order != null)
@@ -58,67 +74,17 @@ public class OrderResource {
             return Response.noContent().build();
     }
 
-    /*
-     * ---------------------------------------
-     *
-     * dummy data:
-     * 
-     * Should be destroyed after front end is implemented
-     * 
-     * ---------------------------------------
-     * 
-     */
-    @GET
-    @Path("dummy")
-    public void getDummyOrder() {
-        Order o = new Order();
-        o.setFirstName("Curtis");
-        o.setLastName("Newbie");
-        o.setDate(LocalDate.now());
-        Address add = new Address();
-        add.setCity("Bourne");
-        add.setCounty("county");
-        add.setFirstLine("3rd st");
-        o.setAddress(add);
-        Book bkOne = new Book();
-        bkOne.setId("1");
-        Book bkTwo = new Book();
-        bkTwo.setId("2");
-
-        BookOrder bookOrder = new BookOrder();
-        bookOrder.setAmount(2);
-        bookOrder.setBook(bkOne);
-        bookOrder.setOrder(o);
-
-        BookOrder bookOrderTwo = new BookOrder();
-        bookOrderTwo.setAmount(100);
-        bookOrderTwo.setBook(bkTwo);
-        bookOrderTwo.setOrder(o);
-
-        var ol = new ArrayList<BookOrder>();
-        ol.add(bookOrderTwo);
-        ol.add(bookOrder);
-        o.setBooksOnOrder(ol);
-
-        var l1 = new ArrayList<BookOrder>();
-        l1.add(bookOrder);
-        bkOne.setOrders(l1);
-        var l2 = new ArrayList<BookOrder>();
-        l2.add(bookOrder);
-        bkTwo.setOrders(l2);
-        orderRepo.createOrder(o);
-    }
-
     @GET
     @Path("all")
     @Produces(MediaType.APPLICATION_JSON)
-
+    @RolesAllowed(SecurityRole.ADMIN)
     public Response getAllOrders() {
         var list = orderRepo.getAllOrders();
         return Response.ok(list).build();
     }
 
     @DELETE
+    @RolesAllowed(SecurityRole.ADMIN)
     public Response deleteOrderById(@QueryParam("id") long id) {
         if (orderRepo.deleteOrderById(id))
             return Response.ok().build();

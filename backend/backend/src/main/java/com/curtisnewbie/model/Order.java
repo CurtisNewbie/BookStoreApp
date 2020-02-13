@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.Valid;
@@ -37,8 +38,15 @@ public class Order {
     @Valid
     private Address address;
 
+    @NotNull
+    private double price;
+
     @OneToMany(mappedBy = "order", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<BookOrder> booksOnOrder;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @NotNull
+    private DeliveryOption deliveryOption;
 
     public Order() {
     }
@@ -129,5 +137,33 @@ public class Order {
      */
     public void setBooksOnOrder(List<BookOrder> booksOnOrder) {
         this.booksOnOrder = booksOnOrder;
+    }
+
+    /**
+     * @return the deliveryOption
+     */
+    public DeliveryOption getDeliveryOption() {
+        return deliveryOption;
+    }
+
+    /**
+     * @param deliveryOption the deliveryOption to set
+     */
+    public void setDeliveryOption(DeliveryOption deliveryOption) {
+        this.deliveryOption = deliveryOption;
+    }
+
+    /**
+     * @return the price
+     */
+    public double getPrice() {
+        return price;
+    }
+
+    /**
+     * @param price the price to set
+     */
+    public void setPrice(double price) {
+        this.price = price;
     }
 }

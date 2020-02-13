@@ -24,3 +24,6 @@ hs_err_pid*
 
 # compiled files
 target/
+
+# ignore files that contain private/public keys
+*.pem
