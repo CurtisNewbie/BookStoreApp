@@ -14,6 +14,7 @@ Actual implementation or the server your are using shouldn't really matter, but 
 - Frontend
 
   - Angular 8 (or lower or higher, I am not really sure about this)
+  - Bootstrap 4
 
 # Running Backend Server
 
