@@ -8,9 +8,10 @@ import { AppComponent } from "./app.component";
 import { NavBarComponent } from "./nav-bar/nav-bar.component";
 import { NewsComponent } from './news/news.component';
 import { BooksComponent } from './books/books.component';
+import { OrdersComponent } from './orders/orders.component';
 
 @NgModule({
-  declarations: [AppComponent, NavBarComponent, NewsComponent, BooksComponent],
+  declarations: [AppComponent, NavBarComponent, NewsComponent, BooksComponent, OrdersComponent],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
   providers: [],
   bootstrap: [AppComponent]
