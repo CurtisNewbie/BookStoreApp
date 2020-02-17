@@ -7,9 +7,10 @@ import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { NavBarComponent } from "./nav-bar/nav-bar.component";
 import { NewsComponent } from './news/news.component';
+import { BooksComponent } from './books/books.component';
 
 @NgModule({
-  declarations: [AppComponent, NavBarComponent, NewsComponent],
+  declarations: [AppComponent, NavBarComponent, NewsComponent, BooksComponent],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
   providers: [],
   bootstrap: [AppComponent]
