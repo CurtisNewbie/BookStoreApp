@@ -15,6 +15,10 @@ Actual implementation or the server your are using shouldn't really matter, but 
 
   - Angular 8 (or lower or higher, I am not really sure about this)
   - Bootstrap 4
+  
+- Optional JWT Distribution Server (if you want to use the JWT authorisation mechanism)
+
+	- I have developed a JWT distribution webapp specifically for this backend server. It is availble in my another repo (<a href="https://github.com/CurtisNewbie/JwtDistributionApp">JwtDistributionApp</a>). This app also needs to be deployed on a JavaEE 8/Jakarta EE 8 server, and you will need to specify your own private key (on the JWT distribution webapp) and public key (on this backend server).
 
 # Running Backend Server
 
@@ -59,7 +63,7 @@ e.g.,
 
     http://localhost:8080/api/book/all
 
-**_A file that contains some of the `demo data and HTTP calls` is located at `/backend/RestDemo.md`, with which you can use to create some demo data._**
+**_A file that contains some of the `demo data and HTTP calls` is located at `/backend/RestDemo.md`, with which you can use to create some demo data.(without removing the JWT authrization annotations, you will need to generate a JWT to POST, PUT or DELETE resources.)_**
 
 **_A simple Mysql script file that specifies some of the basic command for creating database and user is also available at `backend/db_script.sql`._**
 
