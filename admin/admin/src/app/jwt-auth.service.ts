@@ -5,9 +5,11 @@ import { Observable } from "rxjs";
 @Injectable({
   providedIn: "root"
 })
-export class HttpConnService {
-  jwt: string;
+export class JWTAuthService {
   readonly JWT_URL = "http://localhost:8080/jwt/api/admin";
+
+  /**Json Web Token */
+  jwt: string;
 
   constructor(private http: HttpClient) {}
 

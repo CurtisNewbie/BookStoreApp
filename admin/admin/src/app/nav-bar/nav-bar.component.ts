@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { HttpConnService } from "../http-conn.service";
+import { JWTAuthService } from "../jwt-auth.service";
 
 @Component({
   selector: "app-nav-bar",
@@ -11,7 +11,7 @@ export class NavBarComponent implements OnInit {
   username: string;
   password: string;
 
-  constructor(private httpConn: HttpConnService) {}
+  constructor(private jwtAuth: JWTAuthService) {}
 
   ngOnInit() {}
 
@@ -19,8 +19,8 @@ export class NavBarComponent implements OnInit {
   login(name: string, password: string) {
     if (name && password) {
       let basicStr = btoa(name + ":" + password);
-      this.httpConn.getJWT(basicStr);
-      if (this.httpConn.hasJwt()) this.loggedIn = true;
+      this.jwtAuth.getJWT(basicStr);
+      if (this.jwtAuth.hasJwt()) this.loggedIn = true;
     }
   }
 }
