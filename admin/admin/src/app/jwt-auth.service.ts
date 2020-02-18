@@ -34,4 +34,12 @@ export class JWTAuthService {
     if (this.jwt) return true;
     else return false;
   }
+
+  /**
+   * Create JWT string for Authorization header
+   * e.g., " Bearer asdfasdfasdfasdf..."
+   */
+  createJwtHeaderStr(): string {
+    return "Bearer " + this.getJwt();
+  }
 }
