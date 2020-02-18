@@ -19,7 +19,7 @@ export class NavBarComponent implements OnInit {
   login(name: string, password: string) {
     if (name && password) {
       let basicStr = btoa(name + ":" + password);
-      this.jwtAuth.getJWT(basicStr);
+      this.jwtAuth.authenticateForJwt(basicStr);
       if (this.jwtAuth.hasJwt()) this.loggedIn = true;
     }
   }

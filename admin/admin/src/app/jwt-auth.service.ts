@@ -1,6 +1,5 @@
 import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
-import { Observable } from "rxjs";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 
 @Injectable({
   providedIn: "root"
@@ -14,7 +13,7 @@ export class JWTAuthService {
   constructor(private http: HttpClient) {}
 
   /** Get JWT by sending a HTTP GET request along with BASIC authentication header */
-  getJWT(basicStr: string) {
+  authenticateForJwt(basicStr: string) {
     this.http
       .get(this.JWT_URL, {
         headers: { Authorization: ["Basic " + basicStr] },
