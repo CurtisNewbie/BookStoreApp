@@ -2,6 +2,6 @@
 export interface HomeNew {
   content: string;
   date: string;
-  id: number;
+  id?: number;
   title: string;
 }
