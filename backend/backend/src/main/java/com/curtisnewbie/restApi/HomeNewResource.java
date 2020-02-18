@@ -69,10 +69,10 @@ public class HomeNewResource {
     @RolesAllowed(SecurityRole.ADMIN)
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.TEXT_PLAIN)
     public Response createHomeNew(@NotNull HomeNew homeNew) {
         homeNew = homeNewRepo.createHomeNew(homeNew);
         var id = homeNew.getId();
-        return Response.ok(UriBuilder.fromPath("http://localhost:8080/api/new").queryParam("id", id).build()).build();
+        return Response.created(UriBuilder.fromPath("http://localhost:8080/api/new").queryParam("id", id).build())
+                .build();
     }
 }
