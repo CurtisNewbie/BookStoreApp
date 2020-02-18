@@ -7,7 +7,6 @@ import { JWTAuthService } from "../jwt-auth.service";
   styleUrls: ["./nav-bar.component.css"]
 })
 export class NavBarComponent implements OnInit {
-  loggedIn: boolean;
   username: string;
   password: string;
 
@@ -20,7 +19,10 @@ export class NavBarComponent implements OnInit {
     if (name && password) {
       let basicStr = btoa(name + ":" + password);
       this.jwtAuth.authenticateForJwt(basicStr);
-      if (this.jwtAuth.hasJwt()) this.loggedIn = true;
     }
+  }
+
+  hasAuth(): boolean {
+    return this.jwtAuth.hasJwt();
   }
 }
