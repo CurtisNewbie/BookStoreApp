@@ -57,10 +57,11 @@ export class BooksComponent implements OnInit {
       },
       error: err => {
         console.log(err);
+      },
+      complete: () => {
+        this.refresh();
       }
     });
-    // refresh
-    this.getAllBooks();
   }
 
   createBook(book: Book) {
@@ -76,10 +77,11 @@ export class BooksComponent implements OnInit {
       },
       error: err => {
         console.log(err);
+      },
+      complete: () => {
+        this.refresh();
       }
     });
-    // refresh
-    this.getAllBooks();
   }
 
   deleteBook(book: Book) {
@@ -91,19 +93,26 @@ export class BooksComponent implements OnInit {
     this.booksService.deleteBook(book.id).subscribe({
       next: (resp: HttpResponse<any>) => {
         if (resp.status != 200) console.log(`Failed to delete "${book.id}"`);
-        else console.log(`Successfully deleted "${book.id}" at "${resp.body}"`);
+        else console.log(resp.body);
       },
       error: err => {
         console.log(err);
+      },
+      complete: () => {
+        this.refresh();
       }
     });
-    // refresh
-    this.getAllBooks();
   }
 
   getAllBooks() {
     this.booksService.fetchAllBooks().subscribe((allBooks: Book[]) => {
       this.books = allBooks;
     });
+  }
+
+  refresh() {
+    this.books = null;
+    this.selectedBook = null;
+    this.getAllBooks();
   }
 }
