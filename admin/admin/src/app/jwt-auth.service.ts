@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
+import { timer } from "rxjs";
 
 @Injectable({
   providedIn: "root"
@@ -22,8 +23,31 @@ export class JWTAuthService {
       })
       .subscribe((jwt: string) => {
         this.jwt = jwt;
-        console.log(jwt);
+        this.createObservableTime(this.jwt);
       });
+  }
+
+  /** If the JWT has "exp" attribute, create observable timer for the JWT, and ask the admin
+   * to re-authenticate when the JWT expires */
+  createObservableTime(jwt: String) {
+    let payload = atob(
+      jwt.substring(this.jwt.indexOf(".") + 1, this.jwt.lastIndexOf("."))
+    );
+    let payloadObj = JSON.parse(payload);
+    if (payloadObj.hasOwnProperty("exp")) {
+      let gap = payloadObj.exp * 1000 - new Date().getTime();
+      // create a timer for this JWT
+      const source = timer(gap);
+      const sub = source.subscribe(() => {
+        this.jwt = null;
+        alert("Your authentication token has expired, please log in again.");
+      });
+      alert(
+        `You are successfully authenticated, your token will expire in: ${(
+          gap / 60000
+        ).toFixed(2)} minutes`
+      );
+    }
   }
 
   getJwt(): string {
