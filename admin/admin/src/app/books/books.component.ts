@@ -33,6 +33,8 @@ export class BooksComponent implements OnInit {
     }
   ];
   selectedBook: Book;
+  // indicate whether the user is creating a new book
+  creatingBook: boolean = false;
   constructor() {}
 
   ngOnInit() {}
