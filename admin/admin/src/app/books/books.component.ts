@@ -39,9 +39,9 @@ export class BooksComponent implements OnInit {
       title: ""
     };
   }
-
+  /** Select one that is displayed */
   selectBook(book: Book) {
-    this.selectedBook = book;
+    this.selectedBook = Object.assign({}, book);
   }
 
   updateBook(book: Book) {

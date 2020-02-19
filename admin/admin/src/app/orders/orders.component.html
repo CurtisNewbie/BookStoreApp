@@ -11,8 +11,8 @@
             <div class="text-right m-3">
                 <button class="btn btn-primary" (click)="createEmptyTempOrder()">Create One</button>
             </div>
-            <ul *ngFor=" let o of orders; let i=index" class="list-group">
-                <a class="list-group-item list-group-item-action" (click)="selectOrder(i)">ID:{{o.orderId}} -
+            <ul *ngFor=" let o of orders" class="list-group">
+                <a class="list-group-item list-group-item-action" (click)="selectOrder(o)">ID:{{o.orderId}} -
                     "{{o.firstName}} {{o.lastName}}"
                 </a>
             </ul>

@@ -87,8 +87,8 @@ export class OrdersComponent implements OnInit {
   }
 
   /** Select one that is displayed */
-  selectOrder(index: number) {
-    this.selectedOrder = this.orders[index];
+  selectOrder(order: Order) {
+    this.selectedOrder = Object.assign({}, order);
   }
 
   /** Today in YYYY-DD-MM */

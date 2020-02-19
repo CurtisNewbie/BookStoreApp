@@ -29,8 +29,9 @@ export class NewsComponent implements OnInit {
     });
   }
 
-  selectNew(index: number) {
-    this.selectedNew = this.news[index];
+  /** Select one that is displayed */
+  selectNew(homeNew: HomeNew) {
+    this.selectedNew = Object.assign({}, homeNew);
   }
 
   updateNew(homeNew: HomeNew) {

@@ -23,8 +23,9 @@ export class DeliveryOptionComponent implements OnInit {
     this.getAllDeliveryOptions();
   }
 
-  selectDeliveryOpt(index: number) {
-    this.selectedDeliveryOpt = this.deliveryOptions[index];
+  /** Select one that is displayed */
+  selectDeliveryOpt(delivOpt: DeliveryOption) {
+    this.selectedDeliveryOpt = Object.assign({}, delivOpt);
   }
 
   createDeliveryOptTemplate() {

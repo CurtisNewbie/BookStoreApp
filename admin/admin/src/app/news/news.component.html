@@ -11,8 +11,8 @@
             <div class="text-right m-3">
                 <button class="btn btn-primary" (click)="createTemplate()">Create One</button>
             </div>
-            <ul *ngFor=" let n of news; let i=index" class="list-group">
-                <a class="list-group-item list-group-item-action" (click)="selectNew(i)">"{{n.title}}"
+            <ul *ngFor=" let n of news" class="list-group">
+                <a class="list-group-item list-group-item-action" (click)="selectNew(n)">"{{n.title}}"
                     [{{n.date}}]</a>
             </ul>
         </div>

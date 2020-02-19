@@ -11,8 +11,8 @@
             <div class="text-right m-3">
                 <button class="btn btn-primary" (click)="createDeliveryOptTemplate()">Create One</button>
             </div>
-            <ul *ngFor=" let d of deliveryOptions; let i=index" class="list-group">
-                <a class="list-group-item list-group-item-action" (click)="selectDeliveryOpt(i)">ID:{{d.id}}
+            <ul *ngFor=" let d of deliveryOptions" class="list-group">
+                <a class="list-group-item list-group-item-action" (click)="selectDeliveryOpt(d)">ID:{{d.id}}
                     "{{d.name}}"
                 </a>
             </ul>
