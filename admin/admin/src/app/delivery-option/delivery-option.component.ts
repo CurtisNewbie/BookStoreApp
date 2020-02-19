@@ -1,5 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { DeliveryOption } from "../model/deliveryOption";
+import { JWTAuthService } from "../jwt-auth.service";
+import { DeliveryOptionsService } from "../delivery-options.service";
+import { HttpResponse } from "@angular/common/http";
 
 @Component({
   selector: "app-delivery-option",
@@ -8,34 +11,27 @@ import { DeliveryOption } from "../model/deliveryOption";
 })
 export class DeliveryOptionComponent implements OnInit {
   // demo data
-  deliveryOptions: DeliveryOption[] = [
-    {
-      id: 1,
-      name: "Next Day Delivery (Order before 2pm)",
-      price: 5
-    },
-    {
-      id: 2,
-      name: "3 - 5 Days Delivery",
-      price: 3.2
-    },
-    {
-      id: 3,
-      name: "One Week Delivery",
-      price: 2.6
-    }
-  ];
+  deliveryOptions: DeliveryOption[];
   selectedDeliveryOpt: DeliveryOption;
 
-  constructor() {}
+  constructor(
+    private jwtAuth: JWTAuthService,
+    private delivOptService: DeliveryOptionsService
+  ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.getAllDeliveryOptions();
+  }
 
   selectDeliveryOpt(index: number) {
     this.selectedDeliveryOpt = this.deliveryOptions[index];
   }
 
   createDeliveryOptTemplate() {
+    if (!this.jwtAuth.hasJwt()) {
+      alert("Login First!");
+      return;
+    }
     this.selectedDeliveryOpt = {
       id: null,
       name: "",
@@ -44,14 +40,84 @@ export class DeliveryOptionComponent implements OnInit {
   }
 
   deleteDeliveryOpt(opt: DeliveryOption) {
-    // DELETE request
+    if (!this.jwtAuth.hasJwt()) {
+      alert("Login First!");
+      return;
+    }
+
+    this.delivOptService.deleteDeliveryOpt(opt.id).subscribe({
+      next: (resp: HttpResponse<any>) => {
+        if (resp.status != 200) console.log(`Failed to delete "${opt.id}"`);
+        else console.log(`"${resp.body}"`);
+      },
+      error: err => {
+        console.log(err);
+      },
+      complete: () => {
+        this.refresh();
+      }
+    });
   }
 
   createDeliveryOpt(opt: DeliveryOption) {
-    // POST request
+    if (!this.jwtAuth.hasJwt()) {
+      alert("Login First!");
+      return;
+    }
+
+    /* id is created in backend server */
+    let tempDTO: DeliveryOption = {
+      name: opt.name,
+      price: opt.price
+    };
+    this.delivOptService.createDeliveryOpt(tempDTO).subscribe({
+      next: (resp: HttpResponse<any>) => {
+        if (resp.status != 201) console.log(`Failed to create "${opt.name}"`);
+        else console.log(`Successfully created "${opt.name}"`);
+      },
+      error: err => {
+        console.log(err);
+      },
+      complete: () => {
+        this.refresh();
+      }
+    });
   }
 
   updateDeliveryOpt(opt: DeliveryOption) {
-    // PUT request
+    if (!this.jwtAuth.hasJwt()) {
+      alert("Login First!");
+      return;
+    }
+
+    this.delivOptService.updateDeliveryOpt(opt).subscribe({
+      next: (resp: HttpResponse<any>) => {
+        if (resp.status != 200) console.log(`Failed to update "${opt.id}"`);
+        else console.log(`Successfully updated "${opt.id}"`);
+      },
+      error: err => {
+        console.log(err);
+      },
+      complete: () => {
+        this.refresh();
+      }
+    });
+  }
+
+  getAllDeliveryOptions() {
+    this.delivOptService
+      .fetchAllDeliveryOpt()
+      .subscribe((val: DeliveryOption[]) => {
+        this.deliveryOptions = val;
+      });
+  }
+
+  /**
+   * Clear previous storage of deliveryOptions, retrieve these data again from backend server.
+   */
+  refresh() {
+    this.deliveryOptions = null;
+    this.selectedDeliveryOpt = null;
+    this.getAllDeliveryOptions();
   }
 }
