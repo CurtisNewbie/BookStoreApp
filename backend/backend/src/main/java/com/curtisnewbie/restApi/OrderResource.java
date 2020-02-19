@@ -98,7 +98,14 @@ public class OrderResource {
     @Produces(MediaType.APPLICATION_JSON)
     @RolesAllowed(SecurityRole.ADMIN)
     public Response updateOrder(Order order) {
-        order = orderRepo.updateOrder(order);
-        return Response.ok(order).build();
+        if (order.getBooksOnOrder().size() > 0 && order.getDeliveryOption() != null) {
+            var booksOnOrder = order.getBooksOnOrder();
+            for (var b : booksOnOrder) {
+                b.setOrder(order);
+            }
+            order = orderRepo.updateOrder(order);
+            return Response.ok(order).build();
+        }
+        return Response.noContent().build();
     }
 }
