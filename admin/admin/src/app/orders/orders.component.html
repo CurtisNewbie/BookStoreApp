@@ -9,7 +9,7 @@
         <div class="col-sm-3 col-md-6 col-lg-4">
             <h2>List of Orders</h2>
             <div class="text-right m-3">
-                <button class="btn btn-primary" (click)="createOrderTemplate()">Create One</button>
+                <button class="btn btn-primary" (click)="createEmptyTempOrder()">Create One</button>
             </div>
             <ul *ngFor=" let o of orders; let i=index" class="list-group">
                 <a class="list-group-item list-group-item-action" (click)="selectOrder(i)">ID:{{o.orderId}} -
@@ -23,8 +23,9 @@
                     <div class="shadow media-body p-3 m-5">
                         <h2 class="display-4 text-primary">Order ID: {{selectedOrder.orderId}}</h2>
                         <div class="form-group">
-                            <label for="id">ID:</label>
-                            <input type="text" [disabled]="selectedOrder.orderId !== null" class="form-control" id="id"
+                            <label for="id">ID: <span *ngIf="selectedOrder.orderId === null" style="color:brown">Will Be
+                                    Created</span></label>
+                            <input type="text" disabled="true" class="form-control" id="id"
                                 [value]="selectedOrder.orderId">
                         </div>
                         <div class="form-group">
@@ -53,6 +54,11 @@
                                     [(ngModel)]="selectedOrder.address.secondLine">
                             </div>
                             <div class="form-group">
+                                <label for="county">COUNTY: </label>
+                                <input type="text" class="form-control" id="county"
+                                    [(ngModel)]="selectedOrder.address.county">
+                            </div>
+                            <div class="form-group">
                                 <label for="city">CITY: </label>
                                 <input type="text" class="form-control" id="city"
                                     [(ngModel)]="selectedOrder.address.city">
@@ -68,14 +74,55 @@
                             <div *ngFor="let b of selectedOrder.booksOnOrder; let j = index">
                                 <div class="rounded p-2 m-1" style="background-color: slategrey;">
                                     <div class="form-group">
-                                        <label for="bookId" style="color: white;">BOOK ID:
-                                            "{{findBookTitle(selectedOrder.booksOnOrder[j].book.id)}}"</label>
-                                        <input type="text" class="form-control" id="bookId" [(ngModel)]="b.book.id">
+                                        <label for="bookId" style="color: white;">BOOK ID:</label>
+                                        <input disabled="true" type="text" class="form-control" id="bookId"
+                                            [value]="b.book.id">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="bookTitle" style="color: white;">BOOK TITLE:
+                                        </label>
+                                        <input type="text" disabled="true" class="form-control" id="bookTitle"
+                                            [value]="b.book.title">
                                     </div>
                                     <div class="form-group">
                                         <label for="bookAmount" style="color: white;">Amount: </label>
                                         <input type="text" class="form-control" id="bookAmount" [(ngModel)]="b.amount">
                                     </div>
+                                </div>
+                            </div>
+                            <div class="shadow rounded p-2 m-5 border border-secondary">
+                                <h4><span class="badge badge-pill badge-primary">Add This Book To Order</span></h4>
+                                <div class="form-group">
+                                    <label for="tempBookId">BOOK ID:
+                                    </label>
+                                    <input type="text" class="form-control" id="tempBookId"
+                                        [(ngModel)]="tempBook.book.id" (keyup)="updateTempBookTitle(tempBook.book.id)">
+                                </div>
+                                <div class="form-group">
+                                    <label for="tempBookTitle">BOOK TITLE:
+                                    </label>
+                                    <input type="text" disabled="true" class="form-control" id="tempBookTitle"
+                                        [value]="tempBook.book.title"
+                                        placeholder="Title Updated While You Change BookID">
+                                </div>
+                                <div class="form-group">
+                                    <label for="tempBookAmount">Amount: </label>
+                                    <input type="text" class="form-control" id="tempBookAmount"
+                                        [(ngModel)]="tempBook.amount">
+                                </div>
+                                <button class="btn btn-primary m-1" (click)="addTempBookToTempOrder()">ADD
+                                    BOOK</button>
+                            </div>
+                        </div>
+                        <div *ngIf="!selectedOrder.orderId">
+                            <h2 class="text-primary">Delivery:</h2>
+                            <div style="font-size: 150%" *ngFor="let opt of delivOpts; let i = index">
+                                <div class="form-check p-2 m-3">
+                                    <label class="form-check-label">
+                                        <input type="radio" class="form-check-input" name="deliveryRdBtn"
+                                            (change)="selectRadioButton(i)">
+                                        {{opt.name}} - {{opt.price | currency : '£'}}
+                                    </label>
                                 </div>
                             </div>
                         </div>

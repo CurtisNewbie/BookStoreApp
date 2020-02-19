@@ -1,5 +1,12 @@
 import { Component, OnInit } from "@angular/core";
 import { Order } from "../model/order";
+import { OrdersService } from "../orders.service";
+import { JWTAuthService } from "../jwt-auth.service";
+import { HttpResponse } from "@angular/common/http";
+import { BooksService } from "../books.service";
+import { Book } from "../model/book";
+import { DeliveryOption } from "../model/deliveryOption";
+import { DeliveryOptionsService } from "../delivery-options.service";
 
 @Component({
   selector: "app-orders",
@@ -7,86 +14,79 @@ import { Order } from "../model/order";
   styleUrls: ["./orders.component.css"]
 })
 export class OrdersComponent implements OnInit {
-  // demo data
-  orders: Order[] = [
-    {
-      address: {
-        city: "Sheffield",
-        county: "Yorkshire",
-        firstLine: "Some Randome House",
-        postCode: "SH1 1HS",
-        secondLine: "1st street"
-      },
-      booksOnOrder: [
-        {
-          amount: 10,
-          book: {
-            author: "Richard E. Williams",
-            content:
-              "In this book, based on his sold-out Animation Masterclass in the United States and across Europe, Williams provides the underlying principles of animation that very animator - from beginner to expert, classic animator to computer animation whiz - needs.",
-            date: "2009-11-05",
-            id: "1",
-            img:
-              "https://images-na.ssl-images-amazon.com/images/I/51YvgAKQYRL._SX421_BO1,204,203,200_.jpg",
-            price: 21.95,
-            title: "The Animator's Survival Kit"
-          }
-        },
-        {
-          amount: 20,
-          book: {
-            id: "3",
-            title: "Storyboard Notebook 4:3 Panels",
-            author: "Simple Storyboards",
-            content:
-              "By the end of the storyboarding notebook you will be able to go through your storyboard writing examples and track your progress and you will have a record of what works best for you.",
-            price: 6.78,
-            date: "2020-02-01",
-            img:
-              "https://images-na.ssl-images-amazon.com/images/I/51vJRPD1sxL._SX385_BO1,204,203,200_.jpg"
-          }
-        }
-      ],
-      date: "2020-02-13",
-      deliveryOption: {
-        id: 1,
-        name: "Next Day Delivery (Order before 2pm)",
-        price: 5
-      },
-      firstName: "CurtisNewbie",
-      lastName: "Z",
-      orderId: 8,
-      price: 224.5
-    }
-  ];
+  /** constant that indicates the book with current id is not found in backend */
+  readonly BOOK_NOT_FOUND = "Not Found";
+
+  /** a list of delivery options */
+  delivOpts: DeliveryOption[];
+  /** All the orders */
+  orders: Order[];
+  /** The order that is selected and displayed */
   selectedOrder: Order;
-  constructor() {}
+  /** temporary book that may be added to the order (only the id of the book and its amount are truely needed) */
+  tempBook: { book: Book; amount: number };
 
-  ngOnInit() {}
+  constructor(
+    private jwtAuth: JWTAuthService,
+    private ordersService: OrdersService,
+    private booksService: BooksService,
+    private delivOptsService: DeliveryOptionsService
+  ) {}
 
-  createOrderTemplate() {
-    this.selectedOrder = {
-      orderId: null,
-      date: null,
-      address: {
-        city: "",
-        county: "",
-        firstLine: "",
-        postCode: "",
-        secondLine: ""
-      },
-      booksOnOrder: null,
-      deliveryOption: {
-        id: 3,
-        name: "One Week Delivery",
-        price: 2.6
-      },
-      firstName: "",
-      lastName: "",
-      price: null
-    };
+  ngOnInit() {
+    this.getDeliveryOptions();
+    this.getAllOrders();
+    this.tempBook = this.createEmptyTempBook();
   }
 
+  /** Add a book to the temprary order that is about to be created or updated */
+  addTempBookToTempOrder(): void {
+    if (this.tempBook === null || this.tempBook === undefined) {
+      return;
+    }
+
+    // validate before add to selectedOrder
+    if (this.tempBook.amount <= 0)
+      alert(
+        "You must have at least one book in order to add it in your order."
+      );
+    else if (this.tempBook.book.title === this.BOOK_NOT_FOUND)
+      alert(
+        "Your book is not found in backend. Please make sure the book id is correct."
+      );
+    else {
+      // add to selectedOrder
+      this.selectedOrder.booksOnOrder.push(this.tempBook);
+      this.tempBook = this.createEmptyTempBook();
+    }
+  }
+
+  /** Create empty order template for creating a new Order */
+  createEmptyTempOrder() {
+    if (!this.jwtAuth.hasJwt()) alert("Login First!");
+    else
+      this.selectedOrder = {
+        orderId: null,
+        address: {
+          city: "",
+          county: "",
+          firstLine: "",
+          postCode: "",
+          secondLine: ""
+        },
+        booksOnOrder: [],
+        deliveryOption: {
+          id: null,
+          name: "",
+          price: null
+        },
+        firstName: "",
+        lastName: "",
+        price: null
+      };
+  }
+
+  /** Select one that is displayed */
   selectOrder(index: number) {
     this.selectedOrder = this.orders[index];
   }
@@ -94,18 +94,151 @@ export class OrdersComponent implements OnInit {
   /** Today in YYYY-DD-MM */
   today(): string {
     let d = new Date();
-    return d.getUTCFullYear() + "-" + d.getUTCMonth() + "-" + d.getUTCDay();
+    let month = d.getUTCMonth();
+    let day = d.getUTCDay();
+    // append 0 if necessary
+    let monthStr = month < 10 ? "0" + month : month;
+    let dayStr = day < 10 ? "0" + day : day;
+    return d.getUTCFullYear() + "-" + monthStr + "-" + dayStr;
   }
 
-  updateOrder(order: Order) {}
+  updateOrder(order: Order): void {
+    if (!this.jwtAuth.hasJwt()) {
+      alert("Login First!");
+      return;
+    }
+    console.log(order);
+    this.ordersService.updateOrder(order).subscribe({
+      next: (resp: HttpResponse<any>) => {
+        if (resp.status != 200)
+          console.log(`Failed to update "${order.orderId}"`);
+        else console.log(`Successfully updated "${order.orderId}"`);
+      },
+      error: err => {
+        console.log(err);
+      },
+      complete: () => {
+        this.refresh();
+      }
+    });
+  }
 
-  createOrder(order: Order) {}
+  createOrder(order: Order): void {
+    if (!this.jwtAuth.hasJwt()) {
+      alert("Login First!");
+      return;
+    }
+    let tempDTO: Order = this.convertToOrderDTO(order);
+    this.ordersService.createOrder(tempDTO).subscribe({
+      next: (resp: HttpResponse<any>) => {
+        if (resp.status != 200)
+          console.log("Failed to create this order", resp.status);
+        else console.log("Successfully created this order");
+      },
+      error: err => {
+        console.log(err);
+      },
+      complete: () => {
+        this.refresh();
+      }
+    });
+  }
 
-  deleteOrder(order: Order) {}
+  deleteOrder(order: Order): void {
+    if (!this.jwtAuth.hasJwt()) {
+      alert("Login First!");
+      return;
+    }
+    this.ordersService.deleteOrderById(order.orderId).subscribe({
+      next: (resp: HttpResponse<any>) => {
+        if (resp.status != 200)
+          console.log(`Failed to delete "${order.orderId}"`);
+        else console.log(`"${resp.body}"`);
+      },
+      error: err => {
+        console.log(err);
+      },
+      complete: () => {
+        this.refresh();
+      }
+    });
+  }
 
-  /** Find book's title by its id */
-  findBookTitle(id: number) {
-    // demo data
-    return "The Animator's Survival Kit";
+  getAllOrders() {
+    if (!this.jwtAuth.hasJwt()) {
+      alert("Login First!");
+      return;
+    }
+    this.ordersService.fetchAllOrders().subscribe((orders: Order[]) => {
+      this.orders = orders;
+    });
+  }
+
+  getDeliveryOptions(): void {
+    this.delivOptsService.fetchAllDeliveryOpt().subscribe(val => {
+      this.delivOpts = val;
+    });
+  }
+
+  /**
+   * When the id of the temporary book is changed, this method updates its title.
+   *
+   * @param bookId id of the temporary book
+   */
+  updateTempBookTitle(bookId: string): void {
+    this.booksService.fetchBookById(bookId).subscribe((val: Book) => {
+      if (val != null) this.tempBook.book.title = val.title;
+      else this.tempBook.book.title = this.BOOK_NOT_FOUND;
+    });
+  }
+
+  /**
+   * Clear previous storage of orders, retrieve these data again from backend server.
+   */
+  refresh() {
+    this.orders = null;
+    this.selectedOrder = null;
+    this.getAllOrders();
+  }
+
+  /** Create empty temporary book that may or may not be added to the order */
+  createEmptyTempBook(): { amount: number; book: Book } {
+    return {
+      book: {
+        id: "",
+        title: ""
+      },
+      amount: 0
+    };
+  }
+
+  /** Convert to DTO, removes unnecessary data */
+  convertToOrderDTO(order: Order): Order {
+    let list: { amount; book }[] = [];
+    for (let b of order.booksOnOrder) {
+      list.push({
+        amount: b.amount,
+        book: {
+          id: b.book.id
+        }
+      });
+    }
+    return {
+      address: order.address,
+      booksOnOrder: list,
+      deliveryOption: { id: order.deliveryOption.id },
+      firstName: order.firstName,
+      lastName: order.lastName
+    };
+  }
+
+  /**
+   * Select one of the radio button for delivery option
+   *
+   * @param n index of the selected delivery option
+   */
+  selectRadioButton(index: number): void {
+    if (index >= 0 && index < this.delivOpts.length)
+      this.selectedOrder.deliveryOption = this.delivOpts[index];
   }
 }

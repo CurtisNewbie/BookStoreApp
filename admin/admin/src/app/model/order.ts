@@ -3,8 +3,8 @@ import { DeliveryOption } from "./deliveryOption";
 
 /** DTO for order that is trsferred between this app and backend */
 export interface Order {
-  orderId: number;
-  date: string;
+  orderId?: number;
+  date?: string;
   address: {
     city: string;
     county: string;
@@ -19,5 +19,5 @@ export interface Order {
   firstName: string;
   lastName: string;
   deliveryOption: DeliveryOption;
-  price: number;
+  price?: number;
 }
