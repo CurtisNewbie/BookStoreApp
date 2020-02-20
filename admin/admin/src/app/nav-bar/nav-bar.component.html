@@ -20,8 +20,8 @@
         <div class="navbar-nav mr-auto"></div>
         <div *ngIf="!hasAuth()" class="form-inline my-2 my-lg-0">
             <input type="text" class="form-control mr-sm-2" placeholder="username" [(ngModel)]="username">
-            <input type="text" class="form-control mr-sm-2" placeholder="password" [(ngModel)]="password">
-            <input type="submit" value="Login" (click)="login(username, password)">
+            <input type="password" class="form-control mr-sm-2" placeholder="password" [(ngModel)]="password">
+            <button class="btn btn-primary m-1" (click)="login(username, password)">LOGIN</button>
         </div>
     </div>
 </nav>
