@@ -5,7 +5,7 @@ import { DeliveryOption } from "./deliveryOption";
 export interface Order {
   address: Address;
   // here we only need id of each book
-  booksOnOrder: { amount: number; book: { id: string } }[];
+  booksOnOrder: { amount: number; book: { id: number } }[];
   firstName: string;
   lastName: string;
   // id of each DeliveryOption object

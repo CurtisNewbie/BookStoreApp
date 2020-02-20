@@ -17,7 +17,7 @@ export class BooksService {
     return this.http.get<Book[]>(this.GET_ALL_BOOKS);
   }
 
-  fetchBookById(id: string): Observable<Book> {
+  fetchBookById(id: number): Observable<Book> {
     return this.http.get<Book>(this.SINGLE_BOOK_URL + `?id=${id}`);
   }
 
@@ -52,7 +52,7 @@ export class BooksService {
     return this.http.post(this.SINGLE_BOOK_URL, book, options);
   }
 
-  deleteBook(bookId: string): Observable<any> {
+  deleteBook(bookId: number): Observable<any> {
     let options: { headers: HttpHeaders; observe; responseType } = {
       headers: new HttpHeaders({
         Authorization: this.jwtAuth.createJwtHeaderStr()

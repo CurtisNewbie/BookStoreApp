@@ -24,9 +24,9 @@
                         <h2 class="display-4 text-primary">"{{selectedBook.title}}" <span class="badge badge-secondary">
                                 {{selectedBook.date}}</span></h2>
                         <div class="form-group">
-                            <label for="id">ID:</label>
-                            <input type="text" [disabled]="!creatingBook" class="form-control" id="id"
-                                [(ngModel)]="selectedBook.id">
+                            <label for="id">ID: <span *ngIf="selectedBook.id === null" style="color:brown">Will Be
+                                    Created</span></label>
+                            <input type="text" disabled="true" class="form-control" id="id" [value]="selectedBook.id">
                         </div>
                         <div class="form-group">
                             <label for="date">DATE: (YYYY-MM-DD)</label>

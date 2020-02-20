@@ -9,7 +9,6 @@ POST or PUT http://localhost:8080/api/book
 To update a book, you must have it in the database beforehand.
 
     {
-        "id": "1",
         "title": "The Animator's Survival Kit",
         "author": "Richard E. Williams",
         "content" : "In this book, based on his sold-out Animation Masterclass in the United States and across Europe, Williams provides the underlying principles of animation that very animator - from beginner to expert, classic animator to computer animation whiz - needs.",
@@ -19,7 +18,6 @@ To update a book, you must have it in the database beforehand.
     }
 
     {
-        "id": "3",
         "title": "Storyboard Notebook 4:3 Panels",
         "author": "Simple Storyboards",
             "content" : "By the end of the storyboarding notebook you will be able to go through your storyboard writing examples and track your progress and you will have a record of what works best for you.",
@@ -61,7 +59,7 @@ POST or PUT http://localhost:8080/api/delivery/option
 
 POST or PUT http://localhost:8080/api/order
 
-Make sure the `book with id = 1` is created before sending this request, and change the `"id"` in `"deliveryOption"` to one that exists in the database.
+Make sure to change `the id for book is changed to an existing book` and `the id for deliveryOption is changed to an existing delivery option` before sending this request. Their id(s) are automatically generated in backend.
 
     {
         "address": {

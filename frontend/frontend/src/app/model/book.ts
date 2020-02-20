@@ -2,7 +2,7 @@
  * Represents a Book
  */
 export interface Book {
-  readonly id: string;
+  readonly id?: number;
   title: string;
   author: string;
   content: string;
@@ -15,7 +15,7 @@ export interface Book {
  * Modelling the Book JSON object fetched from backend
  */
 export interface BEBook {
-  id: string;
+  id: number;
   title: string;
   author: string;
   content: string;

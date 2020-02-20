@@ -29,7 +29,7 @@ public class BookResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getBookById(@QueryParam("id") String id) {
+    public Response getBookById(@QueryParam("id") Long id) {
         var book = bookRepo.getBookById(id);
         if (book != null)
             return Response.ok(book).build();
@@ -49,15 +49,10 @@ public class BookResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createBook(Book book) {
-        String id = book.getId();
-        if (id != null && !id.isEmpty()) {
-            bookRepo.createBook(book);
-            return Response.created(
-                    UriBuilder.fromPath("http://localhost:8080/api/book/").queryParam("id", book.getId()).build())
-                    .build();
-        } else {
-            return Response.noContent().build();
-        }
+        book = bookRepo.createBook(book);
+        return Response
+                .created(UriBuilder.fromPath("http://localhost:8080/api/book/").queryParam("id", book.getId()).build())
+                .build();
     }
 
     @RolesAllowed(SecurityRole.ADMIN)
@@ -65,8 +60,8 @@ public class BookResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response updateBook(Book book) {
-        String id = book.getId();
-        if (id != null && !id.isEmpty()) {
+        Long id = book.getId();
+        if (id != null && id >= 0) {
             book = bookRepo.updateBook(book);
             return Response.ok(book).build();
         } else {
@@ -77,8 +72,8 @@ public class BookResource {
     @RolesAllowed(SecurityRole.ADMIN)
     @DELETE
     @Produces(MediaType.TEXT_PLAIN)
-    public Response deleteBook(@QueryParam("id") String id) {
-        if (id != null && !id.isEmpty() && bookRepo.removeBookById(id))
+    public Response deleteBook(@QueryParam("id") Long id) {
+        if (id != null && id >= 0 && bookRepo.removeBookById(id))
             return Response.ok("Book id:" + id + " deleted").build();
         else
             return Response.noContent().build();

@@ -1,6 +1,6 @@
 /** DTO for book that is trsferred between this app and backend */
 export interface Book {
-  id: string;
+  id: number;
   title?: string;
   author?: string;
   content?: string;

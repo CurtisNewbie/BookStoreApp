@@ -8,7 +8,7 @@ import { CheckoutService } from "../checkout.service";
   styleUrls: ["./checkout.component.css"]
 })
 export class CheckoutComponent implements OnInit {
-  cart: Map<string, { book: Book; amount: number }>;
+  cart: Map<number, { book: Book; amount: number }>;
 
   constructor(private checkoutService: CheckoutService) {}
 
@@ -27,7 +27,7 @@ export class CheckoutComponent implements OnInit {
    * Remove book from cart by its id
    * @param id
    */
-  removeFromCart(id: string) {
+  removeFromCart(id: number) {
     this.checkoutService.removeFromCart(id);
   }
 

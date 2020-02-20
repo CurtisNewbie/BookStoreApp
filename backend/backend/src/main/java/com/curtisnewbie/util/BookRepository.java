@@ -25,9 +25,10 @@ public class BookRepository {
     private SessionContext sessionCtx;
 
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public void createBook(@NotNull Book book) {
+    public Book createBook(@NotNull Book book) {
         try {
             em.persist(book);
+            return book;
         } catch (Exception e) {
             sessionCtx.setRollbackOnly();
             throw e;
@@ -41,7 +42,7 @@ public class BookRepository {
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public boolean removeBookById(String id) {
+    public boolean removeBookById(Long id) {
         boolean res;
         var b = em.find(Book.class, id);
         if (b != null) {
@@ -61,7 +62,7 @@ public class BookRepository {
      *         id.
      */
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
-    public Book getBookById(String id) {
+    public Book getBookById(Long id) {
         return em.find(Book.class, id);
     }
 

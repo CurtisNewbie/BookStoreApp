@@ -41,12 +41,10 @@ export class OrdersComponent implements OnInit {
 
   /** Add a book to the temprary order that is about to be created or updated */
   addTempBookToTempOrder(): void {
-    if (this.tempBook === null || this.tempBook === undefined) {
-      return;
-    }
-
     // validate before add to selectedOrder
-    if (this.tempBook.amount <= 0)
+    if (!this.tempBook.book.id) {
+      alert("Book Id invalid.");
+    } else if (this.tempBook.amount <= 0)
       alert(
         "You must have at least one book in order to add it in your order."
       );
@@ -186,7 +184,7 @@ export class OrdersComponent implements OnInit {
    * @param bookId id of the temporary book
    */
   updateTempBookTitle(bookId: string): void {
-    this.booksService.fetchBookById(bookId).subscribe((val: Book) => {
+    this.booksService.fetchBookById(parseInt(bookId)).subscribe((val: Book) => {
       if (val != null) this.tempBook.book.title = val.title;
       else this.tempBook.book.title = this.BOOK_NOT_FOUND;
     });
@@ -205,7 +203,7 @@ export class OrdersComponent implements OnInit {
   createEmptyTempBook(): { amount: number; book: Book } {
     return {
       book: {
-        id: "",
+        id: null,
         title: ""
       },
       amount: 0

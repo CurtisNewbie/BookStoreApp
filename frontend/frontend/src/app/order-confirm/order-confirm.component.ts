@@ -17,7 +17,7 @@ import { Router } from "@angular/router";
 export class OrderConfirmComponent implements OnInit {
   delivOpts: DeliveryOption[];
   selectedDelivOption: DeliveryOption;
-  cart: Map<string, { book: Book; amount: number }>;
+  cart: Map<number, { book: Book; amount: number }>;
   booksPrice: number;
   firstName: string;
   lastName: string;
