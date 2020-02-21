@@ -239,4 +239,8 @@ export class OrdersComponent implements OnInit {
     if (index >= 0 && index < this.delivOpts.length)
       this.selectedOrder.deliveryOption = this.delivOpts[index];
   }
+
+  removeBookFromSelectedOrder(index: number): void {
+    this.selectedOrder.booksOnOrder.splice(index, 1);
+  }
 }

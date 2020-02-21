@@ -88,6 +88,8 @@
                                         <label for="bookAmount" style="color: white;">Amount: </label>
                                         <input type="text" class="form-control" id="bookAmount" [(ngModel)]="b.amount">
                                     </div>
+                                    <button class="btn btn-primary m-1" (click)="removeBookFromSelectedOrder(j)">REMOVE
+                                        BOOK</button>
                                 </div>
                             </div>
                             <div class="shadow rounded p-2 m-5 border border-secondary">
