@@ -11,11 +11,20 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.*;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriBuilder;
 
-import com.curtisnewbie.model.*;
-import com.curtisnewbie.util.*;
-import com.curtisnewbie.security.*;
+import com.curtisnewbie.model.Book;
+import com.curtisnewbie.security.SecurityRole;
+import com.curtisnewbie.util.BookRepository;
+
+import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
+import org.eclipse.microprofile.openapi.annotations.media.Content;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 
 /**
  * RESTful api for Book Resources
@@ -29,7 +38,11 @@ public class BookResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getBookById(@QueryParam("id") String id) {
+    @Operation(summary = "Get a book by its id")
+    @APIResponses(value = {
+            @APIResponse(responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Book.class)), description = "Book found and returned"),
+            @APIResponse(responseCode = "204", description = "Book Not Found") })
+    public Response getBookById(@QueryParam("id") Long id) {
         var book = bookRepo.getBookById(id);
         if (book != null)
             return Response.ok(book).build();
@@ -40,33 +53,36 @@ public class BookResource {
     @GET
     @Path("all")
     @Produces(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Get all books")
+    @APIResponse(responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(type = SchemaType.ARRAY, implementation = Book.class)), description = "Return all books in an array")
     public Response getAllBooks() {
         var books = bookRepo.getBooks();
         return Response.ok(books).build();
     }
 
-    @RolesAllowed(SecurityRole.ADMIN)
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
+    @RolesAllowed(SecurityRole.ADMIN)
+    @Operation(summary = "Create a book")
+    @APIResponse(responseCode = "201", description = "Book created, URI to it is returned in header \"location\"")
     public Response createBook(Book book) {
-        String id = book.getId();
-        if (id != null && !id.isEmpty()) {
-            bookRepo.createBook(book);
-            return Response.created(
-                    UriBuilder.fromPath("http://localhost:8080/api/book/").queryParam("id", book.getId()).build())
-                    .build();
-        } else {
-            return Response.noContent().build();
-        }
+        book = bookRepo.createBook(book);
+        return Response
+                .created(UriBuilder.fromPath("http://localhost:8080/api/book/").queryParam("id", book.getId()).build())
+                .build();
     }
 
-    @RolesAllowed(SecurityRole.ADMIN)
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
+    @RolesAllowed(SecurityRole.ADMIN)
+    @Operation(summary = "Update all details of an existing book")
+    @APIResponses(value = {
+            @APIResponse(responseCode = "200", description = "Book updated and returned.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Book.class))),
+            @APIResponse(responseCode = "204", description = "Book is not updated as id is illegal.") })
     public Response updateBook(Book book) {
-        String id = book.getId();
-        if (id != null && !id.isEmpty()) {
+        Long id = book.getId();
+        if (id != null && id >= 0) {
             book = bookRepo.updateBook(book);
             return Response.ok(book).build();
         } else {
@@ -74,11 +90,15 @@ public class BookResource {
         }
     }
 
-    @RolesAllowed(SecurityRole.ADMIN)
     @DELETE
     @Produces(MediaType.TEXT_PLAIN)
-    public Response deleteBook(@QueryParam("id") String id) {
-        if (id != null && !id.isEmpty() && bookRepo.removeBookById(id))
+    @RolesAllowed(SecurityRole.ADMIN)
+    @Operation(summary = "Delete a book by its id")
+    @APIResponses(value = {
+            @APIResponse(responseCode = "200", description = "The book is removed, a message about this is returned", content = @Content(mediaType = "text/plain", schema = @Schema(implementation = String.class))),
+            @APIResponse(responseCode = "204", description = "Book cannot be removed.") })
+    public Response deleteBook(@QueryParam("id") Long id) {
+        if (id != null && id >= 0 && bookRepo.removeBookById(id))
             return Response.ok("Book id:" + id + " deleted").build();
         else
             return Response.noContent().build();

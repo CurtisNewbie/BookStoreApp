@@ -77,4 +77,20 @@ public class OrderRepository {
         }
         return false;
     }
+
+    /**
+     * update order
+     * 
+     * @param order
+     * @return the updated order
+     */
+    public Order updateOrder(@NotNull Order order) {
+        try {
+            em.merge(order);
+            return order;
+        } catch (Exception e) {
+            sessionCtx.setRollbackOnly();
+            throw e;
+        }
+    }
 }

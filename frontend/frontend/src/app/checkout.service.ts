@@ -5,7 +5,7 @@ import { Book } from "./model/book";
   providedIn: "root"
 })
 export class CheckoutService {
-  cart: Map<string, { book: Book; amount: number }> = new Map();
+  cart: Map<number, { book: Book; amount: number }> = new Map();
 
   constructor() {}
 
@@ -30,7 +30,7 @@ export class CheckoutService {
    * Remove one selected book by Book.id from cart.
    * @param id
    */
-  removeFromCart(id: string): void {
+  removeFromCart(id: number): void {
     if (this.cart.has(id)) {
       let prev = this.cart.get(id);
       if (prev.amount <= 1) {
@@ -44,7 +44,7 @@ export class CheckoutService {
   /**
    * Get the cart. (shallow copy)
    */
-  getCart(): Map<string, { book: Book; amount: number }> {
+  getCart(): Map<number, { book: Book; amount: number }> {
     return this.cart;
   }
 
@@ -71,9 +71,9 @@ export class CheckoutService {
    * that contains the book (only with its id) and the amount for this book. The
    * id of each book is enough for the backend to recognise which book it is.
    */
-  cartToList(): { book: { id: string }; amount: number }[] {
+  cartToList(): { book: { id: number }; amount: number }[] {
     // remove unneeded information
-    let list: { book: { id: string }; amount: number }[] = [];
+    let list: { book: { id: number }; amount: number }[] = [];
     for (let pair of this.cart) {
       list.push({ book: { id: pair[0] }, amount: pair[1].amount });
     }

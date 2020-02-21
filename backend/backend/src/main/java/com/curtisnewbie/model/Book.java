@@ -5,8 +5,10 @@ import java.util.List;
 
 import javax.json.bind.annotation.JsonbDateFormat;
 import javax.json.bind.annotation.JsonbTransient;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -18,7 +20,8 @@ import javax.validation.constraints.NotNull;
 public class Book {
 
     @Id
-    private String id;
+    @GeneratedValue
+    private Long id;
 
     @NotNull
     private String title;
@@ -30,6 +33,8 @@ public class Book {
     private LocalDate date;
 
     private String author;
+
+    @Column(length = 2000)
     private String content;
     private String img;
 
@@ -62,14 +67,14 @@ public class Book {
     /**
      * @return the id
      */
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
     /**
      * @param id the id to set
      */
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
