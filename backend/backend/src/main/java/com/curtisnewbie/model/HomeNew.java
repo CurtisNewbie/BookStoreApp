@@ -3,6 +3,7 @@ package com.curtisnewbie.model;
 import java.time.LocalDate;
 
 import javax.json.bind.annotation.JsonbDateFormat;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -21,6 +22,7 @@ public class HomeNew {
     private String title;
 
     @NotNull
+    @Column(length = 10000)
     private String content;
 
     @NotNull

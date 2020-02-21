@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.json.bind.annotation.JsonbDateFormat;
 import javax.json.bind.annotation.JsonbTransient;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -32,6 +33,8 @@ public class Book {
     private LocalDate date;
 
     private String author;
+
+    @Column(length = 2000)
     private String content;
     private String img;
 
