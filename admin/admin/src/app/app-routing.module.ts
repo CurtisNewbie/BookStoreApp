@@ -9,7 +9,8 @@ const routes: Routes = [
   { path: "news", component: NewsComponent },
   { path: "books", component: BooksComponent },
   { path: "orders", component: OrdersComponent },
-  { path: "delivery", component: DeliveryOptionComponent }
+  { path: "delivery", component: DeliveryOptionComponent },
+  { path: "", redirectTo: "news", pathMatch: "full" }
 ];
 
 @NgModule({
