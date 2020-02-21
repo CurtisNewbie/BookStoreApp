@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
 
 /** This acts as a join table between Book and Order */
 @Entity
@@ -18,6 +19,7 @@ public class BookOrder {
     @JsonbTransient
     private long id;
     /** Amount of this book in this order */
+    @Min(value = 1)
     private int amount;
 
     @ManyToOne(fetch = FetchType.EAGER)
