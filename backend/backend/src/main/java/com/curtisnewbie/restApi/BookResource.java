@@ -60,7 +60,7 @@ public class BookResource {
     @Path("all")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(summary = "Get all books")
-    @APIResponse(responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Book.class)), description = "Return all books in an array")
+    @APIResponse(responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(type = SchemaType.ARRAY, implementation = Book.class)), description = "Return all books in an array")
     public Response getAllBooks() {
         var books = bookRepo.getBooks();
         return Response.ok(books).build();
