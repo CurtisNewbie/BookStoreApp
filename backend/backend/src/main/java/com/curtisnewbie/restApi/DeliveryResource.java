@@ -85,7 +85,7 @@ public class DeliveryResource {
     @Operation(summary = "Delete a delivery option by its id")
     @APIResponses(value = {
             @APIResponse(responseCode = "200", description = "Delivery option deleted, a message about this is returned", content = @Content(schema = @Schema(implementation = String.class))),
-            @APIResponse(responseCode = "204", description = "Delivery option cannot be deleted") })
+            @APIResponse(responseCode = "204", description = "Failed to delete this delivery option") })
     public Response deleteDelivOptById(@QueryParam("id") int id) {
         boolean bool = delivOptRepo.removeDelivOptById(id);
         if (bool == true)
