@@ -34,10 +34,19 @@ public class OrderResource {
     @EJB
     private OrderRepository orderRepo;
 
+    /*
+     * ------------------------------------------------------------
+     * 
+     * Creating order is not protected by authorisation and authentication mechanism
+     * for demo purpose only. There may well be the process where the order is
+     * verified as paid, etc.
+     * 
+     * ------------------------------------------------------------
+     */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(summary = "Create an order", description = "Order's date is always overwritten in backend. An order must have at least one book,which's amount is greater than 0, and it must have selected a delivery option.")
+    @Operation(summary = "Create an order", description = "Order's date is always overwritten in backend. An order must have at least one book,which's amount is greater than 0, and it must have selected a delivery option. (Note that this POST request is supposed to be protected by authorisation mechanism. Not using authentication and authorisation mechanism is only for demo purpose.)")
     @APIResponses(value = {
             @APIResponse(responseCode = "200", description = "Order created and returned, this is intended so that the user can review the order that he/she has created.", content = @Content(schema = @Schema(implementation = Order.class))),
             @APIResponse(responseCode = "204", description = "Order cannot be created due to its validity.") })
