@@ -11,7 +11,7 @@ This is a simple Book Store webapp that consists of:
 - **Backend**
 
   - <a href="https://jakarta.ee/release/">Jarkata 8 or JavaEE 8 API</a>
-  - Microprofile API (<a href="https://github.com/eclipse/microprofile-jwt-auth">MP-JWT</a>, <a href="https://github.com/eclipse/microprofile-open-api">MP-OpenAPI</a> and )
+  - Microprofile API (<a href="https://github.com/eclipse/microprofile-jwt-auth">MP-JWT</a>, <a href="https://github.com/eclipse/microprofile-open-api">MP-OpenAPI</a> and <a href="https://github.com/eclipse/microprofile-config">MP-Config</a>)
 
 Actual implementation or the server your are using shouldn't really matter, but they should implement the API that is used, I am currently using Wildfly19 (Wildfly18 doesn't support MP-JWT).
 
