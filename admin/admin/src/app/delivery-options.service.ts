@@ -3,13 +3,14 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { JWTAuthService } from "./jwt-auth.service";
 import { DeliveryOption } from "./model/deliveryOption";
 import { Observable } from "rxjs";
+import { config } from "src/environments/config";
 
 @Injectable({
   providedIn: "root"
 })
 export class DeliveryOptionsService {
-  readonly GET_ALL_OPTIONS = "http://localhost:8080/api/delivery/option/all";
-  readonly SINGLE_OPT_URL = "http://localhost:8080/api/delivery/option";
+  readonly GET_ALL_OPTIONS = `http://${config.backend.hostname}:${config.backend.port}/api/delivery/option/all`;
+  readonly SINGLE_OPT_URL = `http://${config.backend.hostname}:${config.backend.port}/api/delivery/option`;
 
   constructor(private http: HttpClient, private jwtAuth: JWTAuthService) {}
 

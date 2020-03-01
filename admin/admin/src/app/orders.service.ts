@@ -3,13 +3,14 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { JWTAuthService } from "./jwt-auth.service";
 import { Observable } from "rxjs";
 import { Order } from "./model/order";
+import { config } from "src/environments/config";
 
 @Injectable({
   providedIn: "root"
 })
 export class OrdersService {
-  readonly GET_ALL_ORDER = "http://localhost:8080/api/order/all";
-  readonly SINGLE_ORDER_URL = "http://localhost:8080/api/order";
+  readonly GET_ALL_ORDER = `http://${config.backend.hostname}:${config.backend.port}/api/order/all`;
+  readonly SINGLE_ORDER_URL = `http://${config.backend.hostname}:${config.backend.port}/api/order`;
 
   constructor(private http: HttpClient, private jwtAuth: JWTAuthService) {}
 

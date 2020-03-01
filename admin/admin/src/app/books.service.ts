@@ -3,13 +3,14 @@ import { HttpClient, HttpParams, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { Book } from "./model/book";
 import { JWTAuthService } from "./jwt-auth.service";
+import { config } from "src/environments/config";
 
 @Injectable({
   providedIn: "root"
 })
 export class BooksService {
-  readonly GET_ALL_BOOKS: string = "http://localhost:8080/api/book/all";
-  readonly SINGLE_BOOK_URL: string = "http://localhost:8080/api/book";
+  readonly GET_ALL_BOOKS: string = `http://${config.backend.hostname}:${config.backend.port}/api/book/all`;
+  readonly SINGLE_BOOK_URL: string = `http://${config.backend.hostname}:${config.backend.port}/api/book`;
 
   constructor(private http: HttpClient, private jwtAuth: JWTAuthService) {}
 

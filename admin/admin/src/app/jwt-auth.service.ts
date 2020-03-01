@@ -1,12 +1,13 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { timer } from "rxjs";
+import { config } from "src/environments/config";
 
 @Injectable({
   providedIn: "root"
 })
 export class JWTAuthService {
-  readonly JWT_URL = "http://localhost:8080/jwt/api/admin";
+  readonly JWT_URL = `http://${config.jwt_auth.hostname}:${config.jwt_auth.port}/auth/api/admin`;
 
   /**Json Web Token */
   jwt: string;

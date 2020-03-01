@@ -3,13 +3,14 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { HomeNew } from "./model/homeNew";
 import { Observable } from "rxjs";
 import { JWTAuthService } from "./jwt-auth.service";
+import { config } from "src/environments/config";
 
 @Injectable({
   providedIn: "root"
 })
 export class NewsService {
-  readonly GET_ALL_NEWS = "http://localhost:8080/api/new/all";
-  readonly SINGLE_NEW_URL = "http://localhost:8080/api/new";
+  readonly GET_ALL_NEWS = `http://${config.backend.hostname}:${config.backend.port}/api/new/all`;
+  readonly SINGLE_NEW_URL = `http://${config.backend.hostname}:${config.backend.port}/api/new`;
 
   constructor(private http: HttpClient, private jwtAuth: JWTAuthService) {}
 
