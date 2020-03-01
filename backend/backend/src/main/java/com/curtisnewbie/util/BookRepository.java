@@ -2,46 +2,46 @@ package com.curtisnewbie.util;
 
 import java.util.List;
 
-import javax.annotation.Resource;
-import javax.ejb.SessionContext;
-import javax.ejb.Stateless;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
+import javax.transaction.Transactional.TxType;
 import javax.validation.constraints.NotNull;
 
 import com.curtisnewbie.model.Book;
 
 // Class that manages interaction with database for Book resources
-@Stateless
+@ApplicationScoped
 public class BookRepository {
 
-    @PersistenceContext(unitName = "bookStoreDB")
-    private EntityManager em;
+    @Inject
+    EntityManager em;
 
-    @Resource
-    private SessionContext sessionCtx;
-
-    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    /*
+     * 
+     * -------------------------------------
+     * 
+     * Not implemented:
+     * 
+     * Handle Exceptions in future commits
+     * 
+     * -------------------------------------
+     */
+    @Transactional(value = TxType.REQUIRED)
     public Book createBook(@NotNull Book book) {
-        try {
-            em.persist(book);
-            return book;
-        } catch (Exception e) {
-            sessionCtx.setRollbackOnly();
-            throw e;
-        }
+        em.persist(book);
+        return book;
     }
 
-    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+    @Transactional(value = TxType.SUPPORTS)
     public List<Book> getBooks() {
         TypedQuery<Book> query = em.createQuery("SELECT b FROM Book b", Book.class);
         return query.getResultList();
     }
 
-    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    @Transactional(value = TxType.REQUIRED)
     public boolean removeBookById(Long id) {
         boolean res;
         var b = em.find(Book.class, id);
@@ -61,25 +61,28 @@ public class BookRepository {
      * @return {@code NULL} if not found, else the Book object that contains this
      *         id.
      */
-    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+    @Transactional(value = TxType.SUPPORTS)
     public Book getBookById(Long id) {
         return em.find(Book.class, id);
     }
 
     /**
+     * -------------------------------------
+     * 
+     * Not implemented:
+     * 
+     * Handle Exceptions in future commits
+     * 
+     * -------------------------------------
+     * 
      * Update Book in database
      * 
      * @param book
      * @return
      */
-    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    @Transactional(value = TxType.REQUIRED)
     public Book updateBook(Book book) {
-        try {
-            em.merge(book);
-            return book;
-        } catch (Exception e) {
-            sessionCtx.setRollbackOnly();
-            throw e;
-        }
+        em.merge(book);
+        return book;
     }
 }

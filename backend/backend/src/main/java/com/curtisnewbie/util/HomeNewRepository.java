@@ -2,50 +2,50 @@ package com.curtisnewbie.util;
 
 import java.util.List;
 
-import javax.annotation.Resource;
-import javax.ejb.SessionContext;
-import javax.ejb.Stateless;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
+import javax.transaction.Transactional.TxType;
 import javax.validation.constraints.NotNull;
 
 import com.curtisnewbie.model.HomeNew;
 
-@Stateless
+@ApplicationScoped
 public class HomeNewRepository {
 
-    @PersistenceContext(unitName = "bookStoreDB")
-    private EntityManager em;
+    @Inject
+    EntityManager em;
 
-    @Resource
-    private SessionContext sessionCtx;
-
-    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    /*
+     * 
+     * -------------------------------------
+     * 
+     * Not implemented:
+     * 
+     * Handle Exceptions in future commits
+     * 
+     * -------------------------------------
+     */
+    @Transactional(value = TxType.REQUIRED)
     public HomeNew createHomeNew(@NotNull HomeNew homeNew) {
-        try {
-            em.persist(homeNew);
-            return homeNew;
-        } catch (Exception e) {
-            sessionCtx.setRollbackOnly();
-            throw e;
-        }
+        em.persist(homeNew);
+        return homeNew;
     }
 
-    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+    @Transactional(value = TxType.SUPPORTS)
     public List<HomeNew> getHomeNews() {
         TypedQuery<HomeNew> query = em.createQuery("SELECT h FROM HomeNew h", HomeNew.class);
         return query.getResultList();
     }
 
-    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+    @Transactional(value = TxType.SUPPORTS)
     public HomeNew getHomeNewById(@NotNull long id) {
         return em.find(HomeNew.class, id);
     }
 
-    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    @Transactional(value = TxType.REQUIRED)
     public boolean removeHomeNewById(@NotNull long id) {
         var homeNew = em.find(HomeNew.class, id);
         if (homeNew == null) {
@@ -56,14 +56,19 @@ public class HomeNewRepository {
         }
     }
 
-    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    /*
+     * 
+     * -------------------------------------
+     * 
+     * Not implemented:
+     * 
+     * Handle Exceptions in future commits
+     * 
+     * -------------------------------------
+     */
+    @Transactional(value = TxType.REQUIRED)
     public boolean updateHomeNew(@NotNull HomeNew homeNew) {
-        try {
-            em.merge(homeNew);
-            return true;
-        } catch (Exception e) {
-            sessionCtx.setRollbackOnly();
-            throw e;
-        }
+        em.merge(homeNew);
+        return true;
     }
 }

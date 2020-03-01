@@ -2,61 +2,64 @@ package com.curtisnewbie.util;
 
 import java.util.List;
 
-import javax.annotation.Resource;
-import javax.ejb.SessionContext;
-import javax.ejb.Stateless;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
+import javax.transaction.Transactional.TxType;
 
 import com.curtisnewbie.model.*;
 
 /** DAO or class that manage db interactions for DeliveryOption resources */
-@Stateless
+@ApplicationScoped
 public class DeliveryOptionRepository {
 
-    @PersistenceContext(unitName = "bookStoreDB")
-    private EntityManager em;
+    @Inject
+    EntityManager em;
 
-    @Resource
-    private SessionContext sessionCtx;
-
-    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+    @Transactional(value = TxType.SUPPORTS)
     public List<DeliveryOption> getAllDelivOpt() {
         TypedQuery<DeliveryOption> query = em.createQuery("SELECT d FROM DeliveryOption d", DeliveryOption.class);
         return query.getResultList();
     }
 
-    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+    @Transactional(value = TxType.SUPPORTS)
     public DeliveryOption getDelivOptById(int id) {
         return em.find(DeliveryOption.class, id);
     }
 
-    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    /*
+     * -------------------------------------
+     * 
+     * Not implemented:
+     * 
+     * Handle Exceptions in future commits
+     * 
+     * -------------------------------------
+     */
+    @Transactional(value = TxType.REQUIRED)
     public DeliveryOption createDelivOpt(DeliveryOption opt) {
-        try {
-            em.persist(opt);
-            return opt;
-        } catch (Exception e) {
-            sessionCtx.setRollbackOnly();
-            throw e;
-        }
+        em.persist(opt);
+        return opt;
     }
 
-    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    /*
+     * -------------------------------------
+     * 
+     * Not implemented:
+     * 
+     * Handle Exceptions in future commits
+     * 
+     * -------------------------------------
+     */
+    @Transactional(value = TxType.REQUIRED)
     public DeliveryOption updateDelivOpt(DeliveryOption opt) {
-        try {
-            em.merge(opt);
-            return opt;
-        } catch (Exception e) {
-            sessionCtx.setRollbackOnly();
-            throw e;
-        }
+        em.merge(opt);
+        return opt;
     }
 
-    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    @Transactional(value = TxType.REQUIRED)
     public boolean removeDelivOptById(int id) {
         DeliveryOption opt = em.find(DeliveryOption.class, id);
         if (opt != null) {
