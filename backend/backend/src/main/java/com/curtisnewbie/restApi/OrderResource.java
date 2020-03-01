@@ -32,7 +32,7 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 public class OrderResource {
 
     @Inject
-    private OrderRepository orderRepo;
+    OrderRepository orderRepo;
 
     /*
      * ------------------------------------------------------------

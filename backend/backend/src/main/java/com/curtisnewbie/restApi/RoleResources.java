@@ -20,7 +20,7 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 public class RoleResources {
 
     @Inject
-    private JsonWebToken callerPrincipal;
+    JsonWebToken callerPrincipal;
 
     @GET
     @Produces(MediaType.TEXT_PLAIN)

@@ -33,7 +33,7 @@ import com.curtisnewbie.security.*;
 public class HomeNewResource {
 
     @Inject
-    private HomeNewRepository homeNewRepo;
+    HomeNewRepository homeNewRepo;
 
     @GET
     @Path("/all")

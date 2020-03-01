@@ -34,7 +34,7 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 public class BookResource {
 
     @Inject
-    private BookRepository bookRepo;
+    BookRepository bookRepo;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)

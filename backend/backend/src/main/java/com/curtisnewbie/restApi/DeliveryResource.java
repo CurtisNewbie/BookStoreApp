@@ -31,7 +31,7 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 public class DeliveryResource {
 
     @Inject
-    private DeliveryOptionRepository delivOptRepo;
+    DeliveryOptionRepository delivOptRepo;
 
     @GET
     @Path("/all")
