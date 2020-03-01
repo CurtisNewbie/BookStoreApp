@@ -5,6 +5,7 @@ import java.util.List;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import javax.transaction.Transactional.TxType;
@@ -29,19 +30,22 @@ public class DeliveryOptionRepository {
         return em.find(DeliveryOption.class, id);
     }
 
-    /*
-     * -------------------------------------
+    /**
+     * Persist a new DeliveryOption
      * 
-     * Not implemented:
-     * 
-     * Handle Exceptions in future commits
-     * 
-     * -------------------------------------
+     * @param opt DeliveryOption to be persisted
+     * @return persisted DeliveryOption
+     * @throws DuplicatePrimaryKeyException if a DeliveryOption with same primay key
+     *                                      exists
      */
     @Transactional(value = TxType.REQUIRED)
     public DeliveryOption createDelivOpt(DeliveryOption opt) {
-        em.persist(opt);
-        return opt;
+        try {
+            em.persist(opt);
+            return opt;
+        } catch (PersistenceException e) {
+            throw new DuplicatePrimaryKeyException();
+        }
     }
 
     /*

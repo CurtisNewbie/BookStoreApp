@@ -5,6 +5,7 @@ import java.util.List;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import javax.transaction.Transactional.TxType;
@@ -19,20 +20,22 @@ public class BookRepository {
     @Inject
     EntityManager em;
 
-    /*
+    /**
+     * Persist a new book
      * 
-     * -------------------------------------
-     * 
-     * Not implemented:
-     * 
-     * Handle Exceptions in future commits
-     * 
-     * -------------------------------------
+     * @param book the book to be persisted
+     * @return the persisted book
+     * @throws DuplicatePrimaryKeyException if a book with the same primary key
+     *                                      exists
      */
     @Transactional(value = TxType.REQUIRED)
     public Book createBook(@NotNull Book book) {
-        em.persist(book);
-        return book;
+        try {
+            em.persist(book);
+            return book;
+        } catch (PersistenceException e) {
+            throw new DuplicatePrimaryKeyException();
+        }
     }
 
     @Transactional(value = TxType.SUPPORTS)

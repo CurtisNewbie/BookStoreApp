@@ -5,6 +5,7 @@ import java.util.List;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 import javax.transaction.TransactionManager;
 import javax.transaction.Transactional;
@@ -25,20 +26,12 @@ public class OrderRepository {
     @Inject
     TransactionManager tm;
 
-    /*
-     * 
-     * -------------------------------------
-     * 
-     * Not implemented:
-     * 
-     * Handle Exceptions in future commits
-     * 
-     * -------------------------------------
-     */
     /**
-     * Persist Order in database.
+     * Persist a new Order in database.
      * 
-     * @param order
+     * @param order Order to be persisted
+     * @return the persisted Order
+     * @throws DuplicatePrimaryKeyException if an Order with same primary key exists
      */
     @Transactional(value = TxType.REQUIRED)
     public Order createOrder(@NotNull Order order) throws Exception {
@@ -53,10 +46,9 @@ public class OrderRepository {
             order.setPrice(sum);
             em.persist(order);
             return order;
-        } catch (Exception e) {
-            tm.setRollbackOnly();
+        } catch (PersistenceException e) {
+            throw new DuplicatePrimaryKeyException();
         }
-        return null;
     }
 
     @Transactional(value = TxType.SUPPORTS)
