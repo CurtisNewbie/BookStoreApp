@@ -5,15 +5,11 @@
 </div>
 
 
+<div *ngIf="!orderSent" class="alert alert-info">
+    <p class="text-center display-4">No order can be displayed</p>
+</div>
 
-<div *ngIf="orderSent else noOrderAlert" class="container-fluid p-5">
-
-    <ng-template #noOrderAlert>
-        <div class="alert alert-info">
-            <p class="text-center display-4">No order can be displayed</p>
-        </div>
-    </ng-template>
-
+<div *ngIf="orderSent" class="container-fluid p-5">
 
     <h2 class="text-primary">Ordered Books: <span class="badge badge-secondary">Order Id: {{orderSent.orderId}} Date:
             {{orderSent.date}}</span></h2>
