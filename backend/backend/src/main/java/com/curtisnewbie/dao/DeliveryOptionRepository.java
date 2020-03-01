@@ -48,19 +48,19 @@ public class DeliveryOptionRepository {
         }
     }
 
-    /*
-     * -------------------------------------
+    /**
+     * Update Delivery Option
      * 
-     * Not implemented:
-     * 
-     * Handle Exceptions in future commits
-     * 
-     * -------------------------------------
+     * @param opt DeliveryOption to be merged
+     * @return updated DeliveryOption
+     * @throws EntityNotFoundException if the DeliveryOption is not found
      */
     @Transactional(value = TxType.REQUIRED)
     public DeliveryOption updateDelivOpt(DeliveryOption opt) {
-        em.merge(opt);
-        return opt;
+        if (em.find(DeliveryOption.class, opt.getId()) != null)
+            return em.merge(opt);
+        else
+            throw new EntityNotFoundException();
     }
 
     @Transactional(value = TxType.REQUIRED)

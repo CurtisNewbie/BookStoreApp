@@ -65,13 +65,9 @@ public class HomeNewResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(summary = "Update an existing home new")
     @APIResponses(value = {
-            @APIResponse(responseCode = "200", description = "Home new updated and returned", content = @Content(schema = @Schema(implementation = HomeNew.class))),
-            @APIResponse(responseCode = "204", description = "Failed to update this home new") })
+            @APIResponse(responseCode = "200", description = "Home new updated and returned", content = @Content(schema = @Schema(implementation = HomeNew.class))) })
     public Response updateHomeNew(@NotNull HomeNew homeNew) {
-        if (homeNewRepo.updateHomeNew(homeNew))
-            return Response.ok(homeNew).build();
-        else
-            return Response.noContent().build();
+        return Response.ok(homeNewRepo.updateHomeNew(homeNew)).build();
     }
 
     @DELETE

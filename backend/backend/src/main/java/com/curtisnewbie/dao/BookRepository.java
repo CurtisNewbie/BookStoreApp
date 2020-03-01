@@ -70,22 +70,18 @@ public class BookRepository {
     }
 
     /**
-     * -------------------------------------
-     * 
-     * Not implemented:
-     * 
-     * Handle Exceptions in future commits
-     * 
-     * -------------------------------------
      * 
      * Update Book in database
      * 
-     * @param book
-     * @return
+     * @param book Book to be merged
+     * @return updated Book
+     * @throws EntityNotFoundException if the Book is not found
      */
     @Transactional(value = TxType.REQUIRED)
     public Book updateBook(Book book) {
-        em.merge(book);
-        return book;
+        if (em.find(Book.class, book.getId()) != null)
+            return em.merge(book);
+        else
+            throw new EntityNotFoundException();
     }
 }

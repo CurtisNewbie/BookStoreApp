@@ -59,19 +59,18 @@ public class HomeNewRepository {
         }
     }
 
-    /*
+    /**
+     * Update HomeNew
      * 
-     * -------------------------------------
-     * 
-     * Not implemented:
-     * 
-     * Handle Exceptions in future commits
-     * 
-     * -------------------------------------
+     * @param homeNew HomeNew to be merged
+     * @return updated HomeNew
+     * @throws EntityNotFoundException if the HomeNew is not found
      */
     @Transactional(value = TxType.REQUIRED)
-    public boolean updateHomeNew(@NotNull HomeNew homeNew) {
-        em.merge(homeNew);
-        return true;
+    public HomeNew updateHomeNew(@NotNull HomeNew homeNew) {
+        if (em.find(HomeNew.class, homeNew.getId()) != null)
+            return em.merge(homeNew);
+        else
+            throw new EntityNotFoundException();
     }
 }

@@ -79,24 +79,18 @@ public class OrderRepository {
         return false;
     }
 
-    /*
-     * 
-     * -------------------------------------
-     * 
-     * Not implemented:
-     * 
-     * Handle Exceptions in future commits
-     * 
-     * -------------------------------------
-     */
     /**
      * update order
      * 
-     * @param order
+     * @param order Order to be persisted
      * @return the updated order
+     * @throws EntityNotFoundException if Order is not found
      */
+    @Transactional(value = TxType.REQUIRED)
     public Order updateOrder(@NotNull Order order) {
-        em.merge(order);
-        return order;
+        if (em.find(Order.class, order.getOrderId()) != null)
+            return em.merge(order);
+        else
+            throw new EntityNotFoundException();
     }
 }
