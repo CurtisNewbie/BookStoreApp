@@ -1,4 +1,4 @@
-package com.curtisnewbie.util;
+package com.curtisnewbie.dao;
 
 import java.util.List;
 

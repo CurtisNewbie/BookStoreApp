@@ -18,7 +18,7 @@ import javax.ws.rs.core.Response;
 
 import com.curtisnewbie.model.Order;
 import com.curtisnewbie.security.SecurityRole;
-import com.curtisnewbie.util.OrderRepository;
+import com.curtisnewbie.dao.OrderRepository;
 
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;

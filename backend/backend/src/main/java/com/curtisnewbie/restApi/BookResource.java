@@ -17,7 +17,7 @@ import javax.ws.rs.core.UriBuilder;
 
 import com.curtisnewbie.model.Book;
 import com.curtisnewbie.security.SecurityRole;
-import com.curtisnewbie.util.BookRepository;
+import com.curtisnewbie.dao.BookRepository;
 
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;

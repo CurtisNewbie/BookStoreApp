@@ -17,7 +17,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 
 import com.curtisnewbie.model.HomeNew;
-import com.curtisnewbie.util.HomeNewRepository;
+import com.curtisnewbie.dao.HomeNewRepository;
 
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;

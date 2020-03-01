@@ -17,7 +17,7 @@ import javax.ws.rs.core.UriBuilder;
 
 import com.curtisnewbie.model.DeliveryOption;
 import com.curtisnewbie.security.SecurityRole;
-import com.curtisnewbie.util.DeliveryOptionRepository;
+import com.curtisnewbie.dao.DeliveryOptionRepository;
 
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
