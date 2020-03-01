@@ -2,8 +2,8 @@ package com.curtisnewbie.restApi;
 
 import java.time.LocalDate;
 import javax.annotation.security.RolesAllowed;
-import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -27,11 +27,11 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 
-@Path("order")
+@Path("/order")
 @RequestScoped
 public class OrderResource {
 
-    @EJB
+    @Inject
     private OrderRepository orderRepo;
 
     /*
@@ -50,7 +50,7 @@ public class OrderResource {
     @APIResponses(value = {
             @APIResponse(responseCode = "200", description = "Order created and returned, this is intended so that the user can review the order that he/she has created.", content = @Content(schema = @Schema(implementation = Order.class))),
             @APIResponse(responseCode = "204", description = "Order cannot be created due to its validity.") })
-    public Response createOrder(Order order) {
+    public Response createOrder(Order order) throws Exception {
         // has books and delivery option selected in order
         if (order.getBooksOnOrder().size() > 0 && order.getDeliveryOption() != null) {
             // overwrite date
@@ -100,7 +100,7 @@ public class OrderResource {
     }
 
     @GET
-    @Path("all")
+    @Path("/all")
     @RolesAllowed(SecurityRole.ADMIN)
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(summary = "Get all orders in an array")

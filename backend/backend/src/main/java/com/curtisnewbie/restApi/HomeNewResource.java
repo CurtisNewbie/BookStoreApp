@@ -28,7 +28,7 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 
 import com.curtisnewbie.security.*;
 
-@Path("new")
+@Path("/new")
 @RequestScoped
 public class HomeNewResource {
 
@@ -36,7 +36,7 @@ public class HomeNewResource {
     private HomeNewRepository homeNewRepo;
 
     @GET
-    @Path("all")
+    @Path("/all")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(summary = "Get all home news in an array")
     @APIResponse(responseCode = "200", content = @Content(schema = @Schema(type = SchemaType.ARRAY, implementation = HomeNew.class)))

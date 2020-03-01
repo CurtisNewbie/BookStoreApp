@@ -1,8 +1,8 @@
 package com.curtisnewbie.restApi;
 
 import javax.annotation.security.RolesAllowed;
-import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -26,15 +26,15 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 
-@Path("delivery/option")
+@Path("/delivery/option")
 @RequestScoped
 public class DeliveryResource {
 
-    @EJB
+    @Inject
     private DeliveryOptionRepository delivOptRepo;
 
     @GET
-    @Path("all")
+    @Path("/all")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(summary = "Get all delivery options in an array")
     @APIResponse(responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(type = SchemaType.ARRAY, implementation = DeliveryOption.class)))

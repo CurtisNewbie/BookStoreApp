@@ -15,7 +15,7 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 
 /** Resources class used to check what the current role is */
-@Path("role")
+@Path("/role")
 @RequestScoped
 public class RoleResources {
 

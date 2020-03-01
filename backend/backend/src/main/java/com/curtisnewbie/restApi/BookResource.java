@@ -1,8 +1,8 @@
 package com.curtisnewbie.restApi;
 
 import javax.annotation.security.RolesAllowed;
-import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -29,11 +29,11 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 /**
  * RESTful api for Book Resources
  */
-@Path("book")
+@Path("/book")
 @RequestScoped
 public class BookResource {
 
-    @EJB
+    @Inject
     private BookRepository bookRepo;
 
     @GET
@@ -51,7 +51,7 @@ public class BookResource {
     }
 
     @GET
-    @Path("all")
+    @Path("/all")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(summary = "Get all books")
     @APIResponse(responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(type = SchemaType.ARRAY, implementation = Book.class)), description = "Return all books in an array")
