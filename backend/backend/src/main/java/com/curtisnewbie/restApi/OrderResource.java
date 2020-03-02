@@ -1,6 +1,5 @@
 package com.curtisnewbie.restApi;
 
-import java.time.LocalDate;
 import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -48,40 +47,28 @@ public class OrderResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(summary = "Create an order", description = "Order's date is always overwritten in backend. An order must have at least one book,which's amount is greater than 0, and it must have selected a delivery option. (Note that this POST request is supposed to be protected by authorisation mechanism. Not using authentication and authorisation mechanism is only for demo purpose.)")
     @APIResponses(value = {
-            @APIResponse(responseCode = "200", description = "Order created and returned, this is intended so that the user can review the order that he/she has created.", content = @Content(schema = @Schema(implementation = Order.class))),
-            @APIResponse(responseCode = "204", description = "Order cannot be created due to its validity.") })
+            @APIResponse(responseCode = "200", description = "Order created and returned, this is intended so that the user can review the order that has been created.", content = @Content(schema = @Schema(implementation = Order.class))),
+            @APIResponse(responseCode = "400", description = "Order cannot be created due to its invalidity.") })
     public Response createOrder(Order order) throws Exception {
-        // has books and delivery option selected in order
-        if (order.getBooksOnOrder().size() > 0 && order.getDeliveryOption() != null) {
-            // overwrite date
-            order.setDate(LocalDate.now());
-            // set up JPA relationship
-            var booksOnOrder = order.getBooksOnOrder();
-            for (var b : booksOnOrder) {
-                b.setOrder(order);
-            }
-            // persist order
-            order = orderRepo.createOrder(order);
-            /*
-             * ---------------------------------------------
-             * 
-             * May be only the admin should be able to get the order by id, thus returning
-             * the URI path doesn't really make sense. The client will be the one to create
-             * order, say after they successfully make the payment. They then should only be
-             * able to review the order they created or belong to them. Thus returning the
-             * created order in a JSON format which is then displayed on their browser, may
-             * be a better approach.
-             * 
-             * ---------------------------------------------
-             */
-            // return Response.created(
-            // UriBuilder.fromPath("http://localhost:8080/api/order").queryParam("id",
-            // order.getOrderId()).build())
-            // .build();
-            return Response.ok(orderRepo.getOrderById(order.getOrderId())).build();
-        } else {
-            return Response.noContent().build();
-        }
+        // persist order
+        order = orderRepo.createOrder(order);
+        /*
+         * ---------------------------------------------
+         * 
+         * May be only the admin should be able to get the order by id, thus returning
+         * the URI path doesn't really make sense. The client will be the one to create
+         * order, say after they successfully make the payment. They then should only be
+         * able to review the order they created or belong to them. Thus returning the
+         * created order in a JSON format which is then displayed on their browser, may
+         * be a better approach.
+         * 
+         * ---------------------------------------------
+         */
+        // return Response.created(
+        // UriBuilder.fromPath("http://localhost:8080/api/order").queryParam("id",
+        // order.getOrderId()).build())
+        // .build();
+        return Response.ok(orderRepo.getOrderById(order.getOrderId())).build();
     }
 
     @GET
@@ -130,14 +117,7 @@ public class OrderResource {
     @APIResponses(value = { @APIResponse(responseCode = "200", description = "Order updated and returned"),
             @APIResponse(responseCode = "204", description = "Order is not updated due to its validity.") })
     public Response updateOrder(Order order) {
-        if (order.getBooksOnOrder().size() > 0 && order.getDeliveryOption() != null) {
-            var booksOnOrder = order.getBooksOnOrder();
-            for (var b : booksOnOrder) {
-                b.setOrder(order);
-            }
-            order = orderRepo.updateOrder(order);
-            return Response.ok(order).build();
-        }
-        return Response.noContent().build();
+        order = orderRepo.updateOrder(order);
+        return Response.ok(order).build();
     }
 }

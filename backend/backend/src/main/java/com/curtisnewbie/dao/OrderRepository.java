@@ -1,5 +1,6 @@
 package com.curtisnewbie.dao;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -31,9 +32,19 @@ public class OrderRepository {
      * 
      * @param order Order to be persisted
      * @return the persisted Order
+     * @throws NoBookInOrderException           if there is no Book in this Order
+     * @throws NoDeliveryOptionInOrderException if there is no DeliveryOption in
+     *                                          this Order
      */
     @Transactional(value = TxType.REQUIRED)
-    public Order createOrder(@NotNull Order order) throws Exception {
+    public Order createOrder(@NotNull Order order) {
+        // validate books in Order and DeliveryOption
+        validateOrder(order);
+        // setup JPA relationship
+        setBookOnOrderRelation(order);
+        // overwrite date
+        order.setDate(LocalDate.now());
+        // set primary key to null
         order.setOrderId(null);
         // calculate price before persistence
         double sum = 0;
@@ -80,14 +91,49 @@ public class OrderRepository {
      * 
      * @param order Order to be persisted
      * @return the updated order
-     * @throws EntityNotFoundException if Order is not found
+     * @throws EntityNotFoundException          if Order is not found
+     * @throws NoBookInOrderException           if there is no Book in this Order
+     * @throws NoDeliveryOptionInOrderException if there is no DeliveryOption in
+     *                                          this Order
      */
     @Transactional(value = TxType.REQUIRED)
     public Order updateOrder(@NotNull Order order) {
         var id = order.getOrderId();
-        if (id != null && id >= 0 && em.find(Order.class, order.getOrderId()) != null)
+        if (id != null && id >= 0 && em.find(Order.class, order.getOrderId()) != null) {
+            validateOrder(order);
+            setBookOnOrderRelation(order);
             return em.merge(order);
-        else
+        } else {
             throw new EntityNotFoundException();
+        }
+    }
+
+    /**
+     * Check the Books in Order and DeliveryOption
+     * 
+     * @throws NoBookInOrderException           if there is no Book in this Order
+     * @throws NoDeliveryOptionInOrderException if there is no DeliveryOption in
+     *                                          this Order
+     * @param order
+     */
+    private void validateOrder(Order order) {
+        if (order.getBooksOnOrder().size() <= 0) {
+            throw new NoBookInOrderException();
+        }
+        if (order.getDeliveryOption() == null) {
+            throw new NoDeliveryOptionInOrderException();
+        }
+    }
+
+    /**
+     * Set up the JPA relationship in BooksOnOrder
+     * 
+     * @param order
+     */
+    private void setBookOnOrderRelation(Order order) {
+        var booksOnOrder = order.getBooksOnOrder();
+        for (var b : booksOnOrder) {
+            b.setOrder(order);
+        }
     }
 }
