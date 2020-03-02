@@ -1,29 +1,29 @@
 <div class="jumbotron">
     <div class="container-fluid">
-        <h1>Order Review</h1>
+        <h2>Order Review</h2>
     </div>
 </div>
 
 
 <div *ngIf="!orderSent" class="alert alert-info">
-    <p class="text-center display-4">No order can be displayed</p>
+    <p class="text-center">No order can be displayed</p>
 </div>
 
 <div *ngIf="orderSent" class="container-fluid p-5">
 
-    <h2 class="text-primary">Ordered Books: <span class="badge badge-secondary">Order Id: {{orderSent.orderId}} Date:
-            {{orderSent.date}}</span></h2>
+    <h3 class="text-primary">Ordered Books: <span class="badge badge-secondary">Order Id: {{orderSent.orderId}} Date:
+            {{orderSent.date}}</span></h3>
     <div *ngFor="let b of orderSent.booksOnOrder; let i = index" class="media">
-        <div class="shadow media-body p-2 m-3">
+        <div class="shadow media-body p-2">
             <h3 class="text-info ">{{i + 1}}. "<i>Book:</i> {{b.book.title}}"</h3>
-            <p class="font-weight-bolder lead"><i>Amount:</i> {{b.amount}}</p>
-            <p class="font-weight-bolder lead"><i>Price:</i> {{b.book.price * b.amount}}</p>
+            <p class="font-weight-bolder"><i>Amount:</i> {{b.amount}}</p>
+            <p class="font-weight-bolder"><i>Price:</i> {{b.book.price * b.amount}}</p>
         </div>
     </div>
     <div class="pt-3">
-        <h2 class="text-primary">Selected Delivery Option:</h2>
-        <div style="font-size: 150%">
-            <div class="form-check p-2 m-3">
+        <h3 class="text-primary">Selected Delivery Option:</h3>
+        <div>
+            <div class="form-check p-3">
                 <label class="form-check-label">
                     {{orderSent.deliveryOption.name}} - {{orderSent.deliveryOption.price | currency: '£'}}
                 </label>
@@ -32,8 +32,8 @@
     </div>
 
     <div class="pt-3">
-        <h2 class="text-primary">Your Address: <span style="font-size: 50%">(<span style="color: brown;">*</span>
-                required)</span></h2>
+        <h3 class="text-primary">Your Address: <span style="font-size: 50%">(<span style="color: brown;">*</span>
+                required)</span></h3>
         <div class="form-group">
             <label for="addOne"><span style="color: brown;">*</span> Address 1</label>
             <input disabled=true type="text" class="form-control" id="addOne" [ngModel]="orderSent.address.firstLine">
@@ -57,7 +57,7 @@
     </div>
 
     <div class="pt-3">
-        <h2 class="text-primary">Your Contact: </h2>
+        <h3 class="text-primary">Your Contact: </h3>
         <div class="form-group">
             <label for="firstName"><span style="color: brown;">*</span> First Name</label>
             <input disabled=true type="text" class="form-control" placeholder="Enter first name" id="firstName"
@@ -70,7 +70,7 @@
         </div>
     </div>
     <div class=" container p-4 m-4 text-right">
-        <h2 class="text-primary">Total: {{orderSent.price | currency: '£'}}
-        </h2>
+        <h3 class="text-primary">Total: {{orderSent.price | currency: '£'}}
+        </h3>
     </div>
 </div>

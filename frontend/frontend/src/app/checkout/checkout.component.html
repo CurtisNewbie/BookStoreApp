@@ -1,31 +1,30 @@
 <div class="jumbotron">
     <div class="container-fluid">
-        <h1>Checkout</h1>
+        <h2>Checkout</h2>
     </div>
 </div>
 
 <div class="container-fluid p-5">
-    <h2 class="text-primary">Your Cart: </h2>
-
+    <h3 class="text-primary">Your Cart: </h3>
     <div *ngIf="cart.size else emptyNotifi"></div>
     <ng-template #emptyNotifi>
         <br>
         <div class="alert alert-info">
-            <p class="text-center display-4">Oops Your cart is empty, go pick one! :D</p>
+            <p class="text-center">Oops Your cart is empty, go pick one! :D</p>
         </div>
         <br>
     </ng-template>
 
     <div *ngFor="let each of cart | keyvalue; let i = index" class="media">
-        <div class="shadow media-body p-2 m-3">
-            <h2 class="text-info ">{{i + 1}}. "{{each.value.book.title}}"</h2>
-            <p class="font-weight-bolder lead"><i>Price:</i>
+        <div class="shadow media-body p-2">
+            <h3 class="text-info">{{i + 1}}. "{{each.value.book.title}}"</h3>
+            <p><i class="font-weight-bolder">Price:</i>
                 {{each.value.book.price}} * {{each.value.amount}}</p>
             <button class="btn btn-primary" (click)="removeFromCart(each.value.book.id)">Remove From Cart</button>
         </div>
     </div>
-    <div class="container p-4 m-4 text-right">
-        <h2 class="text-primary" *ngIf="cart.size">Total: {{getTotal() | currency: '£'}} (excl. delivery)</h2>
+    <div class="container p-5 text-right">
+        <h3 class="text-primary" *ngIf="cart.size">Total: {{getTotal() | currency: '£'}} (excl. delivery)</h3>
         <button class="btn btn-primary" *ngIf="cart.size" routerLink="/order">Checkout</button>
     </div>
 </div>

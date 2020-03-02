@@ -1,22 +1,23 @@
 <div class="jumbotron">
     <div class="container-fluid">
-        <h1>Order Confirmation</h1>
+        <h2>Order Confirmation</h2>
     </div>
 </div>
 
 <div class="container-fluid p-5">
-    <h2 class="text-primary">Your Order:</h2>
+    <h3 class="text-primary">Your Order:</h3>
     <div *ngFor="let each of cart | keyvalue; let i = index" class="media">
-        <div class="shadow media-body p-2 m-3">
-            <h2 class="text-info ">{{i + 1}}. "{{each.value.book.title}}"</h2>
-            <p class="font-weight-bolder lead"><i>Price:</i>
+        <div class="shadow media-body p-2">
+            <h3 class="text-info">{{i + 1}}. "{{each.value.book.title}}"</h3>
+            <p><i class="font-weight-bolder">Price:</i>
                 {{each.value.book.price}} * {{each.value.amount}}</p>
         </div>
     </div>
+
     <div class="pt-3">
-        <h2 class="text-primary">Delivery:</h2>
-        <div style="font-size: 150%" *ngFor="let opt of delivOpts; let i = index">
-            <div class="form-check p-2 m-3">
+        <h3 class="text-primary">Delivery:</h3>
+        <div *ngFor="let opt of delivOpts; let i = index">
+            <div class="form-check p-3">
                 <label class="form-check-label">
                     <input type="radio" class="form-check-input" name="deliveryRdBtn" (change)="selectRadioButton(i)">
                     {{opt.name}} - {{opt.price | currency : '£'}}
@@ -26,8 +27,8 @@
     </div>
 
     <div class="pt-3">
-        <h2 class="text-primary">Address: <span style="font-size: 50%">(<span style="color: brown;">*</span>
-                required)</span></h2>
+        <h3 class="text-primary">Address: <span style="font-size: 50%">(<span style="color: brown;">*</span>
+                required)</span></h3>
         <div class="form-group">
             <label for="addOne"><span style="color: brown;">*</span> Address 1</label>
             <input type="text" class="form-control" placeholder="Enter first line address" id="addOne"
@@ -55,8 +56,8 @@
     </div>
 
     <div class="pt-3">
-        <h2 class="text-primary">Contact: <span style="font-size: 50%">(<span style="color: brown;">*</span>
-                required)</span></h2>
+        <h3 class="text-primary">Contact: <span style="font-size: 50%">(<span style="color: brown;">*</span>
+                required)</span></h3>
         <div class="form-group">
             <label for="firstName"><span style="color: brown;">*</span> First Name</label>
             <input type="text" class="form-control" placeholder="Enter first name" id="firstName"
@@ -67,10 +68,10 @@
             <input type="text" class="form-control" placeholder="Enter last name" id="lastName" [(ngModel)]="lastName">
         </div>
     </div>
-    <div class=" container p-4 m-4 text-right">
-        <h2 class="text-primary">Total:
+    <div class="container p-4 text-right">
+        <h3 class="text-primary">Total:
             {{(selectedDelivOption !== undefined ? selectedDelivOption.price + booksPrice : booksPrice) | currency: '£'}}
-        </h2>
+        </h3>
         <button class="btn btn-primary" *ngIf="isComplete()" (click)="sendOrder()">Confirm</button>
     </div>
 </div>

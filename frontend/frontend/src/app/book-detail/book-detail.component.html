@@ -1,28 +1,29 @@
 <div class="jumbotron">
     <div class="container-fluid">
-        <h1>Book Details</h1>
+        <h2>Book Details</h2>
     </div>
 </div>
 
 <div class="container-fluid p-5">
     <div *ngIf="book" class="media">
-        <div class="shadow media-body p-3 m-5">
-            <h2 class="display-4 text-primary">"{{book.title}}"</h2>
+        <div class="shadow media-body p-4">
+            <h3 class="text-primary">"{{book.title}}"</h3>
             <span class="p-3">
-                <img *ngIf="book.img" [src]="book.img" alt="" class="rounded float-right">
-                <p class="font-weight-bolder lead">
-                    <i>Author:</i>
+                <img *ngIf="book.img" [src]="book.img" alt="" class="img-fluid float-right"
+                    style="max-width: 100%; height: auto;">
+                <p>
+                    <i class="font-weight-bolder">Author:</i>
                     {{book.author}}
                 </p>
-                <p class="font-weight-bolder lead">
-                    <i>Date of Publication:</i>
+                <p>
+                    <i class="font-weight-bolder">Date of Publication:</i>
                     {{book.date !== null ? (book.date.toDateString() | date) : "Unknown"}}
                 </p>
-                <p class="font-weight-bolder lead">
-                    <i>Price:</i>
+                <p>
+                    <i class="font-weight-bolder">Price:</i>
                     {{book.price | currency: '£'}}
                 </p>
-                <p class="font-weight-bolder lead"><i>Content Preview:</i></p>
+                <p><i class="font-weight-bolder">Content Preview:</i></p>
                 <p *ngIf="book.content" class="font-weight-normal">"{{book.content}}"</p>
                 <button class="btn btn-primary" (click)="addToCart()">Add To Cart</button>
             </span>

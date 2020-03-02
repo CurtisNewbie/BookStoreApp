@@ -1,27 +1,27 @@
 <div class="jumbotron">
     <div class="container-fluid">
-        <h1>Book List</h1>
+        <h2 class="pageTitle">Book List</h2>
     </div>
 </div>
 
 <div class="container-fluid p-5">
     <div *ngIf="books">
         <div *ngFor="let b of books" class="media">
-            <div class="shadow media-body p-3 m-5">
-                <h2 class="display-4 text-primary">
+            <div class="shadow media-body p-4">
+                <h3 class="text-primary">
                     <a routerLink="/detail" [queryParams]="{id: b.id}">"{{b.title}}"</a>
-                </h2>
-                <span class="p-3">
-                    <p class="font-weight-bolder lead">
-                        <i>Author: </i>{{b.author}}
+                </h3>
+                <div class="p-3">
+                    <p>
+                        <i class="font-weight-bolder">Author: </i>{{b.author}}
                     </p>
-                    <p class="font-weight-bolder lead">
-                        <i>Date of Publication: </i>
+                    <p>
+                        <i class="font-weight-bolder">Date of Publication: </i>
                         {{b.date !== null ? (b.date.toDateString() | date) : "Unknown"}}
                     </p>
                     <!-- only show 150 characters as preview -->
                     <p *ngIf="b.content" class="font-weight-normal">"{{b.content.substring(0, 150)}}..."</p>
-                </span>
+                </div>
             </div>
         </div>
     </div>
