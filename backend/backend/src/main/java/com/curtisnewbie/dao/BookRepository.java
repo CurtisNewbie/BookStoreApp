@@ -9,6 +9,7 @@ import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import javax.transaction.Transactional.TxType;
 import javax.validation.constraints.NotNull;
+import javax.ws.rs.NotFoundException;
 
 import com.curtisnewbie.model.Book;
 
@@ -40,17 +41,21 @@ public class BookRepository {
         return query.getResultList();
     }
 
+    /**
+     * Delete Book By Id
+     * 
+     * @param id
+     * @throws NotFoundException if Book is not found
+     * 
+     */
     @Transactional(value = TxType.REQUIRED)
-    public boolean removeBookById(Long id) {
-        boolean res;
+    public void removeBookById(Long id) {
         var b = em.find(Book.class, id);
         if (b != null) {
             em.remove(b);
-            res = true;
         } else {
-            res = false;
+            throw new NotFoundException();
         }
-        return res;
     }
 
     /**
@@ -59,10 +64,14 @@ public class BookRepository {
      * @param id id of the book
      * @return {@code NULL} if not found, else the Book object that contains this
      *         id.
+     * @throws NotFoundException if Book is not found
      */
     @Transactional(value = TxType.SUPPORTS)
     public Book getBookById(Long id) {
-        return em.find(Book.class, id);
+        var book = em.find(Book.class, id);
+        if (book == null)
+            throw new NotFoundException();
+        return book;
     }
 
     /**
@@ -71,7 +80,7 @@ public class BookRepository {
      * 
      * @param book Book to be merged
      * @return updated Book
-     * @throws EntityNotFoundException if the Book is not found
+     * @throws NotFoundException if the Book is not found
      */
     @Transactional(value = TxType.REQUIRED)
     public Book updateBook(Book book) {
@@ -79,6 +88,6 @@ public class BookRepository {
         if (id != null && id >= 0 && em.find(Book.class, id) != null)
             return em.merge(book);
         else
-            throw new EntityNotFoundException();
+            throw new NotFoundException();
     }
 }

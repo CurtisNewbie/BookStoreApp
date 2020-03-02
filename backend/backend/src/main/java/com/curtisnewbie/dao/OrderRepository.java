@@ -11,6 +11,7 @@ import javax.transaction.TransactionManager;
 import javax.transaction.Transactional;
 import javax.transaction.Transactional.TxType;
 import javax.validation.constraints.NotNull;
+import javax.ws.rs.NotFoundException;
 
 import com.curtisnewbie.model.Book;
 import com.curtisnewbie.model.DeliveryOption;
@@ -91,7 +92,7 @@ public class OrderRepository {
      * 
      * @param order Order to be persisted
      * @return the updated order
-     * @throws EntityNotFoundException          if Order is not found
+     * @throws NotFoundException                if Order is not found
      * @throws NoBookInOrderException           if there is no Book in this Order
      * @throws NoDeliveryOptionInOrderException if there is no DeliveryOption in
      *                                          this Order
@@ -104,7 +105,7 @@ public class OrderRepository {
             setBookOnOrderRelation(order);
             return em.merge(order);
         } else {
-            throw new EntityNotFoundException();
+            throw new NotFoundException();
         }
     }
 

@@ -9,6 +9,7 @@ import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import javax.transaction.Transactional.TxType;
 import javax.validation.constraints.NotNull;
+import javax.ws.rs.NotFoundException;
 
 import com.curtisnewbie.model.HomeNew;
 
@@ -59,7 +60,7 @@ public class HomeNewRepository {
      * 
      * @param homeNew HomeNew to be merged
      * @return updated HomeNew
-     * @throws EntityNotFoundException if the HomeNew is not found
+     * @throws NotFoundException if the HomeNew is not found
      */
     @Transactional(value = TxType.REQUIRED)
     public HomeNew updateHomeNew(@NotNull HomeNew homeNew) {
@@ -67,6 +68,6 @@ public class HomeNewRepository {
         if (id != null && id >= 0 && em.find(HomeNew.class, homeNew.getId()) != null)
             return em.merge(homeNew);
         else
-            throw new EntityNotFoundException();
+            throw new NotFoundException();
     }
 }

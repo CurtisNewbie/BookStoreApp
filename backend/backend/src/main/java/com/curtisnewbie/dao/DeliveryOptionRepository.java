@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import javax.transaction.Transactional.TxType;
+import javax.ws.rs.NotFoundException;
 
 import com.curtisnewbie.model.*;
 
@@ -48,7 +49,7 @@ public class DeliveryOptionRepository {
      * 
      * @param opt DeliveryOption to be merged
      * @return updated DeliveryOption
-     * @throws EntityNotFoundException if the DeliveryOption is not found
+     * @throws NotFoundException if the DeliveryOption is not found
      */
     @Transactional(value = TxType.REQUIRED)
     public DeliveryOption updateDelivOpt(DeliveryOption opt) {
@@ -56,7 +57,7 @@ public class DeliveryOptionRepository {
         if (id != null && id >= 0 && em.find(DeliveryOption.class, id) != null)
             return em.merge(opt);
         else
-            throw new EntityNotFoundException();
+            throw new NotFoundException();
     }
 
     @Transactional(value = TxType.REQUIRED)
