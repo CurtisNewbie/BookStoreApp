@@ -81,13 +81,8 @@ public class BookResource {
             @APIResponse(responseCode = "200", description = "Book updated and returned.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Book.class))),
             @APIResponse(responseCode = "204", description = "Book is not updated as id is illegal.") })
     public Response updateBook(Book book) {
-        Long id = book.getId();
-        if (id != null && id >= 0) {
-            book = bookRepo.updateBook(book);
-            return Response.ok(book).build();
-        } else {
-            return Response.noContent().build();
-        }
+        book = bookRepo.updateBook(book);
+        return Response.ok(book).build();
     }
 
     @DELETE

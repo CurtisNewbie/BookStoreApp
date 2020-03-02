@@ -75,7 +75,8 @@ public class BookRepository {
      */
     @Transactional(value = TxType.REQUIRED)
     public Book updateBook(Book book) {
-        if (em.find(Book.class, book.getId()) != null)
+        var id = book.getId();
+        if (id != null && id >= 0 && em.find(Book.class, id) != null)
             return em.merge(book);
         else
             throw new EntityNotFoundException();

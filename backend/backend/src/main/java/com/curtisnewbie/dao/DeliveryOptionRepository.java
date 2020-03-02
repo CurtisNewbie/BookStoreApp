@@ -52,7 +52,8 @@ public class DeliveryOptionRepository {
      */
     @Transactional(value = TxType.REQUIRED)
     public DeliveryOption updateDelivOpt(DeliveryOption opt) {
-        if (em.find(DeliveryOption.class, opt.getId()) != null)
+        var id = opt.getId();
+        if (id != null && id >= 0 && em.find(DeliveryOption.class, id) != null)
             return em.merge(opt);
         else
             throw new EntityNotFoundException();

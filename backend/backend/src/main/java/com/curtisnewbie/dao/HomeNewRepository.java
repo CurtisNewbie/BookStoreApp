@@ -63,7 +63,8 @@ public class HomeNewRepository {
      */
     @Transactional(value = TxType.REQUIRED)
     public HomeNew updateHomeNew(@NotNull HomeNew homeNew) {
-        if (em.find(HomeNew.class, homeNew.getId()) != null)
+        var id = homeNew.getId();
+        if (id != null && id >= 0 && em.find(HomeNew.class, homeNew.getId()) != null)
             return em.merge(homeNew);
         else
             throw new EntityNotFoundException();

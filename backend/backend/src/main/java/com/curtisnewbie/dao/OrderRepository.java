@@ -84,7 +84,8 @@ public class OrderRepository {
      */
     @Transactional(value = TxType.REQUIRED)
     public Order updateOrder(@NotNull Order order) {
-        if (em.find(Order.class, order.getOrderId()) != null)
+        var id = order.getOrderId();
+        if (id != null && id >= 0 && em.find(Order.class, order.getOrderId()) != null)
             return em.merge(order);
         else
             throw new EntityNotFoundException();
