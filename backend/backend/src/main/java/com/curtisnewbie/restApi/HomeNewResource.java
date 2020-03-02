@@ -50,13 +50,9 @@ public class HomeNewResource {
     @Operation(summary = "Get a home new by its id")
     @APIResponses(value = {
             @APIResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = HomeNew.class))),
-            @APIResponse(responseCode = "204", description = "Home new is not found") })
+            @APIResponse(responseCode = "404", description = "Home new is not found") })
     public Response getHomeNewById(@QueryParam("id") long id) {
-        var n = homeNewRepo.getHomeNewById(id);
-        if (n != null)
-            return Response.ok(n).build();
-        else
-            return Response.noContent().build();
+        return Response.ok(homeNewRepo.getHomeNewById(id)).build();
     }
 
     @PUT
@@ -66,7 +62,7 @@ public class HomeNewResource {
     @Operation(summary = "Update an existing HomeNew")
     @APIResponses(value = {
             @APIResponse(responseCode = "200", description = "HomeNew updated and returned", content = @Content(schema = @Schema(implementation = HomeNew.class))),
-            @APIResponse(responseCode = "400", description = "HomeNew is not updated as id is illegal, a message is returned describing the reason of failure.") })
+            @APIResponse(responseCode = "404", description = "HomeNew is not found") })
     public Response updateHomeNew(@NotNull HomeNew homeNew) {
         return Response.ok(homeNewRepo.updateHomeNew(homeNew)).build();
     }
@@ -77,12 +73,10 @@ public class HomeNewResource {
     @Operation(summary = "Delete a home new by its id")
     @APIResponses(value = {
             @APIResponse(responseCode = "200", description = "Home new deleted, a message about this is returned", content = @Content(schema = @Schema(implementation = HomeNew.class))),
-            @APIResponse(responseCode = "204", description = "Failed to delete this home new") })
+            @APIResponse(responseCode = "404", description = "HomeNew is not found") })
     public Response deleteHomeNewById(@QueryParam("id") long id) {
-        if (homeNewRepo.removeHomeNewById(id))
-            return Response.ok("HomeNew id: " + id + " deleted.").build();
-        else
-            return Response.noContent().build();
+        homeNewRepo.removeHomeNewById(id);
+        return Response.ok("HomeNew id: " + id + " deleted.").build();
     }
 
     @POST

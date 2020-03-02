@@ -41,13 +41,10 @@ public class BookResource {
     @Operation(summary = "Get a book by its id")
     @APIResponses(value = {
             @APIResponse(responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Book.class)), description = "Book found and returned"),
-            @APIResponse(responseCode = "204", description = "Book Not Found") })
+            @APIResponse(responseCode = "404", description = "Book Not Found") })
     public Response getBookById(@QueryParam("id") Long id) {
         var book = bookRepo.getBookById(id);
-        if (book != null)
-            return Response.ok(book).build();
-        else
-            return Response.noContent().build();
+        return Response.ok(book).build();
     }
 
     @GET
@@ -79,7 +76,7 @@ public class BookResource {
     @Operation(summary = "Update all details of an existing book")
     @APIResponses(value = {
             @APIResponse(responseCode = "200", description = "Book updated and returned.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Book.class))),
-            @APIResponse(responseCode = "400", description = "Book is not updated as id is illegal, a message is returned describing the reason of failure.") })
+            @APIResponse(responseCode = "404", description = "Book is not found") })
     public Response updateBook(Book book) {
         book = bookRepo.updateBook(book);
         return Response.ok(book).build();
@@ -91,12 +88,10 @@ public class BookResource {
     @Operation(summary = "Delete a book by its id")
     @APIResponses(value = {
             @APIResponse(responseCode = "200", description = "The book is removed, a message about this is returned", content = @Content(mediaType = "text/plain", schema = @Schema(implementation = String.class))),
-            @APIResponse(responseCode = "204", description = "Book cannot be removed.") })
+            @APIResponse(responseCode = "404", description = "Book is not found") })
     public Response deleteBook(@QueryParam("id") Long id) {
-        if (id != null && id >= 0 && bookRepo.removeBookById(id))
-            return Response.ok("Book id:" + id + " deleted").build();
-        else
-            return Response.noContent().build();
+        bookRepo.removeBookById(id);
+        return Response.ok("Book id:" + id + " deleted").build();
     }
 
 }

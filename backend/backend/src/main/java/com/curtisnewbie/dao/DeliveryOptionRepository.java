@@ -19,15 +19,31 @@ public class DeliveryOptionRepository {
     @Inject
     EntityManager em;
 
+    /**
+     * Get all DeliveryOption
+     * 
+     * @return all DeliveryOption(s)
+     */
     @Transactional(value = TxType.SUPPORTS)
     public List<DeliveryOption> getAllDelivOpt() {
         TypedQuery<DeliveryOption> query = em.createQuery("SELECT d FROM DeliveryOption d", DeliveryOption.class);
         return query.getResultList();
     }
 
+    /**
+     * Get DeliveryOption by id
+     * 
+     * @param id
+     * @return
+     * @throws NotFoundException when the DeliveryOption is not found
+     */
     @Transactional(value = TxType.SUPPORTS)
     public DeliveryOption getDelivOptById(int id) {
-        return em.find(DeliveryOption.class, id);
+        var opt = em.find(DeliveryOption.class, id);
+        if (opt != null)
+            return opt;
+        else
+            throw new NotFoundException();
     }
 
     /**
@@ -60,13 +76,18 @@ public class DeliveryOptionRepository {
             throw new NotFoundException();
     }
 
+    /**
+     * Delete DeliveryOption by its id
+     * 
+     * @param id
+     * @throws NotFoundException if DeliveryOption is not found
+     */
     @Transactional(value = TxType.REQUIRED)
-    public boolean removeDelivOptById(int id) {
+    public void removeDelivOptById(int id) {
         DeliveryOption opt = em.find(DeliveryOption.class, id);
-        if (opt != null) {
+        if (opt != null)
             em.remove(opt);
-            return true;
-        } else
-            return false;
+        else
+            throw new NotFoundException();
     }
 }

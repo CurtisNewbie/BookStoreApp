@@ -44,34 +44,33 @@ public class BookRepository {
     /**
      * Delete Book By Id
      * 
-     * @param id
+     * @param id id of the book
      * @throws NotFoundException if Book is not found
      * 
      */
     @Transactional(value = TxType.REQUIRED)
     public void removeBookById(Long id) {
-        var b = em.find(Book.class, id);
-        if (b != null) {
-            em.remove(b);
-        } else {
+        Book book;
+        if (id != null && id >= 0 && (book = em.find(Book.class, id)) != null)
+            em.remove(book);
+        else
             throw new NotFoundException();
-        }
     }
 
     /**
      * Get Book By Id
      * 
      * @param id id of the book
-     * @return {@code NULL} if not found, else the Book object that contains this
-     *         id.
+     * @return the Book that is found
      * @throws NotFoundException if Book is not found
      */
     @Transactional(value = TxType.SUPPORTS)
     public Book getBookById(Long id) {
-        var book = em.find(Book.class, id);
-        if (book == null)
+        Book book;
+        if (id != null && id >= 0 && (book = em.find(Book.class, id)) != null)
+            return book;
+        else
             throw new NotFoundException();
-        return book;
     }
 
     /**

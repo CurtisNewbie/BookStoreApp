@@ -33,26 +33,43 @@ public class HomeNewRepository {
         return homeNew;
     }
 
+    /**
+     * Get all HomeNew(s)
+     */
     @Transactional(value = TxType.SUPPORTS)
     public List<HomeNew> getHomeNews() {
         TypedQuery<HomeNew> query = em.createQuery("SELECT h FROM HomeNew h", HomeNew.class);
         return query.getResultList();
     }
 
+    /**
+     * Get HomeNew by id
+     * 
+     * @param id
+     * @throws NotFoundException if HomeNew is not found
+     */
     @Transactional(value = TxType.SUPPORTS)
-    public HomeNew getHomeNewById(@NotNull long id) {
-        return em.find(HomeNew.class, id);
+    public HomeNew getHomeNewById(@NotNull Long id) {
+        var homeNew = em.find(HomeNew.class, id);
+        if (id != null && id >= 0 && homeNew != null)
+            return homeNew;
+        else
+            throw new NotFoundException();
     }
 
+    /**
+     * Remove HomeNew by id
+     * 
+     * @param id
+     * @throws NotFoundException if HomeNew is not found
+     */
     @Transactional(value = TxType.REQUIRED)
-    public boolean removeHomeNewById(@NotNull long id) {
+    public void removeHomeNewById(@NotNull Long id) {
         var homeNew = em.find(HomeNew.class, id);
-        if (homeNew == null) {
-            return false;
-        } else {
+        if (id != null && id >= 0 && homeNew != null)
             em.remove(homeNew);
-            return true;
-        }
+        else
+            throw new NotFoundException();
     }
 
     /**

@@ -7,7 +7,6 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
-import javax.transaction.TransactionManager;
 import javax.transaction.Transactional;
 import javax.transaction.Transactional.TxType;
 import javax.validation.constraints.NotNull;
@@ -23,9 +22,6 @@ public class OrderRepository {
 
     @Inject
     EntityManager em;
-
-    @Inject
-    TransactionManager tm;
 
     /**
      * Persist a new Order in database, the primary key of the Order is set to null
@@ -59,12 +55,27 @@ public class OrderRepository {
         return order;
     }
 
+    /**
+     * Get Order by its id
+     * 
+     * @param id
+     * @return the Order that is found
+     * @throws NotFoundException if the Order is not found
+     */
     @Transactional(value = TxType.SUPPORTS)
-    public Order getOrderById(@NotNull long id) {
+    public Order getOrderById(@NotNull Long id) {
         Order ord = em.find(Order.class, id);
-        return ord;
+        if (id != null && id >= 0 && ord != null)
+            return ord;
+        else
+            throw new NotFoundException();
     }
 
+    /**
+     * Get all Orders
+     * 
+     * @return all Orders
+     */
     @Transactional(value = TxType.SUPPORTS)
     public List<Order> getAllOrders() {
         TypedQuery<Order> query = em.createQuery("SELECT o FROM Order o", Order.class);
@@ -72,19 +83,18 @@ public class OrderRepository {
     }
 
     /**
-     * delete order by id
+     * delete Order by id
      * 
      * @param id
-     * @return {@code FALSE} if failed, else {@code TRUE}
+     * @throws NotFoundException if the Order is not found
      */
     @Transactional(value = TxType.REQUIRED)
-    public boolean deleteOrderById(@NotNull long id) {
+    public void deleteOrderById(@NotNull long id) {
         var o = em.find(Order.class, id);
-        if (o != null) {
+        if (o != null)
             em.remove(o);
-            return true;
-        }
-        return false;
+        else
+            throw new NotFoundException();
     }
 
     /**

@@ -48,7 +48,7 @@ public class OrderResource {
     @Operation(summary = "Create an order", description = "Order's date is always overwritten in backend. An order must have at least one book,which's amount is greater than 0, and it must have selected a delivery option. (Note that this POST request is supposed to be protected by authorisation mechanism. Not using authentication and authorisation mechanism is only for demo purpose.)")
     @APIResponses(value = {
             @APIResponse(responseCode = "200", description = "Order created and returned, this is intended so that the user can review the order that has been created.", content = @Content(schema = @Schema(implementation = Order.class))),
-            @APIResponse(responseCode = "400", description = "Order cannot be created due to its invalidity.") })
+            @APIResponse(responseCode = "400", description = "Order cannot be created due to its invalidity, a message is returned describing the reason of failure.") })
     public Response createOrder(Order order) throws Exception {
         // persist order
         order = orderRepo.createOrder(order);
@@ -77,7 +77,7 @@ public class OrderResource {
     @Operation(summary = "Get an order by its id")
     @APIResponses(value = {
             @APIResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = Order.class))),
-            @APIResponse(responseCode = "204", description = "Order not found") })
+            @APIResponse(responseCode = "404", description = "Order not found") })
     public Response getOrderById(@QueryParam("id") long orderId) {
         var order = orderRepo.getOrderById(orderId);
         if (order != null)
@@ -98,15 +98,14 @@ public class OrderResource {
     }
 
     @DELETE
+    @Produces(MediaType.TEXT_PLAIN)
     @RolesAllowed(SecurityRole.ADMIN)
     @Operation(summary = "Delete an order by its id")
     @APIResponses(value = { @APIResponse(responseCode = "200", description = "Order deleted"),
-            @APIResponse(responseCode = "204", description = "Failed to delete the order") })
+            @APIResponse(responseCode = "404", description = "Order is not found") })
     public Response deleteOrderById(@QueryParam("id") long id) {
-        if (orderRepo.deleteOrderById(id))
-            return Response.ok().build();
-        else
-            return Response.noContent().build();
+        orderRepo.deleteOrderById(id);
+        return Response.ok(String.format("Order: %d is deleted.", id)).build();
     }
 
     @PUT
@@ -115,7 +114,8 @@ public class OrderResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(summary = "Update an order", description = "An order must have at least one book, which's amount is greater than 0, and it must have selected a delivery option.")
     @APIResponses(value = { @APIResponse(responseCode = "200", description = "Order updated and returned"),
-            @APIResponse(responseCode = "404", description = "Order is not updated due to its validity, a message is returned describing the reason of failure.") })
+            @APIResponse(responseCode = "400", description = "Order is not updated due to its invalidity, a message is returned describing the reason of failure."),
+            @APIResponse(responseCode = "404", description = "Order is not found") })
     public Response updateOrder(Order order) {
         order = orderRepo.updateOrder(order);
         return Response.ok(order).build();

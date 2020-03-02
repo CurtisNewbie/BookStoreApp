@@ -36,7 +36,7 @@ public class DeliveryResource {
     @GET
     @Path("/all")
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(summary = "Get all delivery options in an array")
+    @Operation(summary = "Get all DeliveryOption(s) in an array")
     @APIResponse(responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(type = SchemaType.ARRAY, implementation = DeliveryOption.class)))
     public Response getAllDelivOpt() {
         return Response.ok(delivOptRepo.getAllDelivOpt()).build();
@@ -44,23 +44,19 @@ public class DeliveryResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(summary = "Get a delivery option by its id")
+    @Operation(summary = "Get a DeliveryOption by its id")
     @APIResponses(value = {
             @APIResponse(responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = DeliveryOption.class))),
-            @APIResponse(responseCode = "204", description = "Delivery option is not found") })
+            @APIResponse(responseCode = "404", description = "DeliveryOption is not found") })
     public Response getDelivOptById(@QueryParam("id") int id) {
-        var opt = delivOptRepo.getDelivOptById(id);
-        if (opt != null)
-            return Response.ok(opt).build();
-        else
-            return Response.noContent().build();
+        return Response.ok(delivOptRepo.getDelivOptById(id)).build();
     }
 
     @POST
     @RolesAllowed(SecurityRole.ADMIN)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Operation(summary = "Create a delivery Option")
-    @APIResponse(responseCode = "201", description = "Delivery option created, URI to it is returned in header \"location\"")
+    @Operation(summary = "Create a DeliveryOption")
+    @APIResponse(responseCode = "201", description = "DeliveryOption created, URI to it is returned in header \"location\"")
     public Response createDelivOpt(DeliveryOption opt) {
         opt = delivOptRepo.createDelivOpt(opt);
         return Response.created(
@@ -72,10 +68,10 @@ public class DeliveryResource {
     @RolesAllowed(SecurityRole.ADMIN)
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(summary = "Update an existing delivery option")
+    @Operation(summary = "Update an existing DeliveryOption")
     @APIResponses(value = {
-            @APIResponse(responseCode = "200", description = "Delivery Option updated", content = @Content(schema = @Schema(implementation = DeliveryOption.class))),
-            @APIResponse(responseCode = "400", description = "Delivery Option is not updated as id is illegal, a message is returned describing the reason of failure.") })
+            @APIResponse(responseCode = "200", description = "DeliveryOption updated", content = @Content(schema = @Schema(implementation = DeliveryOption.class))),
+            @APIResponse(responseCode = "404", description = "DeliveryOption is not found.") })
     public Response updateDelivOpt(DeliveryOption opt) {
         opt = delivOptRepo.updateDelivOpt(opt);
         return Response.ok(opt).build();
@@ -84,15 +80,12 @@ public class DeliveryResource {
     @DELETE
     @RolesAllowed(SecurityRole.ADMIN)
     @Produces(MediaType.TEXT_PLAIN)
-    @Operation(summary = "Delete a delivery option by its id")
+    @Operation(summary = "Delete a DeliveryOption by its id")
     @APIResponses(value = {
-            @APIResponse(responseCode = "200", description = "Delivery option deleted, a message about this is returned", content = @Content(schema = @Schema(implementation = String.class))),
-            @APIResponse(responseCode = "204", description = "Failed to delete this delivery option") })
+            @APIResponse(responseCode = "200", description = "DeliveryOption deleted, a message about this is returned", content = @Content(schema = @Schema(implementation = String.class))),
+            @APIResponse(responseCode = "404", description = "DeliveryOption is not found") })
     public Response deleteDelivOptById(@QueryParam("id") int id) {
-        boolean bool = delivOptRepo.removeDelivOptById(id);
-        if (bool == true)
-            return Response.ok("Delivery Option id: " + id + " deleted.").build();
-        else
-            return Response.noContent().build();
+        delivOptRepo.removeDelivOptById(id);
+        return Response.ok("Delivery Option id: " + id + " deleted.").build();
     }
 }
