@@ -5,7 +5,6 @@ import java.util.List;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 import javax.transaction.TransactionManager;
 import javax.transaction.Transactional;
@@ -27,28 +26,25 @@ public class OrderRepository {
     TransactionManager tm;
 
     /**
-     * Persist a new Order in database.
+     * Persist a new Order in database, the primary key of the Order is set to null
+     * before persistence.
      * 
      * @param order Order to be persisted
      * @return the persisted Order
-     * @throws DuplicatePrimaryKeyException if an Order with same primary key exists
      */
     @Transactional(value = TxType.REQUIRED)
     public Order createOrder(@NotNull Order order) throws Exception {
-        try {
-            // calculate price before persistence
-            double sum = 0;
-            var list = order.getBooksOnOrder();
-            for (var b : list) {
-                sum += (em.find(Book.class, b.getBook().getId()).getPrice() * b.getAmount());
-            }
-            sum += (em.find(DeliveryOption.class, order.getDeliveryOption().getId()).getPrice());
-            order.setPrice(sum);
-            em.persist(order);
-            return order;
-        } catch (PersistenceException e) {
-            throw new DuplicatePrimaryKeyException();
+        order.setOrderId(null);
+        // calculate price before persistence
+        double sum = 0;
+        var list = order.getBooksOnOrder();
+        for (var b : list) {
+            sum += (em.find(Book.class, b.getBook().getId()).getPrice() * b.getAmount());
         }
+        sum += (em.find(DeliveryOption.class, order.getDeliveryOption().getId()).getPrice());
+        order.setPrice(sum);
+        em.persist(order);
+        return order;
     }
 
     @Transactional(value = TxType.SUPPORTS)

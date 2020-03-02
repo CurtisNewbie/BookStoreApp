@@ -5,7 +5,6 @@ import java.util.List;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import javax.transaction.Transactional.TxType;
@@ -20,21 +19,17 @@ public class HomeNewRepository {
     EntityManager em;
 
     /**
-     * Persist a new HomeNew
+     * Persist a new HomeNew, the primary key of the HomeNew is set to null before
+     * persistence.
      * 
      * @param homeNew HomeNew to be persisted
      * @return persisted HomeNew
-     * @throws DuplicatePrimaryKeyException if a HomeNew with same primary key
-     *                                      exists
      */
     @Transactional(value = TxType.REQUIRED)
     public HomeNew createHomeNew(@NotNull HomeNew homeNew) {
-        try {
-            em.persist(homeNew);
-            return homeNew;
-        } catch (PersistenceException e) {
-            throw new DuplicatePrimaryKeyException();
-        }
+        homeNew.setId(null);
+        em.persist(homeNew);
+        return homeNew;
     }
 
     @Transactional(value = TxType.SUPPORTS)
