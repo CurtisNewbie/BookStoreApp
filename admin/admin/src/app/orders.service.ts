@@ -48,11 +48,12 @@ export class OrdersService {
   }
 
   deleteOrderById(orderId: number): Observable<any> {
-    let options: { headers: HttpHeaders; observe } = {
+    let options: { headers: HttpHeaders; observe; responseType } = {
       headers: new HttpHeaders({
         Authorization: this.jwtAuth.createJwtHeaderStr()
       }),
-      observe: "response"
+      observe: "response",
+      responseType: "text"
     };
     return this.http.delete(this.SINGLE_ORDER_URL + `?id=${orderId}`, options);
   }
