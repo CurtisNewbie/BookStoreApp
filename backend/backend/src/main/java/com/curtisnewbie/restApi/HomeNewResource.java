@@ -63,9 +63,10 @@ public class HomeNewResource {
     @RolesAllowed(SecurityRole.ADMIN)
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(summary = "Update an existing home new")
+    @Operation(summary = "Update an existing HomeNew")
     @APIResponses(value = {
-            @APIResponse(responseCode = "200", description = "Home new updated and returned", content = @Content(schema = @Schema(implementation = HomeNew.class))) })
+            @APIResponse(responseCode = "200", description = "HomeNew updated and returned", content = @Content(schema = @Schema(implementation = HomeNew.class))),
+            @APIResponse(responseCode = "400", description = "HomeNew is not updated as id is illegal, a message is returned describing the reason of failure.") })
     public Response updateHomeNew(@NotNull HomeNew homeNew) {
         return Response.ok(homeNewRepo.updateHomeNew(homeNew)).build();
     }

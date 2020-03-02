@@ -73,7 +73,9 @@ public class DeliveryResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(summary = "Update an existing delivery option")
-    @APIResponse(responseCode = "200", description = "Delivery Option updated", content = @Content(schema = @Schema(implementation = DeliveryOption.class)))
+    @APIResponses(value = {
+            @APIResponse(responseCode = "200", description = "Delivery Option updated", content = @Content(schema = @Schema(implementation = DeliveryOption.class))),
+            @APIResponse(responseCode = "400", description = "Delivery Option is not updated as id is illegal, a message is returned describing the reason of failure.") })
     public Response updateDelivOpt(DeliveryOption opt) {
         opt = delivOptRepo.updateDelivOpt(opt);
         return Response.ok(opt).build();

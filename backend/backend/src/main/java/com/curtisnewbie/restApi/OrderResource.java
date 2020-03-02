@@ -115,7 +115,7 @@ public class OrderResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(summary = "Update an order", description = "An order must have at least one book, which's amount is greater than 0, and it must have selected a delivery option.")
     @APIResponses(value = { @APIResponse(responseCode = "200", description = "Order updated and returned"),
-            @APIResponse(responseCode = "204", description = "Order is not updated due to its validity.") })
+            @APIResponse(responseCode = "404", description = "Order is not updated due to its validity, a message is returned describing the reason of failure.") })
     public Response updateOrder(Order order) {
         order = orderRepo.updateOrder(order);
         return Response.ok(order).build();

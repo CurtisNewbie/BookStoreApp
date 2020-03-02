@@ -79,7 +79,7 @@ public class BookResource {
     @Operation(summary = "Update all details of an existing book")
     @APIResponses(value = {
             @APIResponse(responseCode = "200", description = "Book updated and returned.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Book.class))),
-            @APIResponse(responseCode = "204", description = "Book is not updated as id is illegal.") })
+            @APIResponse(responseCode = "400", description = "Book is not updated as id is illegal, a message is returned describing the reason of failure.") })
     public Response updateBook(Book book) {
         book = bookRepo.updateBook(book);
         return Response.ok(book).build();
