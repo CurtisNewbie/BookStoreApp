@@ -8,13 +8,14 @@ import {
 import { Order } from "./model/order";
 import { DeliveryOption } from "./model/deliveryOption";
 import { Observable } from "rxjs";
+import { config } from "src/environments/config";
 
 @Injectable({
   providedIn: "root"
 })
 export class OrderService {
-  readonly POST_ORDER_URL = "http://localhost:8080/api/order";
-  readonly GET_DELIV_IRL = "http://localhost:8080/api/delivery/option/all";
+  readonly POST_ORDER_URL = `http://${config.backend.hostname}:${config.backend.port}/api/order`;
+  readonly GET_DELIV_IRL = `http://${config.backend.hostname}:${config.backend.port}/api/delivery/option/all`;
   readonly httpOptions: { headers: HttpHeaders; observe } = {
     headers: new HttpHeaders({
       "Content-Type": "application/json"
