@@ -186,9 +186,9 @@ export class OrdersComponent implements OnInit, Refreshable {
    *
    * @param bookId id of the temporary book
    */
-  updateTempBookTitle(bookId: string): void {
+  updateTempBookTitle(bookId: number): void {
     if (bookId)
-      this.booksService.fetchBookById(parseInt(bookId)).subscribe({
+      this.booksService.fetchBookById(bookId).subscribe({
         next: (val: Book) => {
           this.tempBook.book.title = val.title;
         },
