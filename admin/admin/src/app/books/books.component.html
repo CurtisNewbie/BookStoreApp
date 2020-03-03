@@ -9,8 +9,8 @@
         <div class="col-sm-3 col-md-6 col-lg-4">
             <h3>List of Books</h3>
             <div class="text-right p-3">
-                <button class="btn btn-primary p-2" (click)="createBookTemplate(); creatingBook = true;">Create
-                    One</button>
+                <button class="btn btn-primary m-1" (click)="createBookTemplate(); creatingBook = true;">Create</button>
+                <button class="btn btn-primary m-1" (click)="refresh()">Refresh</button>
             </div>
             <ul *ngFor=" let b of books; let i=index" class="list-group">
                 <a class="list-group-item list-group-item-action"

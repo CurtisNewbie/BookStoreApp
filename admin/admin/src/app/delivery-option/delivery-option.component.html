@@ -8,8 +8,9 @@
     <div class="row">
         <div class="col-sm-3 col-md-6 col-lg-4">
             <h3>List of Delivery Options</h3>
-            <div class="text-right">
-                <button class="btn btn-primary p-2" (click)="createDeliveryOptTemplate()">Create One</button>
+            <div class="text-right p-3">
+                <button class="btn btn-primary m-1" (click)="createDeliveryOptTemplate()">Create</button>
+                <button class="btn btn-primary m-1" (click)="refresh()">Refresh</button>
             </div>
             <ul *ngFor="let d of deliveryOptions" class="list-group">
                 <a class="list-group-item list-group-item-action" (click)="selectDeliveryOpt(d)">ID:{{d.id}}

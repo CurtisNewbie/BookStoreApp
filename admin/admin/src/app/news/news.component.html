@@ -9,9 +9,10 @@
         <div class="col-sm-3 col-md-6 col-lg-4">
             <h3>List of News</h3>
             <div class="text-right p-3">
-                <button class="btn btn-primary p-2" (click)="createTemplate()">Create One</button>
+                <button class="btn btn-primary m-1" (click)="createTemplate()">Create</button>
+                <button class="btn btn-primary m-1" (click)="refresh()">Refresh</button>
             </div>
-            <ul *ngFor="let n of news" class="list-group p-3">
+            <ul *ngFor="let n of news" class="list-group">
                 <a class="list-group-item list-group-item-action" (click)="selectNew(n)">"{{n.title}}"
                     [{{n.date}}]</a>
             </ul>

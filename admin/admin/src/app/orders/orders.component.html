@@ -9,7 +9,8 @@
         <div class="col-sm-3 col-md-6 col-lg-4">
             <h3>List of Orders</h3>
             <div class="text-right p-3">
-                <button class="btn btn-primary p-2" (click)="createEmptyTempOrder()">Create One</button>
+                <button class="btn btn-primary m-1" (click)="createEmptyTempOrder()">Create</button>
+                <button class="btn btn-primary m-1" (click)="refresh()">Refresh</button>
             </div>
             <ul *ngFor="let o of orders" class="list-group">
                 <a class="list-group-item list-group-item-action" (click)="selectOrder(o)">ID:{{o.orderId}} -
@@ -93,7 +94,7 @@
                                 </div>
                             </div>
                             <div class="shadow rounded p-2 m-3">
-                                <h4><span class="badge badge-pill badge-primary">Add Book</span></h4>
+                                <h4><span class="badge badge-pill badge-secondary">Add Book</span></h4>
                                 <div class="form-group">
                                     <label for="tempBookId">BOOK ID:
                                     </label>
