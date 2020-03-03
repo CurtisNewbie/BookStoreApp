@@ -6,14 +6,14 @@
 
 <div class="container-fluid p-5">
     <h3 class="text-primary">Your Cart: </h3>
-    <div *ngIf="cart.size else emptyNotifi"></div>
-    <ng-template #emptyNotifi>
+    <div *ngIf="cart.size"></div>
+    <div *ngIf="!cart.size">
         <br>
         <div class="alert alert-info">
             <p class="text-center">Oops Your cart is empty, go pick one! :D</p>
         </div>
         <br>
-    </ng-template>
+    </div>
 
     <div *ngFor="let each of cart | keyvalue; let i = index" class="media">
         <div class="shadow media-body p-2">
