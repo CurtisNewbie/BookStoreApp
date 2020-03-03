@@ -3,13 +3,14 @@ import { DeliveryOption } from "../model/deliveryOption";
 import { JWTAuthService } from "../jwt-auth.service";
 import { DeliveryOptionsService } from "../delivery-options.service";
 import { HttpResponse } from "@angular/common/http";
+import { Refreshable } from "../refreshable";
 
 @Component({
   selector: "app-delivery-option",
   templateUrl: "./delivery-option.component.html",
   styleUrls: ["./delivery-option.component.css"]
 })
-export class DeliveryOptionComponent implements OnInit {
+export class DeliveryOptionComponent implements OnInit, Refreshable {
   // demo data
   deliveryOptions: DeliveryOption[];
   selectedDeliveryOpt: DeliveryOption;
@@ -21,6 +22,7 @@ export class DeliveryOptionComponent implements OnInit {
 
   ngOnInit() {
     this.getAllDeliveryOptions();
+    this.jwtAuth.registerCurrPage(this);
   }
 
   /** Select one that is displayed */

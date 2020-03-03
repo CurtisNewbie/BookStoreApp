@@ -4,13 +4,14 @@ import { BooksService } from "../books.service";
 import { JWTAuthService } from "../jwt-auth.service";
 import { Router } from "@angular/router";
 import { HttpResponse } from "@angular/common/http";
+import { Refreshable } from "../refreshable";
 
 @Component({
   selector: "app-books",
   templateUrl: "./books.component.html",
   styleUrls: ["./books.component.css"]
 })
-export class BooksComponent implements OnInit {
+export class BooksComponent implements OnInit, Refreshable {
   books: Book[];
   selectedBook: Book;
   // indicate whether the user is creating a new book
@@ -22,6 +23,7 @@ export class BooksComponent implements OnInit {
 
   ngOnInit() {
     this.getAllBooks();
+    this.jwtAuth.registerCurrPage(this);
   }
 
   createBookTemplate() {

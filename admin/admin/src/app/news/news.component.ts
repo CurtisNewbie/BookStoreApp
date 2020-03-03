@@ -1,16 +1,16 @@
 import { Component, OnInit } from "@angular/core";
 import { HomeNew } from "../model/homeNew";
 import { JWTAuthService } from "../jwt-auth.service";
-import { Router } from "@angular/router";
 import { NewsService } from "../news.service";
 import { HttpResponse } from "@angular/common/http";
+import { Refreshable } from "../refreshable";
 
 @Component({
   selector: "app-news",
   templateUrl: "./news.component.html",
   styleUrls: ["./news.component.css"]
 })
-export class NewsComponent implements OnInit {
+export class NewsComponent implements OnInit, Refreshable {
   news: HomeNew[];
   selectedNew: HomeNew;
 
@@ -21,6 +21,7 @@ export class NewsComponent implements OnInit {
 
   ngOnInit() {
     this.getAllNews();
+    this.jwtAuth.registerCurrPage(this);
   }
 
   getAllNews() {

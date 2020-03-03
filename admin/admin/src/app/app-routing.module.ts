@@ -5,7 +5,7 @@ import { BooksComponent } from "./books/books.component";
 import { OrdersComponent } from "./orders/orders.component";
 import { DeliveryOptionComponent } from "./delivery-option/delivery-option.component";
 
-const routes: Routes = [
+export const routes: Routes = [
   { path: "news", component: NewsComponent },
   { path: "books", component: BooksComponent },
   { path: "orders", component: OrdersComponent },

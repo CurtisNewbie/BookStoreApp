@@ -1,7 +1,8 @@
-import { Injectable } from "@angular/core";
+import { Injectable, Component } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { timer } from "rxjs";
 import { config } from "src/environments/config";
+import { Refreshable } from "./refreshable";
 
 @Injectable({
   providedIn: "root"
@@ -10,7 +11,10 @@ export class JWTAuthService {
   readonly JWT_URL = `http://${config.jwt_auth.hostname}:${config.jwt_auth.port}/auth/api/admin`;
 
   /**Json Web Token */
-  jwt: string;
+  private jwt: string;
+
+  /** The component being displayed */
+  private currPage;
 
   constructor(private http: HttpClient) {}
 
@@ -25,6 +29,7 @@ export class JWTAuthService {
       .subscribe((jwt: string) => {
         this.jwt = jwt;
         this.createObservableTime(this.jwt);
+        this.refreshCurrPage();
       });
   }
 
@@ -66,5 +71,21 @@ export class JWTAuthService {
    */
   createJwtHeaderStr(): string {
     return "Bearer " + this.getJwt();
+  }
+
+  /**
+   * Register the Refreshable in this service, so that when the
+   * JWT is retrieved, it calls the refresh() method in this  Refreshable
+   *
+   */
+  registerCurrPage(currPage: Refreshable) {
+    this.currPage = currPage;
+  }
+
+  /**
+   * Refresh the registered Refreshable
+   */
+  refreshCurrPage() {
+    this.currPage.refresh();
   }
 }

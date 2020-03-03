@@ -7,13 +7,14 @@ import { BooksService } from "../books.service";
 import { Book } from "../model/book";
 import { DeliveryOption } from "../model/deliveryOption";
 import { DeliveryOptionsService } from "../delivery-options.service";
+import { Refreshable } from "../refreshable";
 
 @Component({
   selector: "app-orders",
   templateUrl: "./orders.component.html",
   styleUrls: ["./orders.component.css"]
 })
-export class OrdersComponent implements OnInit {
+export class OrdersComponent implements OnInit, Refreshable {
   /** constant that indicates the book with current id is not found in backend */
   readonly BOOK_NOT_FOUND = "Not Found";
 
@@ -37,6 +38,7 @@ export class OrdersComponent implements OnInit {
     this.getDeliveryOptions();
     this.getAllOrders();
     this.tempBook = this.createEmptyTempBook();
+    this.jwtAuth.registerCurrPage(this);
   }
 
   /** Add a book to the temprary order that is about to be created or updated */
