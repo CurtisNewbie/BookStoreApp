@@ -1,27 +1,27 @@
 <div class="jumbotron">
     <div class="container-fluid">
-        <h1>Orders</h1>
+        <h2>Orders</h2>
     </div>
 </div>
 
 <div class="container-fluid p-5">
     <div class="row">
         <div class="col-sm-3 col-md-6 col-lg-4">
-            <h2>List of Orders</h2>
-            <div class="text-right m-3">
-                <button class="btn btn-primary" (click)="createEmptyTempOrder()">Create One</button>
+            <h3>List of Orders</h3>
+            <div class="text-right p-3">
+                <button class="btn btn-primary p-2" (click)="createEmptyTempOrder()">Create One</button>
             </div>
-            <ul *ngFor=" let o of orders" class="list-group">
+            <ul *ngFor="let o of orders" class="list-group">
                 <a class="list-group-item list-group-item-action" (click)="selectOrder(o)">ID:{{o.orderId}} -
                     "{{o.firstName}} {{o.lastName}}"
                 </a>
             </ul>
         </div>
-        <div class=" col-sm-9 col-md-6 col-lg-8">
+        <div class="col-sm-9 col-md-6 col-lg-8">
             <div *ngIf="selectedOrder">
-                <div *ngIf="selectedOrder" class="media">
-                    <div class="shadow media-body p-3 m-5">
-                        <h2 class="display-4 text-primary">Order ID: {{selectedOrder.orderId}}</h2>
+                <div *ngIf="selectedOrder">
+                    <div class="shadow p-3">
+                        <h3 class="text-primary">Order ID: {{selectedOrder.orderId}}</h3>
                         <div class="form-group">
                             <label for="id">ID: <span *ngIf="selectedOrder.orderId === null" style="color:brown">Will Be
                                     Created</span></label>
@@ -29,7 +29,7 @@
                                 [value]="selectedOrder.orderId">
                         </div>
                         <div class="form-group">
-                            <label for="date">DATE: (YYYY-MM-DD)</label>
+                            <label for="date">DATE: <span class="font-size: 75%">(YYYY-MM-DD)</span></label>
                             <input type="text" class="form-control" id="date" disabled=true [value]="today()">
                         </div>
                         <div class="form-group">
@@ -71,8 +71,8 @@
                         </div>
                         <div>
                             <h3>Books In Order:</h3>
-                            <div *ngFor="let b of selectedOrder.booksOnOrder; let j = index">
-                                <div class="rounded p-2 m-1" style="background-color: slategrey;">
+                            <div *ngFor="let b of selectedOrder.booksOnOrder; let j = index" class="p-1">
+                                <div class="rounded p-2" style="background-color: slategrey;">
                                     <div class="form-group">
                                         <label for="bookId" style="color: white;">BOOK ID:</label>
                                         <input disabled="true" type="text" class="form-control" id="bookId"
@@ -92,8 +92,8 @@
                                         BOOK</button>
                                 </div>
                             </div>
-                            <div class="shadow rounded p-2 m-5 border border-secondary">
-                                <h4><span class="badge badge-pill badge-primary">Add This Book To Order</span></h4>
+                            <div class="shadow rounded p-2 m-3">
+                                <h4><span class="badge badge-pill badge-primary">Add Book</span></h4>
                                 <div class="form-group">
                                     <label for="tempBookId">BOOK ID:
                                     </label>
@@ -117,9 +117,9 @@
                             </div>
                         </div>
                         <div *ngIf="!selectedOrder.orderId">
-                            <h2 class="text-primary">Delivery:</h2>
-                            <div style="font-size: 150%" *ngFor="let opt of delivOpts; let i = index">
-                                <div class="form-check p-2 m-3">
+                            <h3 class="text-primary">Delivery:</h3>
+                            <div *ngFor="let opt of delivOpts; let i = index">
+                                <div class="form-check p-2">
                                     <label class="form-check-label">
                                         <input type="radio" class="form-check-input" name="deliveryRdBtn"
                                             (change)="selectRadioButton(i)">
@@ -135,7 +135,7 @@
                             <input type="text" class="form-control" id="price" disabled=true
                                 [ngModel]="selectedOrder.price">
                         </div>
-                        <div class=" container p-4 m-4 text-right">
+                        <div class="p-4 text-right">
                             <div *ngIf="selectedOrder.orderId">
                                 <button class="btn btn-primary m-1" (click)="updateOrder(selectedOrder)">UPDATE</button>
                                 <button class="btn btn-primary m-1" (click)="deleteOrder(selectedOrder)">DELETE</button>

@@ -1,26 +1,26 @@
 <div class="jumbotron">
     <div class="container-fluid">
-        <h1>Delivery Options</h1>
+        <h2>Delivery Options</h2>
     </div>
 </div>
 
 <div class="container-fluid p-5">
     <div class="row">
         <div class="col-sm-3 col-md-6 col-lg-4">
-            <h2>List of Delivery Options</h2>
-            <div class="text-right m-3">
-                <button class="btn btn-primary" (click)="createDeliveryOptTemplate()">Create One</button>
+            <h3>List of Delivery Options</h3>
+            <div class="text-right">
+                <button class="btn btn-primary p-2" (click)="createDeliveryOptTemplate()">Create One</button>
             </div>
-            <ul *ngFor=" let d of deliveryOptions" class="list-group">
+            <ul *ngFor="let d of deliveryOptions" class="list-group">
                 <a class="list-group-item list-group-item-action" (click)="selectDeliveryOpt(d)">ID:{{d.id}}
                     "{{d.name}}"
                 </a>
             </ul>
         </div>
-        <div class=" col-sm-9 col-md-6 col-lg-8">
-            <div *ngIf="selectedDeliveryOpt" class="media">
-                <div class="shadow media-body p-3 m-5">
-                    <h2 class="display-4 text-primary">"{{selectedDeliveryOpt.name}}"</h2>
+        <div class="col-sm-9 col-md-6 col-lg-8">
+            <div *ngIf="selectedDeliveryOpt">
+                <div class="shadow p-3">
+                    <h3 class="text-primary">"{{selectedDeliveryOpt.name}}"</h3>
                     <div class="form-group">
                         <label for="id">ID: <span *ngIf="selectedDeliveryOpt.id === null" style="color:brown">Will Be
                                 Created</span></label>
@@ -35,7 +35,7 @@
                         <label for="price">PRICE: </label>
                         <input type="text" class="form-control" id="price" [(ngModel)]="selectedDeliveryOpt.price">
                     </div>
-                    <div class=" container p-4 m-4 text-right">
+                    <div class="p-5 text-right">
                         <div *ngIf="selectedDeliveryOpt.id">
                             <button class="btn btn-primary m-1"
                                 (click)="updateDeliveryOpt(selectedDeliveryOpt)">UPDATE</button>
