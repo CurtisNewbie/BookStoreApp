@@ -180,14 +180,20 @@ export class OrdersComponent implements OnInit {
 
   /**
    * When the id of the temporary book is changed, this method updates its title.
+   * I.e, this method displays the temporary book's title on the fly.
    *
    * @param bookId id of the temporary book
    */
   updateTempBookTitle(bookId: string): void {
-    this.booksService.fetchBookById(parseInt(bookId)).subscribe((val: Book) => {
-      if (val != null) this.tempBook.book.title = val.title;
-      else this.tempBook.book.title = this.BOOK_NOT_FOUND;
-    });
+    if (bookId)
+      this.booksService.fetchBookById(parseInt(bookId)).subscribe({
+        next: (val: Book) => {
+          this.tempBook.book.title = val.title;
+        },
+        error: () => {
+          this.tempBook.book.title = this.BOOK_NOT_FOUND;
+        }
+      });
   }
 
   /**
