@@ -2,82 +2,98 @@
 
 This is a simple Book Store webapp that consists of:
 
-- a Jarkata 8 backend (in <a href="https://github.com/CurtisNewbie/BookStoreApp/tree/master/backend">./backend</a>),
-- an Angular 8 frontend for clients (in <a href="https://github.com/CurtisNewbie/BookStoreApp/tree/master/frontend/frontend">./frontend</a>), and
-- an Angular 8 frontend for admins (in <a href="https://github.com/CurtisNewbie/BookStoreApp/tree/master/admin/admin">./admin</a>).
+- a Quarkus backend (in <a href="https://github.com/CurtisNewbie/BookStoreApp/tree/master/backend/backend">./backend/backend</a>),
+- an Angular 8 frontend for clients (in <a href="https://github.com/CurtisNewbie/BookStoreApp/tree/master/frontend/frontend">./frontend/frontend</a>), and
+- an Angular 8 frontend for admins (in <a href="https://github.com/CurtisNewbie/BookStoreApp/tree/master/admin/admin">./admin/admin</a>).
 
-### Dependencies
+### Prerequisite
 
-- **Backend**
-
-  - <a href="https://jakarta.ee/release/">Jarkata 8 or JavaEE 8 API</a>
-  - Microprofile API (<a href="https://github.com/eclipse/microprofile-jwt-auth">MP-JWT</a>, <a href="https://github.com/eclipse/microprofile-open-api">MP-OpenAPI</a> and <a href="https://github.com/eclipse/microprofile-config">MP-Config</a>)
-
-Actual implementation or the server your are using shouldn't really matter, but they should implement the API that is used, I am currently using Wildfly19 (Wildfly18 doesn't support MP-JWT).
-
-- **Frontend**
-
-  - <a href="https://angular.io/">Angular 8</a>
-  - <a href="https://getbootstrap.com/docs/4.0/getting-started/introduction/">Bootstrap 4</a>
-
-- **(Optional) JWT Authentication/Distribution Server** (if you want to use the JWT authorisation mechanism)
-
-  - I have developed a JWT distribution webapp specifically for this backend server. It is availble in my another repo (<a href="https://github.com/CurtisNewbie/JwtDistributionApp">JwtDistributionApp</a>). Generally speaking, this webapp authenticates administrators using HTTP BASIC and returns a generated JWT for the role-based authorisation.
+- Java 11 (MUST)
+- GraalVM (OPTIONAL, for native-build)
+- Maven (OPTIONAL)
+- NodeJS (OPTIONAL)
+- JWT Authentication/Distribution Server (MUST, or else you will need to disable it)
+  - The backend server uses JWT for role-based authorisation, you must have a JWT in hand to undertake certain operations. You will need to use the <a href="https://github.com/CurtisNewbie/JwtDistributionApp">JwtDistributionApp</a> that I have developed specifically for this backend server. In general, this webapp authenticates administrators using HTTP BASIC and returns a generated JWT for the role-based authorisation. If you only want to send requests to backend server, you can modify the public key in `microprofile-config.properties` and generate a JWT with your own private key.
   - The private/public keys of this BookstoreApp and JwtDistributionApp are matched intentionally, which works out-of-the-box for demonstration purpose. Once you deploy both repositories, the _admin frontend_ is able to retrieve the JWT from the JwtDistributionApp using the correct credentials.
   - If you are not familiar with Asymmetric Cryptography and Digital Signature, have a look at <a href="https://en.wikipedia.org/wiki/Public-key_cryptography">here on Wikipedia</a>.
 
-## Running Backend Server
+## Running The DEMO
 
-### Backend Configuration
+A bundled version is built for demonstration purpose, which includes the Angular frontend, Angular admin, Quarkus backend and H2 In-memory database. It is available in release. All you need to do is to execute following command to start the application:
 
-There are a few things you should configure (as a minimum) before deployment:
+    java -jar bundled-demo-1.0.0.jar
 
-- Data source (i.e., DBMS/ Database) in **`persistence.xml`**
+As the JWT authorisation mechanism is used in this BookstoreApp, you will need to either generate and provide your own JWT in HTTP Header (admin app won't work, as it needs the JwtDistributionApp),
 
-  - Create the database in your preferred DBMS (tables are created when the backend is deployed).
+    e.g.,
 
-  - Set the JNDI name of the datasource in **`<jta-data-source>changeToYourDSName</jta-data-source>`**
+    curl -H "Authorization: Bearer asdfasvja;sldkjnbwoej;laksdnvoiahpoewfwer..." http://localhost:8080/api/order/all
 
-- JWT public key and issuer in **`microprofile-config.properties`** (if you are using JWT but not my <a href="https://github.com/CurtisNewbie/JwtDistributionApp">JwtDistributionApp</a>)
+or download my <a href="https://github.com/CurtisNewbie/JwtDistributionApp/releases/tag/V1.0.0">JwtDistributionApp</a> and run it as follows:
 
-  - Private key is used by the authentication server to generate the token (e.g., <a href="https://github.com/CurtisNewbie/JwtDistributionApp">JwtDistributionApp</a>). The backend server only needs the public key to verify the signature on JWT.
-  - You will need to set the public key in **`mp.jwt.verify.publickey=ChangeToYourPublicKey`**, or you can set the location to your **`.pem`** file (which only contains the public key) in **`mp.jwt.verify.publickey.location=/to/your/pem/file`**.
-  - You will also need to set the **`issuer`** name, which is specified in your JWT (**`"iss"`** property), in my case, the issuer is _"bookstore"_.
+    java -jar jwttokendistrib-1.0.0-demo.jar
 
-    - More about JWT:
-      - http://www.mastertheboss.com/javaee/eclipse-microservices/using-jwt-role-based-access-control-with-wildfly
-      - https://www.tomitribe.com/blog/microprofile-json-web-token-jwt/
-      - https://www.eclipse.org/community/eclipse_newsletter/2017/september/article2.php
+The OpenAPI documentation of backend REST endpoints is available at:
 
-* CORS's filter in **`com/curtisnewbie/restApi/CorsFilter.java`**
-  - CORS is a security policy implemented by web browsers. Since the backend server and frontend servers are in different _"origin"_, you will need to explicitly specify which ip and host can view the response returned by the backend, or else the reponses will be blocked by the browser.
-  - You simply set the ip in **`headers.add("Access-Control-Allow-Origin", "http://localhost:4200");`** to the ip of your frontend server, the _"http://localhost:4200"_ is the default in Angular.
+    http://localhost:8080/swagger-ui
 
-### Backend Deployment
+The Angular frontend is accessible at:
 
-The `War` file can be easily packaged using cmd below.
+    http://localhost:8080/frontend/index.html
+
+The Angular admin is accessible at:
+
+    http://localhost:8080/admin/index.html
+
+When the JwtDistributionApp is up and running, you can login in Angular admin using the credential below:
+
+    username: apple
+    password: juice
+
+## Custom Configuration
+
+The demo, bundled version in release is configured in such a way that all functionalities are demonstrated without changing anything. You may want to customise it or explore it a little bit.
+
+The following list is what you may change:
+
+For the backend:
+
+- In `microprofile-config.properties`:
+
+  - Enable/disable JWT
+  - JWT publickey and issuer
+  - Datasource for database connection
+  - Backend root path
+  - CORS filter, allowed origins
+  - Packaging fat-jar or thin-jar
+  - Always show swagger-ui
+
+- In `pom.xml`:
+  - Dependency for jdbc driver (if you change to another DBMS)
+
+## Deployment
+
+### Script for Building Bundled Version
+
+This is only recommended for convenience and demo purpose. This script is available at `./build/bundled_build.sh`:
+
+### Running and Building Standalone Quarkus Backend
+
+To run the standalone Quarkus application in development mode. Navigate to `./backend/backend` and execute the following command:
+
+    mvn clean quarkus:dev
+
+To build the jar package:
 
     mvn clean package
 
-Once the .war file is packaged, deploy it to a Java EE 8 compliant Servers (e.g., TomEE, Wildfly, OpenLiberty, etc). If you are using JWT, your server will also need to implement MP-JWT and MP-OpenAPI (which are part of the MicroProfile). You can remove the JWT annoations and Role-based security annotations if you don't want JWT (e.g., @RolesAllowed, @LoginConfig).
+To build the native-image:
 
-### Using The Backend Webapp
+    mvn clean package -Pnative
 
-After the deployment, you can start using the server immediately. By default, the host name will be "localhost" , and port number is "8080". All REST endpoints have a root path "/api".
+### Running and Building Standalone Angular Apps
 
-e.g.,
-
-    http://localhost:8080/api/book/all
-
-**_The generated OpenAPI documentation (.yaml and .html) for all the REST endpoints is available in <a href="https://github.com/CurtisNewbie/BookStoreApp/tree/master/backend/openapi">./backend/openapi</a>. The html version of it is generated using <a href="https://swagger.io/">Swagger Editor</a>_**
-
-**_A file that contains some of the demo data and HTTP calls is available in <a href="https://github.com/CurtisNewbie/BookStoreApp/blob/master/backend/RestDemo.md">./backend/RestDemo.md</a>, with which you can use to create some demo data.(without removing the JWT authrization annotations, you will need to generate a JWT to POST, PUT or DELETE resources.)_**
-
-**_A simple MySQL script file that specifies some of the basic command for creating database and user is also available in <a href="https://github.com/CurtisNewbie/BookStoreApp/blob/master/backend/db_script.sql">./backend/db_script.sql</a>._**
-
-## Running Frontend App
-
-Running the angular app is very straightforward, no extra configuration is needed. Just use the cmd below:
+Running the angular app is very straightforward, no extra configuration is needed. Just use the commands below:
 
     ng serve
 
@@ -89,16 +105,18 @@ or (run on specific ip and host):
 
     ng serve --host 0.0.0.0 --port 4200
 
-## Removing The Implmenetation of JWT
+To build the Angular app and host it in your preferred server:
 
-If you don't want to use JWT, you simply remove the following `annotations` in `com/curtisnewbie/restApi/`
+    ng build --prod
 
-- @RolesAllowed(SecurityRole.ADMIN)
-- @LoginConfig(authMethod = "MP-JWT", realmName = "bookstore")
+and then copy all the files in `/dist` into your server.
 
-and set the following **`param-value`** in the **`web.xml`** to **`false`**
+### Extra Info About JWT
 
-    <context-param>
-        <param-name>resteasy.role.based.security</param-name>
-        <param-value>true</param-value>
-    </context-param>
+- Private key is used by the authentication server to generate the token (e.g., <a href="https://github.com/CurtisNewbie/JwtDistributionApp">JwtDistributionApp</a>), i.e., for digital signature.
+- Public key is used by the backend server to verify the integrity of the JWT, so the backend server does not contain the private key.
+
+  - More about JWT:
+    - http://www.mastertheboss.com/javaee/eclipse-microservices/using-jwt-role-based-access-control-with-wildfly
+    - https://www.tomitribe.com/blog/microprofile-json-web-token-jwt/
+    - https://www.eclipse.org/community/eclipse_newsletter/2017/september/article2.php
