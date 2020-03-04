@@ -1,31 +1,24 @@
 # README
 
-Before you run any script, you may need to undertake certain changes.
+This script builds a bundled version for demo that includes:
 
-## Using H2-Memory Database
+1. Angular Frontend (for clients)
+2. Angular Admin
+3. Quarkus Backend
+4. H2 In-Memory Database
 
-You may want to use H2-Memory Database for demo purpose, since you will not need to setup any database to run this webapp.
+The H2-Memory Database is good for demo purpose, since you will not need to setup any database to run this webapp. You can switch to another database by changing the datasource and pom dependency if you want to, no need to change this script for this.
 
-You will need to undertake two modifications:
+## Use Guide
 
-1. Replace MySql dependency with the one below in `pom.xml`:
+To access Angular Frontend (for clients):
 
-e.g.,
+    http://localhost:8080/frontend/index.html
 
-    <dependency>
-        <groupId>io.quarkus</groupId>
-        <artifactId>quarkus-jdbc-h2</artifactId>
-    </dependency>
+To access Angular Admin:
 
-2. Replace the "datasource configuration" section in `microprofile-config.properties` completely with the section below:
+    http://localhost:8080/admin/index.html
 
-e.g.,
+To access Quarkus Backend, you are basically sending REST requests, the OpenAPI documentation of REST endpoints is available at:
 
-    # ----------------------------------
-    #   datasource configuration
-    # ----------------------------------
-    quarkus.datasource.url=jdbc:h2:mem:test
-    quarkus.datasource.driver=org.h2.Driver
-    quarkus.hibernate-orm.database.generation=create
-
-Then you will be using H2 database without any extra configuration.
+    http://localhost:8080/swagger-ui
