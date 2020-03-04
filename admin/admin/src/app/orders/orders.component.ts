@@ -107,6 +107,10 @@ export class OrdersComponent implements OnInit, Refreshable {
       alert("Login First!");
       return;
     }
+    if (order.booksOnOrder.length <= 0) {
+      alert("There must be at least one book in order.");
+      return;
+    }
     console.log(order);
     this.ordersService.updateOrder(order).subscribe({
       next: (resp: HttpResponse<any>) => {
@@ -126,6 +130,10 @@ export class OrdersComponent implements OnInit, Refreshable {
   createOrder(order: Order): void {
     if (!this.jwtAuth.hasJwt()) {
       alert("Login First!");
+      return;
+    }
+    if (order.booksOnOrder.length <= 0) {
+      alert("There must be at least one book in order.");
       return;
     }
     let tempDTO: Order = this.convertToOrderDTO(order);
