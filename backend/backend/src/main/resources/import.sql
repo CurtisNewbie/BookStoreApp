@@ -16,9 +16,9 @@ VALUES
 
 INSERT INTO BS_Order
 VALUES
-    (1, 'Sheffield', 'Yorkshare', 'Flat no1, 1st Street', 'SH1 HS1', NULL, '2020-01-01', 'CurtisNewbie', 'Z', 24.95, 1);
+    (100, 'Sheffield', 'Yorkshare', 'Flat no1, 1st Street', 'SH1 HS1', NULL, '2020-01-01', 'CurtisNewbie', 'Z', 24.95, 1);
 
 INSERT INTO BS_Book_Order
 VALUES
-    (1, 1, 1, 1);
+    (1, 1, 1, 100);
 
