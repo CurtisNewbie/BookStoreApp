@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -19,10 +20,15 @@ public class DeliveryOption {
     @Id
     @GeneratedValue
     private Integer id;
+
     @NotNull
+    @Column(nullable = false)
     private String name;
+
     @NotNull
+    @Column(nullable = false)
     private double price;
+
     @JsonbTransient
     @OneToMany(mappedBy = "deliveryOption", fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     private List<Order> orders;

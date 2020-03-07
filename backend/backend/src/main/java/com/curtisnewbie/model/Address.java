@@ -1,5 +1,6 @@
 package com.curtisnewbie.model;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.validation.constraints.NotNull;
 
@@ -7,16 +8,21 @@ import javax.validation.constraints.NotNull;
 public class Address {
 
     @NotNull
+    @Column(nullable = false)
     private String firstLine;
+
     private String secondLine;
 
     @NotNull
+    @Column(nullable = false)
     private String city;
 
     @NotNull
+    @Column(nullable = false)
     private String county;
 
     @NotNull
+    @Column(nullable = false)
     private String postCode;
 
     /**

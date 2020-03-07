@@ -24,9 +24,11 @@ public class Book {
     private Long id;
 
     @NotNull
+    @Column(nullable = false)
     private String title;
 
     @NotNull
+    @Column(nullable = false)
     private double price;
 
     @JsonbDateFormat(value = "yyyy-MM-dd")

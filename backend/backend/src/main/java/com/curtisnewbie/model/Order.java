@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -25,12 +26,15 @@ public class Order {
     private Long orderId;
 
     @NotNull
+    @Column(nullable = false)
     private String firstName;
 
     @NotNull
+    @Column(nullable = false)
     private String lastName;
 
     @NotNull
+    @Column(nullable = false)
     private LocalDate date;
 
     @NotNull
@@ -39,6 +43,7 @@ public class Order {
     private Address address;
 
     @NotNull
+    @Column(nullable = false)
     private double price;
 
     @OneToMany(mappedBy = "order", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
