@@ -22,11 +22,11 @@ public class BookOrder {
     @Min(value = 1)
     private int amount;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private Book book;
 
     @JsonbTransient
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Order order;
 
     /**
