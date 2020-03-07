@@ -27,3 +27,6 @@ target/
 
 # ignore files that contain private/public keys
 *.pem
+
+# jde 
+.vscode/
