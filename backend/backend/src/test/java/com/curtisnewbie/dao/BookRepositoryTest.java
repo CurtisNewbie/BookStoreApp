@@ -1,6 +1,7 @@
 package com.curtisnewbie.dao;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -65,8 +66,8 @@ public class BookRepositoryTest {
         book.setContent(content);
 
         var createdBook = bookRepo.createBook(book);
-        assertTrue(createdBook != null);
-        assertTrue(createdBook.getId() != null);
+        assertNotNull(createdBook);
+        assertNotNull(createdBook.getId());
         assertEquals(title, createdBook.getTitle());
         assertEquals(price, createdBook.getPrice());
         assertEquals(now, createdBook.getDate());
@@ -79,7 +80,7 @@ public class BookRepositoryTest {
         var books = bookRepo.getBooks();
         assertTrue(books.size() > 0);
         var book = books.get(0);
-        assertTrue(book != null);
+        assertNotNull(book);
 
         // change content
         var sameId = book.getId();
@@ -95,7 +96,7 @@ public class BookRepositoryTest {
         book.setTitle(diffTitle);
 
         var bookUpdated = bookRepo.updateBook(book);
-        assertTrue(bookUpdated != null);
+        assertNotNull(bookUpdated);
         assertEquals(diffCont, bookUpdated.getContent());
         assertEquals(diffPrice, bookUpdated.getPrice());
         assertEquals(diffDate, bookUpdated.getDate());
@@ -108,7 +109,7 @@ public class BookRepositoryTest {
         var books = bookRepo.getBooks();
         assertTrue(books.size() > 0);
         var book = books.get(0);
-        assertTrue(book != null);
+        assertNotNull(book);
         bookRepo.removeBookById(book.getId());
     }
 
