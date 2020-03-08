@@ -26,12 +26,6 @@ public class BookRepositoryTest {
 
     @Test
     @Order(1)
-    public void shouldNotHaveBook() {
-        assertEquals(0, bookRepo.getBooks().size());
-    }
-
-    @Test
-    @Order(2)
     public void shouldThrowExcpetion() {
         var id = 123456789987654321l;
         assertThrows(WebApplicationException.class, () -> {
@@ -52,7 +46,7 @@ public class BookRepositoryTest {
     }
 
     @Test
-    @Order(3)
+    @Order(2)
     public void shouldCreateBook() {
         var title = "Dummy Title";
         var price = 12345.54321;
@@ -75,7 +69,7 @@ public class BookRepositoryTest {
     }
 
     @Test
-    @Order(4)
+    @Order(3)
     public void shouldUpdateBook() {
         var books = bookRepo.getBooks();
         assertTrue(books.size() > 0);
@@ -104,7 +98,7 @@ public class BookRepositoryTest {
     }
 
     @Test
-    @Order(5)
+    @Order(4)
     public void shouldDeleteBook() {
         var books = bookRepo.getBooks();
         assertTrue(books.size() > 0);

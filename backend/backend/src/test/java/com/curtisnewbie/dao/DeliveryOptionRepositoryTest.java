@@ -26,12 +26,6 @@ public class DeliveryOptionRepositoryTest {
 
     @Test
     @Order(1)
-    public void shouldHaveNoDeliveryOpt() {
-        assertEquals(0, repo.getAllDelivOpt().size());
-    }
-
-    @Test
-    @Order(2)
     public void shouldThrowExceptions() {
         var id = 123456654;
         assertThrows(WebApplicationException.class, () -> {
@@ -50,7 +44,7 @@ public class DeliveryOptionRepositoryTest {
     }
 
     @Test
-    @Order(3)
+    @Order(2)
     public void shouldCreateDeliveryOpt() {
         var name = "name";
         var price = 1.2;
@@ -65,7 +59,7 @@ public class DeliveryOptionRepositoryTest {
     }
 
     @Test
-    @Order(4)
+    @Order(3)
     public void shouldUpdateDeliveryOpt() {
         var allOpts = repo.getAllDelivOpt();
         assertTrue(allOpts.size() > 0);
@@ -86,7 +80,7 @@ public class DeliveryOptionRepositoryTest {
     }
 
     @Test
-    @Order(5)
+    @Order(4)
     public void shouldDeleteDeliveryOpt() {
         var allOpts = repo.getAllDelivOpt();
         assertTrue(allOpts.size() > 0);

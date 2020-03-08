@@ -28,12 +28,6 @@ public class HomeNewRepositoryTest {
 
     @Test
     @Order(1)
-    public void shouldHaveNoHomeNew() {
-        assertEquals(0, repo.getHomeNews().size());
-    }
-
-    @Test
-    @Order(2)
     public void shouldThrowExceptions() {
         var id = 123456654l;
         assertThrows(WebApplicationException.class, () -> {
@@ -53,7 +47,7 @@ public class HomeNewRepositoryTest {
     }
 
     @Test
-    @Order(3)
+    @Order(2)
     public void shouldCreateDeliveryOpt() {
         var title = "title";
         var content = "content";
@@ -71,7 +65,7 @@ public class HomeNewRepositoryTest {
     }
 
     @Test
-    @Order(4)
+    @Order(3)
     public void shouldUpdateDeliveryOpt() {
         var allHomeNews = repo.getHomeNews();
         assertTrue(allHomeNews.size() > 0);
@@ -95,7 +89,7 @@ public class HomeNewRepositoryTest {
     }
 
     @Test
-    @Order(5)
+    @Order(4)
     public void shouldDeleteDeliveryOpt() {
         var allHomeNews = repo.getHomeNews();
         assertTrue(allHomeNews.size() > 0);
