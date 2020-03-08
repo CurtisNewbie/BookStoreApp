@@ -66,12 +66,11 @@ public class BookRepositoryTest {
 
         var createdBook = bookRepo.createBook(book);
         assertTrue(createdBook != null);
-        var bookFound = bookRepo.getBookById(createdBook.getId());
-        assertTrue(bookFound != null);
-        assertEquals(title, bookFound.getTitle());
-        assertEquals(price, bookFound.getPrice());
-        assertEquals(now, bookFound.getDate());
-        assertEquals(content, bookFound.getContent());
+        assertTrue(createdBook.getId() != null);
+        assertEquals(title, createdBook.getTitle());
+        assertEquals(price, createdBook.getPrice());
+        assertEquals(now, createdBook.getDate());
+        assertEquals(content, createdBook.getContent());
     }
 
     @Test
