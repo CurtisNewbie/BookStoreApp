@@ -1,6 +1,7 @@
 package com.curtisnewbie.dao;
 
 import java.time.LocalDate;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -13,6 +14,7 @@ import javax.validation.constraints.NotNull;
 import javax.ws.rs.NotFoundException;
 
 import com.curtisnewbie.model.Book;
+import com.curtisnewbie.model.BookOrder;
 import com.curtisnewbie.model.DeliveryOption;
 import com.curtisnewbie.model.Order;
 
@@ -120,20 +122,32 @@ public class OrderRepository {
     }
 
     /**
-     * Check the Books in Order and DeliveryOption
+     * Check the Books in Order and DeliveryOption, and remove invalid
+     * BookOrder(e.g., amount <= 0 or book doesn't exist)
      * 
      * @throws NoBookInOrderException           if there is no Book in this Order
      * @throws NoDeliveryOptionInOrderException if there is no DeliveryOption in
      *                                          this Order
      * @param order
      */
+    @Transactional(value = TxType.REQUIRED)
     private void validateOrder(Order order) {
-        if (order.getBooksOnOrder().size() <= 0) {
+        if (order.getBooksOnOrder() == null) {
             throw new NoBookInOrderException();
         }
         if (order.getDeliveryOption() == null) {
             throw new NoDeliveryOptionInOrderException();
         }
+
+        // remove BookOrder where amount <= 0
+        Iterator<BookOrder> it = order.getBooksOnOrder().iterator();
+        while (it.hasNext()) {
+            var next = it.next();
+            if (next.getAmount() <= 0 || em.find(Book.class, next.getBook().getId()) == null)
+                it.remove();
+        }
+        if (order.getBooksOnOrder().size() <= 0)
+            throw new NoBookInOrderException();
     }
 
     /**
