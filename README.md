@@ -21,7 +21,7 @@ This is a simple Book Store webapp that consists of:
 
 A bundled version is built for demonstration purpose, which includes the Angular frontend, Angular admin, Quarkus backend and H2 In-memory database. It is available in release. All you need to do is to execute following command to start the application:
 
-    java -jar bundled-demo-1.0.0.jar
+    java -jar bundled-demo-1.0.1.jar
 
 As the JWT authorisation mechanism is used in this BookstoreApp, you will need to either generate and provide your own JWT in HTTP Header (admin app won't work, as it needs the JwtDistributionApp),
 
