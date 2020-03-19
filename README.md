@@ -120,3 +120,15 @@ and then copy all the files in `/dist` into your server.
     - http://www.mastertheboss.com/javaee/eclipse-microservices/using-jwt-role-based-access-control-with-wildfly
     - https://www.tomitribe.com/blog/microprofile-json-web-token-jwt/
     - https://www.eclipse.org/community/eclipse_newsletter/2017/september/article2.php
+    
+ ## Demo
+ 
+ Note: <a href="https://github.com/CurtisNewbie/JwtDistributionApp/releases/tag/V1.0.0">JwtDistributionApp</a> is used in this demo.
+ 
+ ### Angular Frontend for Clients
+ 
+ <img src="https://user-images.githubusercontent.com/45169791/77087235-cb31cb00-69fa-11ea-9c54-2ec7336e3fe4.gif">
+ 
+ ### Angular Frontend for Administrators
+ 
+ <img src="https://user-images.githubusercontent.com/45169791/77087403-ff0cf080-69fa-11ea-88c0-096ee899dc67.gif">
