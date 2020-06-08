@@ -6,6 +6,8 @@ This is a simple Book Store webapp that consists of:
 - an Angular 8 frontend for clients (in <a href="https://github.com/CurtisNewbie/BookStoreApp/tree/master/frontend/frontend">./frontend/frontend</a>), and
 - an Angular 8 frontend for admins (in <a href="https://github.com/CurtisNewbie/BookStoreApp/tree/master/admin/admin">./admin/admin</a>).
 
+`As I continue learning, I do realise that the backend code in this app is poorly organised. For example, a model can be in different states, they may have different fields, and mixing these states throughout the process is terriable. An obvious example will be that a new order from client should not include id. Problems like this undermine maintainability, so this project is no longer maintained, but feel free to have a look my code :D.`
+
 ### Prerequisite
 
 - Java 11 (MUST)
