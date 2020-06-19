@@ -1,13 +1,13 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { CheckoutService } from "../checkout.service";
-import { Book, BEBook } from "../model/book";
-import { Address } from "../model/address";
+import { Address, emptyAddress } from "../model/address";
 import { OrderService } from "../order.service";
 import { DeliveryOption } from "../model/deliveryOption";
 import { HttpResponse } from "@angular/common/http";
 import { OrderReviewService } from "../order-review.service";
 import { BEOrder } from "../model/order";
 import { Router } from "@angular/router";
+import { CartItem } from '../model/cartItem';
 
 @Component({
   selector: "app-order-confirm",
@@ -17,24 +17,18 @@ import { Router } from "@angular/router";
 export class OrderConfirmComponent implements OnInit {
   delivOpts: DeliveryOption[];
   selectedDelivOption: DeliveryOption;
-  cart: Map<number, { book: Book; amount: number }>;
+  cart: Map<number, CartItem>;
   booksPrice: number;
   firstName: string;
   lastName: string;
-  deliveryAdd: Address = {
-    city: "",
-    county: "",
-    firstLine: "",
-    secondLine: "",
-    postCode: ""
-  };
+  deliveryAdd: Address = emptyAddress();
 
   constructor(
     private checkoutService: CheckoutService,
     private orderService: OrderService,
-    private orderRevewService: OrderReviewService,
+    private orderReviewService: OrderReviewService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.cart = this.checkoutService.getCart();
@@ -47,41 +41,28 @@ export class OrderConfirmComponent implements OnInit {
     // remove unnecessary information in an order
     let list = this.checkoutService.cartToList();
 
-    let orderSent: BEOrder;
     //send order to backend via POST method
     this.orderService
       .sendOrder({
         address: this.deliveryAdd,
-        booksOnOrder: list,
+        books: list,
         firstName: this.firstName,
         lastName: this.lastName,
-        deliveryOption: { id: this.selectedDelivOption.id }
+        deliveryOptionId: this.selectedDelivOption.id
       })
       .subscribe(
         (resp: HttpResponse<BEOrder>) => {
           alert(
             "Done! your order has been successfully created on the server."
           );
-          let o: BEOrder = resp.body;
-          // map response to orderSent object
-          orderSent = {
-            address: o.address,
-            booksOnOrder: o.booksOnOrder,
-            date: o.date,
-            deliveryOption: o.deliveryOption,
-            firstName: o.firstName,
-            lastName: o.lastName,
-            orderId: o.orderId,
-            price: o.price
-          };
-
           // if the POST request is successful, show the component to review the order that is successfully created.
-          this.orderRevewService.showOrderSentComponent(orderSent);
+          let orderSent: BEOrder = resp.body;
+          this.orderReviewService.showOrderSentComponent(orderSent);
         },
         error => {
           alert(
             "Your order cannot be sent to the server. Error code: " +
-              error.status
+            error.status
           );
           console.log("Failed to POST Order, error :", error);
           this.router.navigateByUrl("/home");
@@ -102,7 +83,7 @@ export class OrderConfirmComponent implements OnInit {
   }
 
   /** Check whether all requred inputs are completed properly */
-  isComplete(): boolean {
+  isCompleted(): boolean {
     if (
       this.cart.size &&
       this.selectedDelivOption &&
@@ -118,7 +99,7 @@ export class OrderConfirmComponent implements OnInit {
   }
 
   /** Fetch all delivery options from backend */
-  fetchDeliveryOptions(): void {
+  private fetchDeliveryOptions(): void {
     this.orderService.fetchDeliveryOptions().subscribe({
       next: options => {
         this.delivOpts = options;

@@ -13,7 +13,7 @@
 
     <h3 class="text-primary">Ordered Books: <span class="badge badge-secondary">Order Id: {{orderSent.orderId}} Date:
             {{orderSent.date}}</span></h3>
-    <div *ngFor="let b of orderSent.booksOnOrder; let i = index" class="media">
+    <div *ngFor="let b of orderSent.books; let i = index" class="media">
         <div class="shadow media-body p-2">
             <h3 class="text-info ">{{i + 1}}. "<i>Book:</i> {{b.book.title}}"</h3>
             <p class="font-weight-bolder"><i>Amount:</i> {{b.amount}}</p>

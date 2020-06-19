@@ -47,3 +47,11 @@ export function toBook(b: BEBook): Book {
     img: b.img !== undefined ? b.img : null
   };
 }
+
+/**
+ * Represents a book in order, this representation contains only the necessary information related a book.
+ */
+export interface BookInOrder {
+  amount: number;
+  book: { id: number };
+}

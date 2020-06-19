@@ -1,27 +1,30 @@
 import { Address } from "./address";
-import { BEBook } from "./book";
+import { BEBook, BookInOrder } from "./book";
 import { DeliveryOption } from "./deliveryOption";
 
 export interface Order {
   address: Address;
   // here we only need id of each book
-  booksOnOrder: { amount: number; book: { id: number } }[];
+  books: BookInOrder[];
   firstName: string;
   lastName: string;
   // id of each DeliveryOption object
-  deliveryOption: { id: number };
+  deliveryOptionId: number;
 }
 
 /** Model the Order JSON object received from Backend */
-export interface BEOrder extends Order {
-  // override
-  booksOnOrder: {
+export interface BEOrder {
+  address: Address;
+  books: {
     amount: number;
     book: BEBook;
   }[];
+  firstName: string;
+  lastName: string;
   deliveryOption: DeliveryOption;
-  // extra
   orderId: number;
   date: string;
   price: number;
 }
+
+

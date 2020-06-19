@@ -5,3 +5,16 @@ export interface Address {
   county: string;
   postCode: string;
 }
+
+/**
+ * Return an empty Address
+ */
+export function emptyAddress(): Address {
+  return {
+    city: "",
+    county: "",
+    firstLine: "",
+    secondLine: "",
+    postCode: ""
+  };
+}
