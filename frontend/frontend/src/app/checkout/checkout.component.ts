@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
-import { Book } from "../model/book";
 import { CheckoutService } from "../checkout.service";
+import { CartItem } from '../model/cartItem';
 
 @Component({
   selector: "app-checkout",
@@ -8,7 +8,7 @@ import { CheckoutService } from "../checkout.service";
   styleUrls: ["./checkout.component.css"]
 })
 export class CheckoutComponent implements OnInit {
-  cart: Map<number, { book: Book; amount: number }>;
+  cart: Map<number, CartItem>;
 
   constructor(private checkoutService: CheckoutService) { }
 
