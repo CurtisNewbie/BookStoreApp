@@ -10,7 +10,7 @@ import { CheckoutService } from "../checkout.service";
 export class CheckoutComponent implements OnInit {
   cart: Map<number, { book: Book; amount: number }>;
 
-  constructor(private checkoutService: CheckoutService) {}
+  constructor(private checkoutService: CheckoutService) { }
 
   ngOnInit() {
     this.getCart();
@@ -27,11 +27,14 @@ export class CheckoutComponent implements OnInit {
    * Remove book from cart by its id
    * @param id
    */
-  removeFromCart(id: number) {
+  removeFromCart(id: number): void {
     this.checkoutService.removeFromCart(id);
   }
 
-  getCart(): void {
+  /**
+   * Get the cart from checkoutService
+   */
+  private getCart(): void {
     this.cart = this.checkoutService.getCart();
   }
 }
