@@ -8,7 +8,7 @@ export class HomeNew {
     public title: string,
     public content: string,
     public date: Date
-  ) {}
+  ) { }
 }
 
 /**
@@ -19,4 +19,22 @@ export interface BEHomeNew {
   date: string;
   id: number;
   title: string;
+}
+
+/**
+ * Convert BEHomeNew object to HomeNew 
+ * 
+ * @param n BEHomeNew object
+ */
+export function toHomeNew(n: BEHomeNew): HomeNew {
+  return new HomeNew(
+    n.id,
+    n.title,
+    n.content,
+    new Date(
+      parseInt(n.date.substring(0, 4)),
+      parseInt(n.date.substring(5, 7)),
+      parseInt(n.date.substring(8))
+    )
+  )
 }

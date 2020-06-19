@@ -24,6 +24,11 @@ export interface BEBook {
   img: string;
 }
 
+/**
+ * Convert BEBook to Book 
+ * 
+ * @param b BEBook object 
+ */
 export function toBook(b: BEBook): Book {
   return {
     id: b.id,

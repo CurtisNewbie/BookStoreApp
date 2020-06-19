@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { HomeNew, BEHomeNew } from "../model/home-new";
+import { HomeNew, BEHomeNew, toHomeNew } from "../model/home-new";
 import { FetchNewService } from "../fetch-new.service";
 import { HttpErrorResponse } from "@angular/common/http";
 
@@ -10,29 +10,18 @@ import { HttpErrorResponse } from "@angular/common/http";
 })
 export class HomePageComponent implements OnInit {
   news: HomeNew[] = [];
-  constructor(private fetchNewService: FetchNewService) {}
+  constructor(private fetchNewService: FetchNewService) { }
 
   ngOnInit() {
     this.fetchNews();
   }
 
-  fetchNews() {
+  private fetchNews(): void {
     this.fetchNewService.fetchNews().subscribe(
       (homeNews: BEHomeNew[]) => {
         console.log(`Fetched ${homeNews.length} news in home page`);
-        for (let o of homeNews) {
-          this.news.push(
-            new HomeNew(
-              o.id,
-              o.title,
-              o.content,
-              new Date(
-                parseInt(o.date.substring(0, 4)),
-                parseInt(o.date.substring(5, 7)),
-                parseInt(o.date.substring(8))
-              )
-            )
-          );
+        for (let n of homeNews) {
+          this.news.push(toHomeNew(n));
         }
       },
       (error: HttpErrorResponse) => {
